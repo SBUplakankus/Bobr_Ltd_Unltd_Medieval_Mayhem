@@ -43,7 +43,7 @@ namespace GDGame.Scripts.Systems
             {
                 { "back",  Vector3.Zero },
                 { "left",  new Vector3(0, MathHelper.ToRadians(90), 0) },
-                { "right", new Vector3(0, MathHelper.ToRadians(90), 0) },
+                { "right", new Vector3(0, MathHelper.ToRadians(-90), 0) },
                 { "front", new Vector3(0, MathHelper.ToRadians(180), 0) },
                 { "top",   new Vector3(MathHelper.ToRadians(90), 0, MathHelper.ToRadians(90)) }
             };
@@ -107,8 +107,8 @@ namespace GDGame.Scripts.Systems
             skySegment.AddComponent(meshFilter);
 
             var meshRenderer = skySegment.AddComponent<MeshRenderer>();
-            meshRenderer.Material = _matBasicUnlit;
-            meshRenderer.Overrides.MainTexture = _textures.Get("skybox_sky");
+            meshRenderer.Material = _matBasicLit;
+            meshRenderer.Overrides.MainTexture = _textures.Get(texture);
 
             skySegment.Transform.SetParent(_skyBoxParent.Transform);
 

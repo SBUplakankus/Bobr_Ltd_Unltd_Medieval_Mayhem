@@ -81,8 +81,6 @@ namespace GDGame
             // Shared data across entities
             InitializeContext();
 
-
-            // Scene to hold game objects
             GenerateMaterials();
 
             InitializeScene();
