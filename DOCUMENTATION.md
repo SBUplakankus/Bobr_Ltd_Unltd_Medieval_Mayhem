@@ -69,6 +69,22 @@ Steps:
 
 ---
 
+## ⚙️ Custom Systems
+
+### 🔉Audio Controller
+- Created in `Main`
+- Encapsulates functions for playing audio to clear up main
+- Takes in the Sounds Dictionary when constructed
+
+### ⛰️ Scene Controller
+- Created in `Main`
+- Stores the current scene and any new ones created
+- `_scene` in `Main` is gotten from `SceneController.CurrentScene`
+
+### 💻 User Interface Controller
+- Created in `Main`
+- Takes in the Fonts and 2D Textures on construction
+
 ## 📁 Project Workflow Notes
 
 -  Engine is very basic, keep things simple.
