@@ -14,7 +14,7 @@ A shared place for quick notes, how-tos, reminders, and useful information disco
 
 ## 🛠️ How-To Guides
 
-### ✔️ Importing Models
+### 🏠 Importing Models
 Steps:
 
 1. Open content.mcgb in Visual Studio
@@ -29,7 +29,7 @@ Steps:
 10. Insert the path to the model
 11. Create through `multi_model_spawn.json` or individually in main
 
-### ✔️ Importing Textures
+### 🖼️ Importing Textures
 Steps:
 
 1. Open content.mcgb in Visual Studio
@@ -44,7 +44,7 @@ Steps:
 10. Insert the path to the texture
 11. When creating models, assign it this texture name
 
-### ✔️ Importing Sounds
+### 🔊 Importing Sounds
 Steps:
 
 1. Open content.mcgb in Visual Studio
