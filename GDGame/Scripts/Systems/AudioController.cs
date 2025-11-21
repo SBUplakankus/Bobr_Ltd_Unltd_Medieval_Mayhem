@@ -14,22 +14,21 @@ namespace GDGame.Scripts.Systems
     {
 
         #region Fields
-        private ContentDictionary<SoundEffect> _soundDictionary;
         private AudioSystem _audioSystem;
+        private const float MUSIC_VOLUME = 0.5f;
         #endregion
 
         #region Constructors
         public AudioController(ContentDictionary<SoundEffect> sounds)
         {
-            _soundDictionary = sounds;
-            _audioSystem = new AudioSystem(_soundDictionary);
+            _audioSystem = new AudioSystem(sounds);
         }
         #endregion
 
         #region Methods
         public void PlayMusic()
         {
-            _audioSystem.PlayMusic("test-music", 0.5f);
+            _audioSystem.PlayMusic(AppData.MAIN_MUSIC, MUSIC_VOLUME);
         }
         #endregion
 

@@ -48,13 +48,12 @@ namespace GDGame
 
         #region Controllers
         AudioController _audioController;
+        SceneController _sceneController;
         #endregion
 
         #region Game Fields
         private GameObject _cameraGO;
-        private UIStatsRenderer _uiStatsRenderer;
         private KeyboardState _newKBState, _oldKBState;
-        private AudioSystem _audioSystem;
         #endregion
 
         #region Core Methods (Common to all games)     
@@ -81,9 +80,7 @@ namespace GDGame
             // Shared data across entities
             InitializeContext();
 
-            // Assets from string names in JSON
-            var relativeFilePathAndName = "assets/data/asset_manifest.json";
-            LoadAssetsFromJSON(relativeFilePathAndName);
+            LoadAssetsFromJSON(AppData.ASSET_MANIFEST_PATH);
 
             // All effects used in game
             InitializeEffects();
@@ -240,7 +237,8 @@ namespace GDGame
 
         private void InitializeScene()
         {
-            _scene = new Scene(EngineContext.Instance, AppData.MAIN_SCENE_NAME);
+            _sceneController = new SceneController();
+            _scene = _sceneController.CurrentScene;
         }
 
         private void InitializeSystems()
@@ -279,11 +277,6 @@ namespace GDGame
             // 1. add physics
             var physicsSystem = _scene.AddSystem(new PhysicsSystem());
             physicsSystem.Gravity = AppData.GRAVITY;
-        }
-
-        private void InitializeEventSystem()
-        {
-            _scene.Add(new EventSystem(EngineContext.Instance.Events));
         }
 
         private void InitializeCameraAndRenderSystems()
@@ -492,52 +485,6 @@ namespace GDGame
             
         }
 
-        private void InitializeUIStatsRenderer()
-        {
-            var uiGO = new GameObject(AppData.USER_INTERFACE);
-
-            _scene.Add(uiGO);
-        }
-
-        private void InitializeUIReticleRenderer()
-        {
-            var uiGO = new GameObject("HUD");
-
-            var reticleAtlas = _textureDictionary.Get("Crosshair_21");
-            var uiFont = _fontDictionary.Get("mouse_reticle_font");
-
-            // Reticle (cursor): always on top
-            var reticle = new UIReticleRenderer(reticleAtlas);
-            reticle.SourceRectangle = null;
-            reticle.Scale = new Vector2(0.1f, 0.1f);
-            reticle.RotationSpeedDegPerSec = 45;
-            reticle.LayerDepth = UILayer.Cursor;
-            uiGO.AddComponent(reticle);
-
-            // Distance/health lines under the cursor
-            var waypointObject = _scene.Find((go) => go.Name.Equals("test crate textured cube"));
-            var cameraObject = _scene.Find(go => go.Name.Equals("First person camera"));
-
-            // Text anchored at mouse, slightly below the reticle
-            var text = new UITextRenderer(uiFont);
-            text.PositionProvider = () => Mouse.GetState().Position.ToVector2();
-            text.Anchor = TextAnchor.Center;
-            text.Offset = new Vector2(0, 50);
-            text.FallbackColor = Color.White;
-            text.DropShadow = true;
-            text.ShadowColor = Color.Black;
-
-            // Place HUD text below the cursor in the same pass
-            text.LayerDepth = UILayer.HUD;
-
-            uiGO.AddComponent(text);
-            _scene.Add(uiGO);
-
-            // Hide mouse since reticle will take its place
-            IsMouseVisible = false;
-        }
-
-
         /// <summary>
         /// Adds a single-part FBX model into the scene.
         /// </summary>
@@ -566,6 +513,7 @@ namespace GDGame
 
             return gameObject;
         }
+
         protected override void Update(GameTime gameTime)
         {
             #region Core
@@ -587,7 +535,6 @@ namespace GDGame
         {
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
 
-            //just as called update, we now have to call draw to call the draw in the renderingsystem
             _scene.Draw(Time.DeltaTimeSecs);
 
             base.Draw(gameTime);
@@ -722,22 +669,7 @@ namespace GDGame
             var rigidBody = gameObject.AddComponent<RigidBody>();
             rigidBody.BodyType = BodyType.Dynamic;
             rigidBody.Mass = 1.0f;
-            rigidBody.UseGravity = true;
-
-            //#region Demo - Curve and Input
-            //var posRotController = new PositionRotationController
-            //{
-            //    RotationCurve = _animationRotationCurve,
-            //    PositionCurve = _animationPositionCurve
-            //};
-            //gameObject.AddComponent(posRotController);
-
-            ////demo the new input system support for keyboard, mouse and gamepad
-            //gameObject.AddComponent(new InputReceiverComponent());
-
-            //#endregion
-
-            //  testCrateGO.Layer = LayerMask.World;
+            rigidBody.UseGravity = true;;
         }
         #endregion
 

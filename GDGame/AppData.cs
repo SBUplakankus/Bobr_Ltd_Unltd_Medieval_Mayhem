@@ -43,12 +43,15 @@ namespace GDGame
         public static readonly string USER_INTERFACE = "ui";
         #endregion
 
-
         #region Game
         public static readonly string GAME_WINDOW_TITLE = "Medieval Mayhem";
         public static readonly string START_SCENE_NAME = "Start";
         public static readonly string MAIN_SCENE_NAME = "Main Game";
         public static readonly string GAMEPAD_P1_NAME = "Gamepad P1";
+        #endregion
+
+        #region Content
+        public static readonly string MAIN_MUSIC = "test-music";
         #endregion
     }
 }
