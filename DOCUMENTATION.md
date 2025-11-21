@@ -44,6 +44,22 @@ Steps:
 10. Insert the path to the texture
 11. When creating models, assign it this texture name
 
+### ✔️ Importing Sounds
+Steps:
+
+1. Open content.mcgb in Visual Studio
+2. Click into Assets -> Sounds
+3. With Sounds selected, click on Add Existing Item at the top *(Grey Box with Black Border and Green + Sign)*
+4. Select the sound file
+5. In the properties panel, change import to `.wav` and processor to `sound effect`
+6. Click Build -> Build after it is successfully added
+7. Re-open Visual Studio
+8. Go to Content -> Assets -> Data and open `asset_manifest.json`
+9. Create a new entry in the sounds section
+10. Give it a name to be referenced by in the sound dictionary
+11. Insert the path to the sound 
+12. When playing audio in the `AudioSystem`, pass through the name you gave it
+
 ---
 
 ## 🧩 Common Problems & Fixes
