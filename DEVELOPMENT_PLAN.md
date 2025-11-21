@@ -29,7 +29,6 @@
 - [ ] Camera Effects
 - [ ] Player Abilities
 
-
 ---
 
 # 📆 Weekly Breakdown
@@ -45,19 +44,32 @@
 
 ## **📅 Week 2 — Development Start**
 ### Goals
-- [ ] ...
+- [ ] Loaded models into in project
+- [ ] Loaded basic texture in project
+- [ ] Basic UI Element
+- [ ] Chosen Trap Designed
+- [ ] Chosen Game Win Condition Designed
+- [ ] Chosen Game Over Condition Designed
+- [ ] Chosen Basic Sound Effect
 
 ---
 
 ## **📅 Week 3 — Feature Implementation**
 ### Goals
-- [ ] ...  
+- [ ] Player Movement
+- [ ] Player Camera
+- [ ] Game Win System
+- [ ] Game Over System
+- [ ] Audio System
 
 ---
 
 ## **📅 Week 4 — Polish & Finalisation**
 ### Goals
-- [ ] ...  
+- [ ] Working Game Start to Finish
+- [ ] Working UI
+- [ ] Basic Physics Implementation
+- [ ] Working Trap  
 
 ---
 
