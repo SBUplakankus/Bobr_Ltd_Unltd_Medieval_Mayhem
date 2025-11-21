@@ -17,10 +17,32 @@ A shared place for quick notes, how-tos, reminders, and useful information disco
 ### ✔️ Importing Models
 Steps:
 
-1. Import through MCGB
-2. Add to JSON
-3. Load in main
-4. Add to dictionary
+1. Open content.mcgb in Visual Studio
+2. Click into Assets -> Models
+3. With Models selected, click on Add Existing Item at the top *(Grey Box with Black Border and Green + Sign)*
+4. Select the .fbx file
+5. Click Build -> Build after it is successfully added
+6. Re-open Visual Studio
+7. Go to Content -> Assets -> Data and open `asset_manifest.json`
+8. Create a new entry in the models section
+9. Give it a name to be referenced by in the model dictionary
+10. Insert the path to the model
+11. Create through `multi_model_spawn.json` or individually in main
+
+### ✔️ Importing Textures
+Steps:
+
+1. Open content.mcgb in Visual Studio
+2. Click into Assets -> Textures
+3. With Textures selected, click on Add Existing Item at the top *(Grey Box with Black Border and Green + Sign)*
+4. Select the texture file
+5. Click Build -> Build after it is successfully added
+6. Re-open Visual Studio
+7. Go to Content -> Assets -> Data and open `asset_manifest.json`
+8. Create a new entry in the textures section
+9. Give it a name to be referenced by in the texture dictionary
+10. Insert the path to the texture
+11. When creating models, assign it this texture name
 
 ---
 
