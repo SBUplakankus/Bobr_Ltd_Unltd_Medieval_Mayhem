@@ -15,13 +15,13 @@ namespace GDGame.Scripts.Player
         #region Fields
         private GameObject _cameraGO;
         private Camera _camera;
-        private float _cameraFOV;
+        private float _cameraFOV = 0.9f;
         private readonly Vector3 _startPos = new(0, 5, 0);
         private const int FAR_PLANE_LIMIT = 1000;
         #endregion
 
         #region Constructors
-        public PlayerCamera(float aspectRatio)
+        public PlayerCamera(GameObject parent, float aspectRatio)
         {
             _cameraGO = new GameObject(AppData.CAMERA_NAME);
             _cameraGO.Transform.TranslateTo(_startPos);
@@ -29,8 +29,10 @@ namespace GDGame.Scripts.Player
             _camera = _cameraGO.AddComponent<Camera>();
             _camera.FarPlane = FAR_PLANE_LIMIT;
             _camera.AspectRatio = aspectRatio;
+            _camera.FieldOfView = _cameraFOV;
 
             _cameraGO.AddComponent<MouseYawPitchController>();
+            _cameraGO.Transform.SetParent(parent);
         }
         #endregion
 

@@ -24,9 +24,8 @@ namespace GDGame.Scripts.Player
         {
             _playerGO = new GameObject(AppData.PLAYER_NAME);
 
-            _playerMovement = new PlayerMovement();
-
-            _playerCamera = new PlayerCamera(aspectRatio);
+            _playerCamera = new PlayerCamera(_playerGO, aspectRatio);
+            _playerMovement = new PlayerMovement(_playerCamera.CameraGO);
 
             _playerGO.AddComponent(this);
             _playerGO.Transform.TranslateTo(_startPos);

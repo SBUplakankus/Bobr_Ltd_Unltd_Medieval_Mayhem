@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GDEngine.Core.Components;
+using GDEngine.Core.Entities;
 
 namespace GDGame.Scripts.Player
 {
@@ -15,9 +16,10 @@ namespace GDGame.Scripts.Player
         #endregion
 
         #region Constructors
-        public PlayerMovement()
+        public PlayerMovement(GameObject parent)
         {
             _rb = new RigidBody();
+            parent.AddComponent<KeyboardWASDController>();
         }
         #endregion
     }
