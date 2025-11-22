@@ -20,6 +20,7 @@ using GDEngine.Core.Services;
 using GDEngine.Core.Systems;
 using GDEngine.Core.Timing;
 using GDEngine.Core.Utilities;
+using GDGame.Scripts.Events.Game;
 using GDGame.Scripts.Player;
 using GDGame.Scripts.Systems;
 using Microsoft.Xna.Framework;
@@ -32,17 +33,17 @@ namespace GDGame
 {
     public class Main : Game
     {
-        #region Core Fields (Common to all games)     
+        #region Core Fields    
         private GraphicsDeviceManager _graphics;
         private ContentDictionary<Model> _modelDictionary;
         private ContentDictionary<Effect> _effectsDictionary;
         private Scene _scene;
-        private Camera _camera;
         private bool _disposed = false;
         private OrchestrationSystem _orchestrationSystem;
+        private EventBus _eventBus;
         #endregion
 
-        #region Systems
+        #region Game Systems
         private AudioController _audioController;
         private SceneController _sceneController;
         private UserInterfaceController _uiController;
@@ -54,11 +55,6 @@ namespace GDGame
 
         #region Player
         private PlayerController _playerController;
-        #endregion
-
-        #region Game Fields
-        private GameObject _cameraGO;
-        private KeyboardState _newKBState, _oldKBState;
         #endregion
 
         #region Core Methods    
@@ -96,13 +92,6 @@ namespace GDGame
             _scene.SetActiveCamera(_playerController.PlayerCam);
         }
 
-        private void TestObjectLoad()
-        {
-            GameObject player = _modelGenerator.GenerateModel(new Vector3(0, 5, 10),
-                new Vector3(0, 0, 0),
-                new Vector3(0.1f, 0.1f, 0.1f), "colormap", "ghost", "test");
-        }
-
         private void InitializeGraphics(Integer2 resolution)
         {
             System.Windows.Forms.Application.SetHighDpiMode(System.Windows.Forms.HighDpiMode.PerMonitorV2);
@@ -113,7 +102,6 @@ namespace GDGame
         private void InitializeMouse()
         {
             Mouse.SetPosition(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
-            _oldKBState = Keyboard.GetState();
         }
 
         private void InitializeContext()
@@ -163,16 +151,9 @@ namespace GDGame
             _scene = _sceneController.CurrentScene;
         }
 
-        private void InitializeSystems()
+        private void SetEventBus()
         {
-            InitializePhysicsSystem();
-            InitializePhysicsDebugSystem(true);
-            InitializeCameraAndRenderSystems();
-            InitializeAudioSystem();
-            InitializeInputSystem();
-            GenerateBaseScene();
-            InitializePlayer();
-            InitializeUI();
+            _eventBus = EngineContext.Instance.Events;
         }
 
         private void InitializeAudioSystem()
@@ -204,21 +185,20 @@ namespace GDGame
 
         private void InitializePhysicsSystem()
         {
-            // 1. add physics
             var physicsSystem = _scene.AddSystem(new PhysicsSystem());
             physicsSystem.Gravity = AppData.GRAVITY;
         }
 
         private void InitializeCameraAndRenderSystems()
         {
-            var cameraSystem = new CameraSystem(_graphics.GraphicsDevice, -100);
+            var cameraSystem = new CameraSystem(_graphics.GraphicsDevice, -AppData.RENDER_ORDER);
             _scene.Add(cameraSystem);
 
-            var renderSystem = new RenderSystem(-100);
+            var renderSystem = new RenderSystem(-AppData.RENDER_ORDER);
             _scene.Add(renderSystem);
 
-            var uiRenderSystem = new UIRenderSystem(100);
-            _scene.Add(uiRenderSystem); // draws in PostRender after RenderingSystem (order = -100)
+            var uiRenderSystem = new UIRenderSystem(AppData.RENDER_ORDER);
+            _scene.Add(uiRenderSystem);
         }
 
         private void InitializeInputSystem()
@@ -232,10 +212,52 @@ namespace GDGame
         {
             _materialGenerator = new MaterialGenerator(_graphics);
         }
+
         private void InitializeUI()
         {
             
         }
+        private void InitializeSystems()
+        {
+            SetEventBus();
+            InitializePhysicsSystem();
+            InitializePhysicsDebugSystem(true);
+            InitializeCameraAndRenderSystems();
+            InitializeAudioSystem();
+            InitializeInputSystem();
+            GenerateBaseScene();
+            InitializePlayer();
+            InitializeUI();
+        }
+
+        #endregion
+
+        #region Game Methods
+        private void DemoLoadFromJSON()
+        {
+            var relativeFilePathAndName = "assets/data/single_model_spawn.json";
+            List<ModelSpawnData> mList = JSONSerializationUtility.LoadData<ModelSpawnData>(Content, relativeFilePathAndName);
+
+            relativeFilePathAndName = "assets/data/multi_model_spawn.json";
+            foreach (var d in JSONSerializationUtility.LoadData<ModelSpawnData>(Content, relativeFilePathAndName))
+                _modelGenerator.GenerateModel(
+                    d.Position, d.RotationDegrees, d.Scale, d.TextureName, d.ModelName, d.ObjectName);
+        }
+
+        private void TestObjectLoad()
+        {
+            GameObject player = _modelGenerator.GenerateModel(new Vector3(0, 5, 10),
+                new Vector3(0, 0, 0),
+                new Vector3(0.1f, 0.1f, 0.1f), "colormap", "ghost", "test");
+        }
+
+        private void HandleFullscreenToggle()
+        {
+            _graphics.ToggleFullScreen();
+        }
+        #endregion
+
+        #region Engine Methods
 
         protected override void Update(GameTime gameTime)
         {
@@ -296,21 +318,6 @@ namespace GDGame
         }
 
         #endregion    
-
-        #region Game Methods
-
-        private void DemoLoadFromJSON()
-        {
-            var relativeFilePathAndName = "assets/data/single_model_spawn.json";
-            List<ModelSpawnData> mList = JSONSerializationUtility.LoadData<ModelSpawnData>(Content, relativeFilePathAndName);
-
-            relativeFilePathAndName = "assets/data/multi_model_spawn.json";
-            //load multiple models
-            foreach (var d in JSONSerializationUtility.LoadData<ModelSpawnData>(Content, relativeFilePathAndName))
-                _modelGenerator.GenerateModel(
-                    d.Position, d.RotationDegrees, d.Scale, d.TextureName, d.ModelName, d.ObjectName);
-        }
-        #endregion
 
     }
 }

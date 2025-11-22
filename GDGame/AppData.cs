@@ -49,6 +49,7 @@ namespace GDGame
         public static readonly string START_SCENE_NAME = "Start";
         public static readonly string MAIN_SCENE_NAME = "Main Game";
         public static readonly string GAMEPAD_P1_NAME = "Gamepad P1";
+        public static readonly int RENDER_ORDER = 100;
         #endregion
 
         #region Content
