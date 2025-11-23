@@ -43,6 +43,7 @@ namespace GDGame
         public static readonly string USER_INTERFACE = "ui";
         public static readonly string INPUT_NAME = "user_input";
         public static readonly string RETICLE_NAME = "reticle";
+        public static readonly string TRAP_NAME = "trap";
         #endregion
 
         #region Game

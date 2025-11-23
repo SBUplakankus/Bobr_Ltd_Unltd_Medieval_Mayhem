@@ -23,6 +23,7 @@ using GDEngine.Core.Utilities;
 using GDGame.Scripts.Events.Game;
 using GDGame.Scripts.Player;
 using GDGame.Scripts.Systems;
+using GDGame.Scripts.Traps;
 using GDGame.Scripts.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -52,6 +53,7 @@ namespace GDGame
         private ModelGenerator _modelGenerator;
         private MaterialGenerator _materialGenerator;
         private InputManager _inputManager;
+        private TrapManager _trapManager;
         #endregion
 
         #region Player
@@ -78,21 +80,11 @@ namespace GDGame
             InitializeScene();
             LoadAssetsFromJSON(AppData.ASSET_MANIFEST_PATH);
             InitializeSystems();
-            DemoLoadFromJSON();
-            TestObjectLoad();
+            InitGameSystems();
 
             base.Initialize();
         }
 
-        private void InitializePlayer()
-        {
-            _playerController = new PlayerController(
-                (float)_graphics.PreferredBackBufferWidth / _graphics.PreferredBackBufferHeight);
-
-            _scene.Add(_playerController.PlayerCamGO);
-            _scene.Add(_playerController.PlayerGO);
-            _scene.SetActiveCamera(_playerController.PlayerCam);
-        }
 
         private void InitializeGraphics(Integer2 resolution)
         {
@@ -230,7 +222,6 @@ namespace GDGame
             InitializeAudioSystem();
             InitializeInputSystem();
             GenerateBaseScene();
-            InitializePlayer();
             InitializeUI();
         }
 
@@ -258,6 +249,31 @@ namespace GDGame
         private void HandleFullscreenToggle()
         {
             _graphics.ToggleFullScreen();
+        }
+
+        private void InitPlayer()
+        {
+            _playerController = new PlayerController(
+                (float)_graphics.PreferredBackBufferWidth / _graphics.PreferredBackBufferHeight);
+
+            _scene.Add(_playerController.PlayerCamGO);
+            _scene.Add(_playerController.PlayerGO);
+            _scene.SetActiveCamera(_playerController.PlayerCam);
+        }
+
+        private void InitTraps()
+        {
+            _trapManager = new TrapManager();
+            foreach(var trap in _trapManager.TrapList)
+                _scene.Add(trap.TrapGO);
+        }
+
+        private void InitGameSystems()
+        {
+            InitPlayer();
+            InitTraps();
+            DemoLoadFromJSON();
+            TestObjectLoad();
         }
         #endregion
 
