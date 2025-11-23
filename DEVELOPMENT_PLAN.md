@@ -5,10 +5,10 @@
 ## 🚩 Feature Lists
 
 ### ✅ Core Features (Must-Have)
-- [ ] Player Camera  
+- [x] Player Camera  
 - [ ] Player Movement 
 - [ ] Single Trap Obstacle
-- [ ] Basic Game Audio
+- [x] Basic Game Audio
 - [ ] Basic User Interface
 - [ ] Game Win Condition
 - [ ] Game Over Condition
@@ -44,9 +44,9 @@
 
 ## **📅 Week 2 — Development Start**
 ### Goals
-- [ ] Loaded models into in project
-- [ ] Loaded basic texture in project
-- [ ] Basic UI Element
+- [x] Loaded models into in project
+- [x] Loaded basic texture in project
+- [x] Basic UI Element
 - [ ] Chosen Trap Designed
 - [ ] Chosen Game Win Condition Designed
 - [ ] Chosen Game Over Condition Designed
