@@ -119,6 +119,15 @@ Steps:
 
 ---
 
+## 🖥️ User Interface Systems
+
+### 🖱️ Cursor Controller
+- Created in `Main`
+- Creates the Reticle in in the middle of the screen.
+- Loads the texture named `reticle` from the JSON
+
+---
+
 ## 📁 Project Workflow Notes
 
 -  Engine is very basic, keep things simple.
