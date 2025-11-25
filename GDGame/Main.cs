@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Security.AccessControl;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
 using GDEngine.Core;
 using GDEngine.Core.Collections;
-using GDEngine.Core.Components;
-using GDEngine.Core.Debug;
 using GDEngine.Core.Entities;
-using GDEngine.Core.Events;
-using GDEngine.Core.Extensions;
 using GDEngine.Core.Factories;
 using GDEngine.Core.Input.Data;
-using GDEngine.Core.Input.Devices;
 using GDEngine.Core.Orchestration;
-using GDEngine.Core.Rendering;
 using GDEngine.Core.Rendering.UI;
 using GDEngine.Core.Serialization;
 using GDEngine.Core.Services;
 using GDEngine.Core.Systems;
 using GDEngine.Core.Timing;
 using GDEngine.Core.Utilities;
-using GDGame.Scripts.Events.Game;
+using GDGame.Scripts.Events.Channels;
 using GDGame.Scripts.Player;
 using GDGame.Scripts.Systems;
 using GDGame.Scripts.Traps;
@@ -42,7 +34,6 @@ namespace GDGame
         private Scene _scene;
         private bool _disposed = false;
         private OrchestrationSystem _orchestrationSystem;
-        private EventBus _eventBus;
         #endregion
 
         #region Game Systems
@@ -54,6 +45,7 @@ namespace GDGame
         private MaterialGenerator _materialGenerator;
         private InputManager _inputManager;
         private TrapManager _trapManager;
+        private TimeController _timeController;
         #endregion
 
         #region Player
@@ -61,12 +53,16 @@ namespace GDGame
         private CursorController _cursorController;
         #endregion
 
+        #region Event Channels
+        private InputEventChannel _inputEventChannel;
+
+        #endregion
+
         #region Core Methods    
         public Main()
         {
             _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            Content.RootDirectory = AppData.CONTENT_ROOT;
         }
 
         protected override void Initialize()
@@ -147,16 +143,17 @@ namespace GDGame
             _scene = _sceneController.CurrentScene;
         }
 
-        private void SetEventBus()
-        {
-            _eventBus = EngineContext.Instance.Events;
-        }
-
         private void InitializeAudioSystem()
         {
             if (_audioController == null) return;
         
             _audioController.PlayMusic();
+            _audioController.Generate3DAudio();
+
+            foreach(var sound in _audioController.SoundsList)
+            {
+                _scene.Add(sound);
+            }
         }
 
         private void GenerateBaseScene()
@@ -197,11 +194,35 @@ namespace GDGame
             _scene.Add(uiRenderSystem);
         }
 
+        private void InitTime()
+        {
+            _timeController = new TimeController();
+            _inputEventChannel.SubscribeToPauseToggle(_timeController.TogglePause);
+        }
+
+        private void UnscubscribeFromEvents()
+        {
+            _inputEventChannel.UnsubscribeToFullscreenToggle(HandleFullscreenToggle);
+            _inputEventChannel.UnsubscribeToExitRequest(HandleGameExit);
+            _inputEventChannel.UnsubscribeToPauseToggle(_timeController.TogglePause);
+        }
+
         private void InitializeInputSystem()
         {
             _inputManager = new InputManager();
+            _inputEventChannel = _inputManager.InputEventChannel;
+            InitInputEvents();
+            var inputGO = new GameObject(AppData.INPUT_NAME);
+            inputGO.AddComponent(_inputManager);
 
+            _scene.Add(inputGO);
             _scene.Add(_inputManager.Input);
+        }
+
+        private void InitInputEvents()
+        {
+            _inputEventChannel.SubscribeToFullscreenToggle(HandleFullscreenToggle);
+            _inputEventChannel.SubscribeToExitRequest(HandleGameExit);
         }
 
         private void GenerateMaterials()
@@ -215,7 +236,6 @@ namespace GDGame
         }
         private void InitializeSystems()
         {
-            SetEventBus();
             InitializePhysicsSystem();
             InitializePhysicsDebugSystem(true);
             InitializeCameraAndRenderSystems();
@@ -230,11 +250,9 @@ namespace GDGame
         #region Game Methods
         private void DemoLoadFromJSON()
         {
-            var relativeFilePathAndName = "assets/data/single_model_spawn.json";
-            List<ModelSpawnData> mList = JSONSerializationUtility.LoadData<ModelSpawnData>(Content, relativeFilePathAndName);
+            List<ModelSpawnData> mList = JSONSerializationUtility.LoadData<ModelSpawnData>(Content, AppData.SINGLE_MODEL_SPAWN_PATH);
 
-            relativeFilePathAndName = "assets/data/multi_model_spawn.json";
-            foreach (var d in JSONSerializationUtility.LoadData<ModelSpawnData>(Content, relativeFilePathAndName))
+            foreach (var d in JSONSerializationUtility.LoadData<ModelSpawnData>(Content, AppData.MULTI_MODEL_SPAWN_PATH))
                 _modelGenerator.GenerateModel(
                     d.Position, d.RotationDegrees, d.Scale, d.TextureName, d.ModelName, d.ObjectName);
         }
@@ -246,15 +264,15 @@ namespace GDGame
                 new Vector3(0.1f, 0.1f, 0.1f), "colormap", "ghost", "test");
         }
 
-        private void HandleFullscreenToggle()
-        {
-            _graphics.ToggleFullScreen();
-        }
+        private void HandleFullscreenToggle() => _graphics.ToggleFullScreen();
+        private void HandleGameExit() => Application.Exit();
 
         private void InitPlayer()
         {
             _playerController = new PlayerController(
                 (float)_graphics.PreferredBackBufferWidth / _graphics.PreferredBackBufferHeight);
+
+            _playerController.PlayerCamGO.AddComponent(_audioController);
 
             _scene.Add(_playerController.PlayerCamGO);
             _scene.Add(_playerController.PlayerGO);
@@ -272,6 +290,7 @@ namespace GDGame
         {
             InitPlayer();
             InitTraps();
+            InitTime();
             DemoLoadFromJSON();
             TestObjectLoad();
         }
@@ -330,6 +349,8 @@ namespace GDGame
 
                 System.Diagnostics.Debug.WriteLine("Main disposal complete");
             }
+
+            UnscubscribeFromEvents();
 
             _disposed = true;
 
