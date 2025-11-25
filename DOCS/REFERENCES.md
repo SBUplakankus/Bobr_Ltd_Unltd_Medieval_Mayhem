@@ -18,6 +18,9 @@ Tables for tracking models, audio, textures, and other resources used in the pro
 | Audio Name | Source | Link |
 |------------|--------|------|
 | Magic Fantasy Fairy Tale Music | HitsLab | [🔗](https://pixabay.com/music/fantasy-dreamy-childrens-magic-fantasy-fairy-tale-music-431276/) |
+| Fire Sound | SoundReality | [🔗](https://pixabay.com/sound-effects/fire-sound-334130/) |
+| Dungeon Air | Flamiffer (Freesound) | [🔗](https://pixabay.com/sound-effects/dungeon-air-6983/) |
+| cats how | Kneedless (Freesound) | [🔗](https://pixabay.com/sound-effects/cats-how-56624/) |
 
 ---
 
