@@ -38,7 +38,6 @@ namespace GDGame
         private Scene _scene;
         private bool _disposed = false;
         private OrchestrationSystem _orchestrationSystem;
-        private EventBus _eventBus;
         #endregion
 
         #region Game Systems
@@ -148,11 +147,6 @@ namespace GDGame
             _scene = _sceneController.CurrentScene;
         }
 
-        private void SetEventBus()
-        {
-            _eventBus = EngineContext.Instance.Events;
-        }
-
         private void InitializeAudioSystem()
         {
             if (_audioController == null) return;
@@ -246,7 +240,6 @@ namespace GDGame
         }
         private void InitializeSystems()
         {
-            SetEventBus();
             InitializePhysicsSystem();
             InitializePhysicsDebugSystem(true);
             InitializeCameraAndRenderSystems();
