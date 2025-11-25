@@ -14,6 +14,7 @@ using GDEngine.Core.Services;
 using GDEngine.Core.Systems;
 using GDEngine.Core.Timing;
 using GDEngine.Core.Utilities;
+using GDGame.Scripts.Events.Channels;
 using GDGame.Scripts.Events.Game;
 using GDGame.Scripts.Player;
 using GDGame.Scripts.Systems;
@@ -53,6 +54,11 @@ namespace GDGame
         #region Player
         private PlayerController _playerController;
         private CursorController _cursorController;
+        #endregion
+
+        #region Event Channels
+        private InputEventChannel _inputEventChannel;
+
         #endregion
 
         #region Core Methods    
@@ -199,7 +205,12 @@ namespace GDGame
         private void InitializeInputSystem()
         {
             _inputManager = new InputManager();
+            _inputEventChannel = _inputManager.InputEventChannel;
+            _inputEventChannel.SubscribeToFullscreenToggle(HandleFullscreenToggle);
+            var inputGO = new GameObject(AppData.INPUT_NAME);
+            inputGO.AddComponent(_inputManager);
 
+            _scene.Add(inputGO);
             _scene.Add(_inputManager.Input);
         }
 
@@ -329,6 +340,8 @@ namespace GDGame
 
                 System.Diagnostics.Debug.WriteLine("Main disposal complete");
             }
+
+            _inputEventChannel.UnsubscribeToFullscreenToggle(HandleFullscreenToggle);
 
             _disposed = true;
 
