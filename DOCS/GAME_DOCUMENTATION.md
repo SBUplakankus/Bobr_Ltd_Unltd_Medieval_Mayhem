@@ -11,6 +11,11 @@ A place for nots on any classes created for our game in the engine.
 - Encapsulates functions for playing audio to clear up main
 - Takes in the Sounds Dictionary when constructed
 
+### 🔊 3D Audio Controller
+- Created in `AudioController` and attached to a `GameObject`
+- Takes in a sound effect, spawn position, volume and radius
+- Plays 3D Audio in the Game Scene
+
 ### ⛰️ Scene Controller
 - Created in `Main`
 - Stores the current scene and any new ones created
@@ -31,10 +36,15 @@ A place for nots on any classes created for our game in the engine.
 ### 🎮 Input Manager
 - Created in `Main`
 - Creates the Input System based off of the given settings
+- Sends out events through the `InputEventChannel`
 
 ### 🖌️ Material Generator
 - Created in `Main`
 - Generates the Lit, Unlit and UnlitGround Materials
+
+### 🕐 Time Controller
+- Created in `Main`
+- Controls the `Time.TimeScale` which pauses and unpauses the game
 
 ---
 
@@ -78,5 +88,14 @@ A place for nots on any classes created for our game in the engine.
 ### 🪓Moving Trap
 - Inherits from `TrapBase`
 - Holds the logic for a moving trap such as platforms or axes
+
+---
+
+## 🛥️ Event Channels
+
+### 🕹️ Input Event Channel
+- Created in `InputManager`
+- Referenced in `Main`
+- Controls Fullscreen Toggle, Pause Toggle and Exit Events
 
 ---
