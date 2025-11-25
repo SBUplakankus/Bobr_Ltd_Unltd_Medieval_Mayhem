@@ -45,6 +45,9 @@ namespace GDGame.Scripts.Systems
             _audioSystem.PlayMusic(AppData.MAIN_MUSIC, MUSIC_VOLUME);
         }
 
+        /// <summary>
+        /// Generate the 3D Audio Objects for the scene
+        /// </summary>
         public void Generate3DAudio()
         {
             var obj1 = Generate3DAudioObject(AppData.FIRE_AUDIO_NAME, new Vector3(1000, 1, 1));

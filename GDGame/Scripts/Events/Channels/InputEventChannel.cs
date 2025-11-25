@@ -12,6 +12,9 @@ namespace GDGame.Scripts.Events.Channels
         public EventBase PauseToggle = new();
         public EventBase ApplicationExit = new();
 
+        /// <summary>
+        /// Unsubscribe from all events in the Channel
+        /// </summary>
         public void ClearEventChannel()
         {
             FullscreenToggle.UnsubscribeAll();
