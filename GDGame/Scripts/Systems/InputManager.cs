@@ -34,7 +34,7 @@ namespace GDGame.Scripts.Systems
         #region Input Keys
         private Keys _pauseKey = Keys.Escape;
         private Keys _fullscreenKey = Keys.F11;
-        private Keys _exitKey = Keys.F4;
+        private Keys _exitKey = Keys.E;
         #endregion
 
         #region Constructors
@@ -78,7 +78,6 @@ namespace GDGame.Scripts.Systems
             bool isPressed = _newKBState.IsKeyDown(_fullscreenKey) && !_oldKBState.IsKeyDown(_fullscreenKey);
             if (!isPressed) return;
 
-            Debug.WriteLine("Fullscreen");
             _inputEventChannel.RaiseFullscreenToggleRequest();
         }
 
@@ -87,7 +86,7 @@ namespace GDGame.Scripts.Systems
             bool isPressed = _newKBState.IsKeyDown(_exitKey) && !_oldKBState.IsKeyDown(_exitKey);
             if (!isPressed) return;
 
-
+            _inputEventChannel.RaiseApplicationExitRequest();
         }
         
         private void CheckForInputs()

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Forms;
 using GDEngine.Core;
 using GDEngine.Core.Collections;
 using GDEngine.Core.Entities;
@@ -207,6 +208,7 @@ namespace GDGame
             _inputManager = new InputManager();
             _inputEventChannel = _inputManager.InputEventChannel;
             _inputEventChannel.SubscribeToFullscreenToggle(HandleFullscreenToggle);
+            _inputEventChannel.SubscribeToExitRequest(HandleGameExit);
             var inputGO = new GameObject(AppData.INPUT_NAME);
             inputGO.AddComponent(_inputManager);
 
@@ -254,10 +256,8 @@ namespace GDGame
                 new Vector3(0.1f, 0.1f, 0.1f), "colormap", "ghost", "test");
         }
 
-        private void HandleFullscreenToggle()
-        {
-            _graphics.ToggleFullScreen();
-        }
+        private void HandleFullscreenToggle() => _graphics.ToggleFullScreen();
+        private void HandleGameExit() => Application.Exit();
 
         private void InitPlayer()
         {
@@ -342,6 +342,7 @@ namespace GDGame
             }
 
             _inputEventChannel.UnsubscribeToFullscreenToggle(HandleFullscreenToggle);
+            _inputEventChannel.UnsubscribeToExitRequest(HandleGameExit);
 
             _disposed = true;
 
