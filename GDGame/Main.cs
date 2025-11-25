@@ -50,6 +50,7 @@ namespace GDGame
         private MaterialGenerator _materialGenerator;
         private InputManager _inputManager;
         private TrapManager _trapManager;
+        private TimeController _timeController;
         #endregion
 
         #region Player
@@ -203,17 +204,35 @@ namespace GDGame
             _scene.Add(uiRenderSystem);
         }
 
+        private void InitTime()
+        {
+            _timeController = new TimeController();
+            _inputEventChannel.SubscribeToPauseToggle(_timeController.TogglePause);
+        }
+
+        private void UnscubscribeFromEvents()
+        {
+            _inputEventChannel.UnsubscribeToFullscreenToggle(HandleFullscreenToggle);
+            _inputEventChannel.UnsubscribeToExitRequest(HandleGameExit);
+            _inputEventChannel.UnsubscribeToPauseToggle(_timeController.TogglePause);
+        }
+
         private void InitializeInputSystem()
         {
             _inputManager = new InputManager();
             _inputEventChannel = _inputManager.InputEventChannel;
-            _inputEventChannel.SubscribeToFullscreenToggle(HandleFullscreenToggle);
-            _inputEventChannel.SubscribeToExitRequest(HandleGameExit);
+            InitInputEvents();
             var inputGO = new GameObject(AppData.INPUT_NAME);
             inputGO.AddComponent(_inputManager);
 
             _scene.Add(inputGO);
             _scene.Add(_inputManager.Input);
+        }
+
+        private void InitInputEvents()
+        {
+            _inputEventChannel.SubscribeToFullscreenToggle(HandleFullscreenToggle);
+            _inputEventChannel.SubscribeToExitRequest(HandleGameExit);
         }
 
         private void GenerateMaterials()
@@ -282,6 +301,7 @@ namespace GDGame
         {
             InitPlayer();
             InitTraps();
+            InitTime();
             DemoLoadFromJSON();
             TestObjectLoad();
         }
@@ -341,8 +361,7 @@ namespace GDGame
                 System.Diagnostics.Debug.WriteLine("Main disposal complete");
             }
 
-            _inputEventChannel.UnsubscribeToFullscreenToggle(HandleFullscreenToggle);
-            _inputEventChannel.UnsubscribeToExitRequest(HandleGameExit);
+            UnscubscribeFromEvents();
 
             _disposed = true;
 
