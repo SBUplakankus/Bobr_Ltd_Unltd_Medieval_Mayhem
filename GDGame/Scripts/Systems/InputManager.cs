@@ -24,6 +24,10 @@ namespace GDGame.Scripts.Systems
         private readonly Keys _pauseKey = Keys.Escape;
         private readonly Keys _fullscreenKey = Keys.F11;
         private readonly Keys _exitKey = Keys.E;
+        private readonly Keys _forwardKey = Keys.W;
+        private readonly Keys _backwardKey = Keys.S;
+        private readonly Keys _leftKey = Keys.A;
+        private readonly Keys _rightKey = Keys.D;
         #endregion
 
         #region Constructors
@@ -76,12 +80,28 @@ namespace GDGame.Scripts.Systems
 
             _inputEventChannel.ApplicationExit.Raise();
         }
+
+        private void CheckForMovement()
+        {
+            if (_newKBState.IsKeyDown(_forwardKey))
+                _inputEventChannel.MovementInput.Raise(0);
+
+            if (_newKBState.IsKeyDown(_backwardKey))
+                _inputEventChannel.MovementInput.Raise(1);
+
+            if (_newKBState.IsKeyDown(_leftKey))
+                _inputEventChannel.MovementInput.Raise(2);
+
+            if (_newKBState.IsKeyDown(_rightKey))
+                _inputEventChannel.MovementInput.Raise(3);
+        }
         
         private void CheckForInputs()
         {
             CheckForPause();
             CheckForFullscreen();
             CheckForExit();
+            CheckForMovement();
         }
         #endregion
 

@@ -43,6 +43,7 @@ namespace GDGame.Scripts.Events.Channels
 
             _instance = new EventChannelManager();
         }
+
         #endregion
     }
 }
