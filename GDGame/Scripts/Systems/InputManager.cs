@@ -44,13 +44,12 @@ namespace GDGame.Scripts.Systems
             _inputSystem.Add(new GDMouseInput(bindings));
             _inputSystem.Add(new GDGamepadInput(PlayerIndex.One, AppData.GAMEPAD_P1_NAME));
 
-            _inputEventChannel = new InputEventChannel();
+            _inputEventChannel = EventChannelManager.Instance.InputEvents;
         }
         #endregion
 
         #region Accessors
         public InputSystem Input => _inputSystem;
-        public InputEventChannel InputEventChannel => _inputEventChannel;
         #endregion
 
         #region Input Methods

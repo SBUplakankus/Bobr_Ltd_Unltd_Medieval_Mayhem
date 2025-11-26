@@ -54,6 +54,7 @@ namespace GDGame
 
         // Events
         private InputEventChannel _inputEventChannel;
+        private PlayerEventChannel _playerEventChannel;
 
         #endregion
 
@@ -114,6 +115,13 @@ namespace GDGame
             _scene = _sceneController.CurrentScene;
         }
 
+        private void InitEvents()
+        {
+            EventChannelManager.Initialise();
+            _inputEventChannel = EventChannelManager.Instance.InputEvents;
+            _playerEventChannel = EventChannelManager.Instance.PlayerEvents;
+        }
+
         /// <summary>
         /// Load all the assets in the 'asset.manifest' JSON into Content Dictionaries and pass them through
         /// to the game controls
@@ -151,6 +159,7 @@ namespace GDGame
 
         private void InitializeSystems()
         {
+            InitEvents();
             InitPhysicsSystem();
             InitPhysicsDebugSystem(true);
             InitCameraAndRenderSystems();
@@ -212,7 +221,6 @@ namespace GDGame
         private void InitInputSystem()
         {
             _inputManager = new InputManager();
-            _inputEventChannel = _inputManager.InputEventChannel;
 
             InitInputEvents();
 
