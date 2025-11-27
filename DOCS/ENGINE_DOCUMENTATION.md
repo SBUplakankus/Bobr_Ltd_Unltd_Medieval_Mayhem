@@ -60,6 +60,33 @@ Steps:
 11. Insert the path to the sound 
 12. When playing audio in the `AudioSystem`, pass through the name you gave it
 
+### 👂 The Event Channel System
+Steps:
+
+1. All event scripts are stored in Scripts -> Events
+2. There are seperate channels containing `EventBase` objects such as `InputEventChannel`
+3. These are then created and accessed through the `EventChannelManager`
+4. Each Event has `Subscribe()`, `Unsubscribe()` and `Raise()` functions
+5. You pass through functions with the `Subscribe()` method which are all called with the `Raise()` method
+
+   ```cs
+   /// Referencing the Input Event Channel
+   _inputEventChannel = EventChannelManager.Instance.InputEvents;
+
+   /// Creating the Fullscreen Toggle function
+   private void HandleFullscreenToggle() => _graphics.ToggleFullScreen();
+   
+   /// The Code for Subscribing
+   _inputEventChannel.FullscreenToggle.Subscribe(HandleFullscreenToggle);
+
+   /// The Code for Calling
+   _inputEventChannel.FullscreenToggle.Raise();
+   ```
+   
+6. The raise function will be called elsewhere, for example right now it is called through the `InputManager` class
+7. It is important to unsubsribe methods when they are disabled.
+8. Usually this is done in Unity through `OnDisable` but for our engine its in `Main.Dispose()`
+
 ---
 
 ## 🧩 Common Problems & Fixes
