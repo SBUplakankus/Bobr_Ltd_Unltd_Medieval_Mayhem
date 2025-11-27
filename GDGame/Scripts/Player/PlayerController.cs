@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GDEngine.Core.Components;
 using GDEngine.Core.Entities;
+using GDGame.Scripts.Events.Channels;
 
 namespace GDGame.Scripts.Player
 {
@@ -30,7 +31,6 @@ namespace GDGame.Scripts.Player
             _playerGO.AddComponent(this);
             _playerGO.Transform.TranslateTo(_startPos);
             _playerGO.Transform.RotateEulerBy(_startRot);
-
         }
         #endregion
 
@@ -40,8 +40,15 @@ namespace GDGame.Scripts.Player
         public Camera PlayerCam => _playerCamera.Cam;
         #endregion
 
+        #region EventHandlers
+        #endregion
+
         #region Methods
-      
+        protected override void Awake()
+        {
+            EventChannelManager.Instance.InputEvents.MovementInput.Subscribe(_playerMovement.HandleMovement);
+            base.Awake();
+        }
         #endregion
     }
 }

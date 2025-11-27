@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GDEngine.Core.Components;
+using GDGame.Demos.Controllers;
 
 namespace GDGame.Scripts.Traps
 {
@@ -22,7 +24,7 @@ namespace GDGame.Scripts.Traps
         #region Methods
         public override void UpdateTrap()
         {
-
+            
         }
 
         public override void InitTrap()

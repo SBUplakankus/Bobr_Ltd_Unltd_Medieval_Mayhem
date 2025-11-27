@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Security.AccessControl;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
 using GDEngine.Core;
 using GDEngine.Core.Collections;
-using GDEngine.Core.Components;
-using GDEngine.Core.Debug;
 using GDEngine.Core.Entities;
-using GDEngine.Core.Events;
-using GDEngine.Core.Extensions;
 using GDEngine.Core.Factories;
 using GDEngine.Core.Input.Data;
-using GDEngine.Core.Input.Devices;
 using GDEngine.Core.Orchestration;
-using GDEngine.Core.Rendering;
 using GDEngine.Core.Rendering.UI;
 using GDEngine.Core.Serialization;
 using GDEngine.Core.Services;
 using GDEngine.Core.Systems;
 using GDEngine.Core.Timing;
 using GDEngine.Core.Utilities;
-using GDGame.Scripts.Events.Game;
+using GDGame.Scripts.Events.Channels;
 using GDGame.Scripts.Player;
 using GDGame.Scripts.Systems;
 using GDGame.Scripts.Traps;
@@ -35,17 +27,17 @@ namespace GDGame
 {
     public class Main : Game
     {
-        #region Core Fields    
+        #region Fields
+
+        // Core
         private GraphicsDeviceManager _graphics;
         private ContentDictionary<Model> _modelDictionary;
         private ContentDictionary<Effect> _effectsDictionary;
         private Scene _scene;
         private bool _disposed = false;
         private OrchestrationSystem _orchestrationSystem;
-        private EventBus _eventBus;
-        #endregion
 
-        #region Game Systems
+        // Game Systems
         private AudioController _audioController;
         private SceneController _sceneController;
         private UserInterfaceController _uiController;
@@ -54,20 +46,29 @@ namespace GDGame
         private MaterialGenerator _materialGenerator;
         private InputManager _inputManager;
         private TrapManager _trapManager;
-        #endregion
+        private TimeController _timeController;
+        private LocalisationController _localisationController;
 
-        #region Player
+        // Player
         private PlayerController _playerController;
-        private CursorController _cursorController;
+
+        // Events
+        private InputEventChannel _inputEventChannel;
+        private PlayerEventChannel _playerEventChannel;
+
         #endregion
 
-        #region Core Methods    
+        #region Constructor
+
         public Main()
         {
             _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            Content.RootDirectory = AppData.CONTENT_ROOT;
         }
+
+        #endregion
+
+        #region Initialisation
 
         protected override void Initialize()
         {
@@ -85,10 +86,9 @@ namespace GDGame
             base.Initialize();
         }
 
-
         private void InitializeGraphics(Integer2 resolution)
         {
-            System.Windows.Forms.Application.SetHighDpiMode(System.Windows.Forms.HighDpiMode.PerMonitorV2);
+            Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
             ScreenResolution.SetResolution(_graphics, resolution);
             WindowUtility.CenterOnMonitor(this, 1);
         }
@@ -104,23 +104,44 @@ namespace GDGame
             EngineContext.Initialize(GraphicsDevice, Content);
         }
 
+        private void InitLocalisation()
+        {
+            LocalisationController.Initialise();
+        }
+
+        private void GenerateMaterials()
+        {
+            _materialGenerator = new MaterialGenerator(_graphics);
+        }
+
+        private void InitializeScene()
+        {
+            _sceneController = new SceneController();
+            _scene = _sceneController.CurrentScene;
+        }
+
+        private void InitEvents()
+        {
+            EventChannelManager.Initialise();
+            _inputEventChannel = EventChannelManager.Instance.InputEvents;
+            _playerEventChannel = EventChannelManager.Instance.PlayerEvents;
+        }
+
         /// <summary>
-        /// New asset loading from JSON using AssetEntry and ContentDictionary::LoadFromManifest
+        /// Load all the assets in the 'asset.manifest' JSON into Content Dictionaries and pass them through
+        /// to the game controls
         /// </summary>
-        /// <param name="relativeFilePathAndName"></param>
-        /// <see cref="AssetEntry"/>
-        /// <see cref="ContentDictionary{T}"/>
+        /// <param name="relativeFilePathAndName">Path to the JSON File</param>
         private void LoadAssetsFromJSON(string relativeFilePathAndName)
         {
-            // Make dictionaries to store assets
             var textures = new ContentDictionary<Texture2D>();
             var models = new ContentDictionary<Model>();
             var fonts = new ContentDictionary<SpriteFont>();
             _effectsDictionary = new ContentDictionary<Effect>();
             var sounds = new ContentDictionary<SoundEffect>();
 
+            var manifests = JSONSerializationUtility.LoadData<AssetManifest>(Content, relativeFilePathAndName);
 
-            var manifests = JSONSerializationUtility.LoadData<AssetManifest>(Content, relativeFilePathAndName); // single or array
             if (manifests.Count > 0)
             {
                 foreach (var m in manifests)
@@ -134,58 +155,52 @@ namespace GDGame
             }
 
             _audioController = new AudioController(sounds);
-            _uiController = new UserInterfaceController(fonts, textures);
-            _sceneGenerator = new SceneGenerator(textures, _materialGenerator.MatBasicLit, 
-                _materialGenerator.MatBasicUnlit, _materialGenerator.MatBasicUnlitGround, _graphics);
-            _modelGenerator = new ModelGenerator(textures, models, _scene, _materialGenerator.MatBasicUnlit, _graphics);
-            _cursorController = new CursorController(textures.Get(AppData.RETICLE_NAME));
+            _uiController = new UserInterfaceController(EngineContext.Instance.SpriteBatch ,fonts, textures);
+            _sceneGenerator = new SceneGenerator(textures, _materialGenerator.MatBasicLit, _materialGenerator.MatBasicUnlit,
+                _materialGenerator.MatBasicUnlitGround, _graphics);
+            _modelGenerator = new ModelGenerator(textures, models, _materialGenerator.MatBasicUnlit, _graphics);
         }
 
-        private void InitializeScene()
+        private void InitializeSystems()
         {
-            _sceneController = new SceneController();
-            _scene = _sceneController.CurrentScene;
+            InitEvents();
+            InitPhysicsSystem();
+            InitPhysicsDebugSystem(true);
+            InitCameraAndRenderSystems();
+            InitAudioSystem();
+            InitInputSystem();
+            InitLocalisation();
+            GenerateBaseScene();
+            InitializeUI();
         }
 
-        private void SetEventBus()
+        private void InitGameSystems()
         {
-            _eventBus = EngineContext.Instance.Events;
+            InitPlayer();
+            InitTraps();
+            InitTime();
+            DemoLoadFromJSON();
+            TestObjectLoad();
         }
 
-        private void InitializeAudioSystem()
-        {
-            if (_audioController == null) return;
-        
-            _audioController.PlayMusic();
-        }
-
-        private void GenerateBaseScene()
-        {
-            _sceneGenerator.GenerateScene(_scene);
-        }
-
-        private void InitializePhysicsDebugSystem(bool isEnabled)
-        {
-            var physicsDebugRenderer = _scene.AddSystem(new PhysicsDebugRenderer());
-
-            // Toggle debug rendering on/off
-            physicsDebugRenderer.Enabled = isEnabled; // or false to hide
-
-            // Optional: Customize colors
-            physicsDebugRenderer.StaticColor = Color.Green;      // Immovable objects
-            physicsDebugRenderer.KinematicColor = Color.Blue;    // Animated objects
-            physicsDebugRenderer.DynamicColor = Color.Yellow;    // Physics-driven objects
-            physicsDebugRenderer.TriggerColor = Color.Red;       // Trigger volumes
-
-        }
-
-        private void InitializePhysicsSystem()
+        private void InitPhysicsSystem()
         {
             var physicsSystem = _scene.AddSystem(new PhysicsSystem());
             physicsSystem.Gravity = AppData.GRAVITY;
         }
 
-        private void InitializeCameraAndRenderSystems()
+        private void InitPhysicsDebugSystem(bool isEnabled)
+        {
+            var physicsDebugRenderer = _scene.AddSystem(new PhysicsDebugRenderer());
+            physicsDebugRenderer.Enabled = isEnabled;
+
+            physicsDebugRenderer.StaticColor = Color.Green;
+            physicsDebugRenderer.KinematicColor = Color.Blue;
+            physicsDebugRenderer.DynamicColor = Color.Yellow;
+            physicsDebugRenderer.TriggerColor = Color.Red;
+        }
+
+        private void InitCameraAndRenderSystems()
         {
             var cameraSystem = new CameraSystem(_graphics.GraphicsDevice, -AppData.RENDER_ORDER);
             _scene.Add(cameraSystem);
@@ -197,64 +212,58 @@ namespace GDGame
             _scene.Add(uiRenderSystem);
         }
 
-        private void InitializeInputSystem()
+        private void InitAudioSystem()
+        {
+            if (_audioController == null) return;
+
+            _audioController.PlayMusic();
+            _audioController.Generate3DAudio();
+
+            foreach (var sound in _audioController.SoundsList)
+                _scene.Add(sound);
+        }
+
+        private void InitInputSystem()
         {
             _inputManager = new InputManager();
 
+            InitInputEvents();
+
+            var inputGO = new GameObject(AppData.INPUT_NAME);
+            inputGO.AddComponent(_inputManager);
+
+            _scene.Add(inputGO);
             _scene.Add(_inputManager.Input);
         }
 
-        private void GenerateMaterials()
+        private void InitInputEvents()
         {
-            _materialGenerator = new MaterialGenerator(_graphics);
+            _inputEventChannel.FullscreenToggle.Subscribe(HandleFullscreenToggle);
+            _inputEventChannel.ApplicationExit.Subscribe(HandleGameExit);
+        }
+
+        private void GenerateBaseScene()
+        {
+            _sceneGenerator.GenerateScene(_scene);
         }
 
         private void InitializeUI()
         {
-            _scene.Add(_cursorController.Reticle);
-        }
-        private void InitializeSystems()
-        {
-            SetEventBus();
-            InitializePhysicsSystem();
-            InitializePhysicsDebugSystem(true);
-            InitializeCameraAndRenderSystems();
-            InitializeAudioSystem();
-            InitializeInputSystem();
-            GenerateBaseScene();
-            InitializeUI();
+            _uiController.InitUserInterface();
+            foreach (var obj in _uiController.UIObjects)
+                _scene.Add(obj);
         }
 
         #endregion
 
-        #region Game Methods
-        private void DemoLoadFromJSON()
-        {
-            var relativeFilePathAndName = "assets/data/single_model_spawn.json";
-            List<ModelSpawnData> mList = JSONSerializationUtility.LoadData<ModelSpawnData>(Content, relativeFilePathAndName);
-
-            relativeFilePathAndName = "assets/data/multi_model_spawn.json";
-            foreach (var d in JSONSerializationUtility.LoadData<ModelSpawnData>(Content, relativeFilePathAndName))
-                _modelGenerator.GenerateModel(
-                    d.Position, d.RotationDegrees, d.Scale, d.TextureName, d.ModelName, d.ObjectName);
-        }
-
-        private void TestObjectLoad()
-        {
-            GameObject player = _modelGenerator.GenerateModel(new Vector3(0, 5, 10),
-                new Vector3(0, 0, 0),
-                new Vector3(0.1f, 0.1f, 0.1f), "colormap", "ghost", "test");
-        }
-
-        private void HandleFullscreenToggle()
-        {
-            _graphics.ToggleFullScreen();
-        }
+        #region Game Systems
 
         private void InitPlayer()
         {
             _playerController = new PlayerController(
                 (float)_graphics.PreferredBackBufferWidth / _graphics.PreferredBackBufferHeight);
+
+            _playerController.PlayerCamGO.AddComponent(_audioController);
 
             _scene.Add(_playerController.PlayerCamGO);
             _scene.Add(_playerController.PlayerGO);
@@ -264,47 +273,80 @@ namespace GDGame
         private void InitTraps()
         {
             _trapManager = new TrapManager();
-            foreach(var trap in _trapManager.TrapList)
+            foreach (var trap in _trapManager.TrapList)
                 _scene.Add(trap.TrapGO);
         }
 
-        private void InitGameSystems()
+        private void InitTime()
         {
-            InitPlayer();
-            InitTraps();
-            DemoLoadFromJSON();
-            TestObjectLoad();
+            _timeController = new TimeController();
+            _inputEventChannel.PauseToggle.Subscribe(_timeController.TogglePause);
         }
+
         #endregion
 
-        #region Engine Methods
+        #region Game Loop
 
         protected override void Update(GameTime gameTime)
         {
             Time.Update(gameTime);
-
             _scene.Update(Time.DeltaTimeSecs);
-
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
-
+            GraphicsDevice.Clear(Color.CornflowerBlue);
             _scene.Draw(Time.DeltaTimeSecs);
-
             base.Draw(gameTime);
         }
 
+        #endregion
+
+        #region Event Handlers
+
+        private void HandleFullscreenToggle() => _graphics.ToggleFullScreen();
+        private void HandleGameExit() => Application.Exit();
+
+        #endregion
+
+        #region Demo Methods
+
         /// <summary>
-        /// Override Dispose to clean up engine resources.
-        /// MonoGame's Game class already implements IDisposable, so we override its Dispose method.
+        /// Load the objects from the single model and multi model spawn JSON files
         /// </summary>
-        /// <param name="disposing">True if called from Dispose(), false if called from finalizer.</param>
+        private void DemoLoadFromJSON()
+        {
+            List<ModelSpawnData> mList = JSONSerializationUtility.LoadData<ModelSpawnData>(Content, AppData.SINGLE_MODEL_SPAWN_PATH);
+
+            foreach (var d in JSONSerializationUtility.LoadData<ModelSpawnData>(Content, AppData.MULTI_MODEL_SPAWN_PATH))
+                _scene.Add(_modelGenerator.GenerateModel(
+                    d.Position, d.RotationDegrees, d.Scale, d.TextureName, d.ModelName, d.ObjectName));
+        }
+
+        private void TestObjectLoad()
+        {
+            GameObject player = _modelGenerator.GenerateModel(
+                new Vector3(0, 5, 10),
+                new Vector3(0, 0, 0),
+                new Vector3(0.1f, 0.1f, 0.1f),
+                "colormap", "ghost", "test");
+        }
+
+        #endregion
+
+        #region Disposal
+
+        /// <summary>
+        /// Clear all of the event channels
+        /// </summary>
+        private void UnscubscribeFromEvents()
+        {
+            _inputEventChannel.ClearEventChannel();
+        }
+
         protected override void Dispose(bool disposing)
         {
-            // TODO: Need to add disposing to created systems
             if (_disposed)
             {
                 base.Dispose(disposing);
@@ -331,13 +373,12 @@ namespace GDGame
                 System.Diagnostics.Debug.WriteLine("Main disposal complete");
             }
 
+            UnscubscribeFromEvents();
             _disposed = true;
 
-            // Always call base.Dispose
             base.Dispose(disposing);
         }
 
-        #endregion    
-
+        #endregion
     }
 }

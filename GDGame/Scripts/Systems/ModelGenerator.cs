@@ -18,18 +18,16 @@ namespace GDGame.Scripts.Systems
         #region Fields
         private ContentDictionary<Texture2D> _textures;
         private ContentDictionary<Model> _models;
-        private Scene _scene;
         private Material _material;
         private GraphicsDeviceManager _graphics;
         #endregion
 
         #region Constructors
-        public ModelGenerator(ContentDictionary<Texture2D> tex, ContentDictionary<Model> models, Scene scene,
+        public ModelGenerator(ContentDictionary<Texture2D> tex, ContentDictionary<Model> models,
             Material mat, GraphicsDeviceManager g) 
         { 
             _textures = tex;
             _models = models;
-            _scene = scene;
             _material = mat;
             _graphics = g;
         }
@@ -66,8 +64,6 @@ namespace GDGame.Scripts.Systems
 
             meshRenderer.Material = _material;
             meshRenderer.Overrides.MainTexture = texture;
-
-            _scene.Add(gameObject);
 
             return gameObject;
         }
