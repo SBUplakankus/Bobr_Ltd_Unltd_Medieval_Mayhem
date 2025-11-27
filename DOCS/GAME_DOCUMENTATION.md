@@ -46,6 +46,13 @@ A place for nots on any classes created for our game in the engine.
 - Created in `Main`
 - Controls the `Time.TimeScale` which pauses and unpauses the game
 
+### 🌍 Localisation Controller
+- Initialised in `Main`
+- Creates Dictionaries for each language option
+- English is used as the key and fallback option
+- Options are stored in `.csv` files in the `Languages` folder
+- When accessing text to display in game, you use `LocalisationController.Get("text")`
+
 ---
 
 ## ⚙️ Player Systems
@@ -85,17 +92,33 @@ A place for nots on any classes created for our game in the engine.
 - Base abstract class all traps inherit from
 - Holds the trap `GameObject` and core abstract functions all traps need
 
-### 🪓Moving Trap
+### 🪓 Moving Trap
 - Inherits from `TrapBase`
 - Holds the logic for a moving trap such as platforms or axes
 
 ---
 
-## 🛥️ Event Channels
+## 🛥️ Event Systems
+
+### ⛵ Event Base
+- Uses C# `event Action` as a base
+- Uses `Subscribe` to add a listener to the event
+- Uses `Unsubscribe` to remove a listener from the event
+- Uses `Raise` to call the event
 
 ### 🕹️ Input Event Channel
-- Created in `InputManager`
-- Referenced in `Main`
-- Controls Fullscreen Toggle, Pause Toggle and Exit Events
+- Created in `EventChannelManager`
+- Events created from `EventBase`
+- Controls Fullscreen Toggle, Pause Toggle, Movement and Exit Events
+
+### 🧔 Player Event Channel
+- Created in `EventChannelManager`
+- Events created from `EventBase`
+- Controls Game Over and Game Won events
+
+### 🧰 Event Channel Manager
+- Static Class that can be accessed anywhere
+- Initialised in `Main`
+- Creates a `PlayerEventChannel` and `InputEventChannel`
 
 ---
