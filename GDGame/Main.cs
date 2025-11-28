@@ -47,7 +47,6 @@ namespace GDGame
         private InputManager _inputManager;
         private TrapManager _trapManager;
         private TimeController _timeController;
-        private LocalisationController _localisationController;
 
         // Player
         private PlayerController _playerController;
@@ -116,7 +115,7 @@ namespace GDGame
 
         private void InitializeScene()
         {
-            _sceneController = new SceneController();
+            _sceneController = new SceneController(this);
             _scene = _sceneController.CurrentScene;
         }
 
@@ -263,9 +262,8 @@ namespace GDGame
             _playerController = new PlayerController(
                 (float)_graphics.PreferredBackBufferWidth / _graphics.PreferredBackBufferHeight);
 
-            _playerController.PlayerCamGO.AddComponent(_audioController);
+            _playerController.PlayerGO.AddComponent(_audioController);
 
-            _scene.Add(_playerController.PlayerCamGO);
             _scene.Add(_playerController.PlayerGO);
             _scene.SetActiveCamera(_playerController.PlayerCam);
         }

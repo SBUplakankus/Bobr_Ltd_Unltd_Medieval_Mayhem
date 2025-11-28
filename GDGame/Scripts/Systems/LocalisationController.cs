@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -63,7 +64,6 @@ namespace GDGame.Scripts.Systems
                 var fields = parser.ReadFields();
                 dict.Add(fields[0], fields[1]);
             }
-
             return dict;
         }
 

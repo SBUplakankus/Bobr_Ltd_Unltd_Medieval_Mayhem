@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using GDEngine.Core.Entities;
 using GDEngine.Core.Services;
 using GDEngine.Core.Systems;
+using Microsoft.Xna.Framework;
 
 namespace GDGame.Scripts.Systems
 {
-    public class SceneController
+    public class SceneController : DrawableGameComponent
     {
         #region Fields
         private List<Scene> _scenes;
@@ -17,10 +18,14 @@ namespace GDGame.Scripts.Systems
         #endregion
 
         #region Constructors
-        public SceneController() 
+        public SceneController(Game game) : base (game) 
         { 
             InitBaseScene();
         }
+        #endregion
+
+        #region Accessors
+        public Scene CurrentScene { get { return _currentScene; } }
         #endregion
 
         #region Methods
@@ -33,7 +38,8 @@ namespace GDGame.Scripts.Systems
             _currentScene = _scenes[0];
             _currentScene.Name = AppData.MAIN_SCENE_NAME;
         }
-        public Scene CurrentScene { get { return _currentScene; } }
+
+
         #endregion
     }
 }

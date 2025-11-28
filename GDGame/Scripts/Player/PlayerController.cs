@@ -16,7 +16,7 @@ namespace GDGame.Scripts.Player
         private GameObject _playerGO;
         private PlayerMovement _playerMovement;
         private PlayerCamera _playerCamera;
-        private Vector3 _startPos = new (0, 0, 0);
+        private Vector3 _startPos = new (0, 5, 0);
         private Vector3 _startRot = new (0, 0, 0);
         #endregion
 
@@ -26,7 +26,7 @@ namespace GDGame.Scripts.Player
             _playerGO = new GameObject(AppData.PLAYER_NAME);
 
             _playerCamera = new PlayerCamera(_playerGO, aspectRatio);
-            _playerMovement = new PlayerMovement(_playerCamera.CameraGO);
+            _playerMovement = new PlayerMovement(_playerGO);
 
             _playerGO.AddComponent(this);
             _playerGO.Transform.TranslateTo(_startPos);
@@ -36,7 +36,6 @@ namespace GDGame.Scripts.Player
 
         #region Accessors
         public GameObject PlayerGO => _playerGO;
-        public GameObject PlayerCamGO => _playerCamera.CameraGO;
         public Camera PlayerCam => _playerCamera.Cam;
         #endregion
 
