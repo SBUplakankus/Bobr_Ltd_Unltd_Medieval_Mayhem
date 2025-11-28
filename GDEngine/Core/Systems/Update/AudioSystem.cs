@@ -9,7 +9,6 @@ using GDEngine.Core.Services;
 using GDEngine.Core.Systems.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using SharpDX.X3DAudio;
 
 namespace GDEngine.Core.Audio
 {
@@ -300,6 +299,7 @@ namespace GDEngine.Core.Systems
         {
             get { return _mixer; }
         }
+
         public AudioListener Listener => _listener;
         #endregion
 
