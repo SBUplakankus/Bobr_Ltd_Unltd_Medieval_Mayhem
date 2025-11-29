@@ -12,6 +12,7 @@ namespace GDGame.Scripts.Events.Channels
         public EventBase PauseToggle = new();
         public EventBase ApplicationExit = new();
         public EventBase<int> MovementInput = new();
+        public EventBase LanguageSwap = new();
 
         /// <summary>
         /// Unsubscribe from all events in the Channel
@@ -22,6 +23,7 @@ namespace GDGame.Scripts.Events.Channels
             PauseToggle.UnsubscribeAll();
             ApplicationExit.UnsubscribeAll();
             MovementInput.UnsubscribeAll();
+            LanguageSwap.UnsubscribeAll();
         }
     }
 }

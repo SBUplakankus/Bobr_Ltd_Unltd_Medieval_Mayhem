@@ -10,8 +10,8 @@
       "contentPath": "assets/fonts/perfStats"
     },
     {
-      "name": "mouse_reticle_font",
-      "contentPath": "assets/fonts/uiReticleText"
+      "name": "gamefont",
+      "contentPath": "assets/fonts/gamefont"
     },
     {
       "name": "menufont",

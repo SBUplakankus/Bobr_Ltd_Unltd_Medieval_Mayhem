@@ -28,6 +28,7 @@ namespace GDGame.Scripts.Systems
             _czechDict = LoadCSV(AppData.CZECH_CSV_PATH);
             _ukranianDict = LoadCSV(AppData.UKRANIAN_CSV_PATH);
             _currentLanguage = LanguageOption.English;
+            EventChannelManager.Instance.InputEvents.LanguageSwap.Subscribe(HandleLanguageSwap);
         }
         #endregion
 
@@ -84,6 +85,19 @@ namespace GDGame.Scripts.Systems
                 return fallback;
 
             return $"ERROR: {key} NOT FOUND";
+        }
+
+        private void HandleLanguageSwap()
+        {
+            _currentLanguage = _currentLanguage switch
+            {
+                LanguageOption.English => LanguageOption.Ukranian,
+                LanguageOption.Ukranian => LanguageOption.Czech,
+                LanguageOption.Czech => LanguageOption.English,
+                _ => LanguageOption.English
+            };
+
+            Debug.WriteLine($"New Language: {_currentLanguage}");
         }
 
         public void SetLanguage(LanguageOption language) => _currentLanguage = language;

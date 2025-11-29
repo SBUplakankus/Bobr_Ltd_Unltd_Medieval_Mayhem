@@ -30,6 +30,7 @@ namespace GDGame.Scripts.Systems
         private readonly Keys _backwardKey = Keys.S;
         private readonly Keys _leftKey = Keys.A;
         private readonly Keys _rightKey = Keys.D;
+        private readonly Keys _languageSwitchKey = Keys.L;
         #endregion
 
         #region Constructors
@@ -108,6 +109,14 @@ namespace GDGame.Scripts.Systems
             if (_newKBState.IsKeyDown(_rightKey))
                 _inputEventChannel.MovementInput.Raise(AppData.RIGHT_MOVE_NUM);
         }
+
+        private void CheckForLanguageSwap()
+        {
+            bool isPressed = _newKBState.IsKeyDown(_languageSwitchKey) && !_oldKBState.IsKeyDown(_languageSwitchKey);
+            if (!isPressed) return;
+
+            _inputEventChannel.LanguageSwap.Raise();
+        }
         
         private void CheckForInputs()
         {
@@ -115,6 +124,7 @@ namespace GDGame.Scripts.Systems
             CheckForFullscreen();
             CheckForExit();
             CheckForMovement();
+            CheckForLanguageSwap();
         }
         #endregion
 

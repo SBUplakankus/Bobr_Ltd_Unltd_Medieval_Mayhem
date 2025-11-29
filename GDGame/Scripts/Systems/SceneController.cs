@@ -60,10 +60,22 @@ namespace GDGame.Scripts.Systems
                 throw new InvalidOperationException($"Scene '{name}' doest not exist.");
         }
 
+        /// <summary>
+        /// Add a Game Object to the Current Scene
+        /// </summary>
+        /// <param name="go">Game Object to Add</param>
         public static void AddToCurrentScene(GameObject go) => _currentScene.Add(go);
 
+        /// <summary>
+        /// Add a Game System to the Current Scene
+        /// </summary>
+        /// <param name="sys">Game System to Add</param>
         public static void AddToCurrentScene(SystemBase sys) => _currentScene.Add(sys);
 
+        /// <summary>
+        /// Set the Active Camera in the Current Scene
+        /// </summary>
+        /// <param name="cam">Camera to Set</param>
         public static void SetActiveCamera(Camera cam) => _currentScene.ActiveCamera = cam;
 
         public override void Update(GameTime gameTime)

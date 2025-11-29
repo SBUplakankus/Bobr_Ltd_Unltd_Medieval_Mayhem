@@ -69,5 +69,13 @@ namespace GDGame
         public static readonly string MAIN_MUSIC = "test-music";
         #endregion
 
+        #region Localisation Keys
+        public static readonly string LANG_PLAY_KEY = "Play";
+        public static readonly string LANG_PAUSE_KEY = "Pause";
+        public static readonly string LANG_SCORE_KEY = "Score";
+        public static readonly string LANG_GAME_OVER_KEY = "GameOver";
+        public static readonly string LANG_VICTORY_KEY = "Victory";
+        #endregion
+
     }
 }
