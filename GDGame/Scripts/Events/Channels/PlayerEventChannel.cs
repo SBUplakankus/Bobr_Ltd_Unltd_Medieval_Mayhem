@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GDGame.Scripts.Events.Channels
+﻿namespace GDGame.Scripts.Events.Channels
 {
     public class PlayerEventChannel
     {

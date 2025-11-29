@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GDEngine.Core.Components;
+﻿using GDEngine.Core.Components;
 using GDEngine.Core.Entities;
 using Microsoft.Xna.Framework;
 

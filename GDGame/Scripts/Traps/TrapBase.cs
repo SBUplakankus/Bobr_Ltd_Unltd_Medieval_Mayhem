@@ -1,9 +1,4 @@
-﻿    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using GDEngine.Core.Entities;
+﻿using GDEngine.Core.Entities;
 using GDGame.Scripts.Systems;
 
 namespace GDGame.Scripts.Traps

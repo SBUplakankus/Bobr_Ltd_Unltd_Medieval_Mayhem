@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GDEngine.Core.Components;
 using GDEngine.Core.Entities;
 using GDEngine.Core.Services;
-using GDEngine.Core.Systems;
 using GDEngine.Core.Systems.Base;
 using GDEngine.Core.Timing;
 using Microsoft.Xna.Framework;

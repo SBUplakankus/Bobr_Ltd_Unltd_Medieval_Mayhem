@@ -1,6 +1,5 @@
 ﻿using GDEngine.Core.Components;
 using GDEngine.Core.Entities;
-using GDEngine.Core.Timing;
 using Microsoft.Xna.Framework;
 
 namespace GDGame.Scripts.Player
