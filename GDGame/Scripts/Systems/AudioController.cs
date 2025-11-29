@@ -37,6 +37,12 @@ namespace GDGame.Scripts.Systems
         #endregion
 
         #region Methods
+        public void Initialise()
+        {
+            PlayMusic();
+            Generate3DAudio();
+            Add3DAudioToScene();
+        }
         /// <summary>
         /// Play the games default base music
         /// </summary>
@@ -48,7 +54,7 @@ namespace GDGame.Scripts.Systems
         /// <summary>
         /// Generate the 3D Audio Objects for the scene
         /// </summary>
-        public void Generate3DAudio()
+        private void Generate3DAudio()
         {
             var obj1 = Generate3DAudioObject(AppData.FIRE_AUDIO_NAME, new Vector3(1000, 1, 1));
             _3DsoundsList.Add(obj1);
@@ -58,6 +64,12 @@ namespace GDGame.Scripts.Systems
 
             var obj3 = Generate3DAudioObject(AppData.DUNGEON_AUDIO_NAME, new Vector3(1, 1, 1));
             _3DsoundsList.Add(obj3);
+        }
+
+        private void Add3DAudioToScene()
+        {
+            foreach(var obj in _3DsoundsList)
+                SceneController.AddToCurrentScene(obj);
         }
 
         private GameObject Generate3DAudioObject(string name, Vector3 position)

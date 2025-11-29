@@ -4,8 +4,9 @@
     using System.Text;
     using System.Threading.Tasks;
     using GDEngine.Core.Entities;
+using GDGame.Scripts.Systems;
 
-    namespace GDGame.Scripts.Traps
+namespace GDGame.Scripts.Traps
     {
         public abstract class TrapBase
         {
@@ -19,6 +20,7 @@
             {
                 _trapID = id;
                 _trapGO = new GameObject(AppData.TRAP_NAME + _trapID);
+                SceneController.AddToCurrentScene(_trapGO);
             }
             #endregion
 

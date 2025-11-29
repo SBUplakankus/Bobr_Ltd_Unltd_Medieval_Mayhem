@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GDEngine.Core.Components;
 using GDEngine.Core.Entities;
 using GDGame.Scripts.Events.Channels;
+using GDGame.Scripts.Systems;
 
 namespace GDGame.Scripts.Player
 {
@@ -21,7 +22,7 @@ namespace GDGame.Scripts.Player
         #endregion
 
         #region Constructors
-        public PlayerController(float aspectRatio) 
+        public PlayerController(float aspectRatio, AudioController audio) 
         {
             _playerGO = new GameObject(AppData.PLAYER_NAME);
 
@@ -29,8 +30,13 @@ namespace GDGame.Scripts.Player
             _playerMovement = new PlayerMovement(_playerGO);
 
             _playerGO.AddComponent(this);
+            _playerGO.AddComponent(audio);
+
             _playerGO.Transform.TranslateTo(_startPos);
             _playerGO.Transform.RotateEulerBy(_startRot);
+
+            SceneController.AddToCurrentScene(_playerGO);
+            SceneController.SetActiveCamera(PlayerCam);
         }
         #endregion
 

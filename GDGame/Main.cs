@@ -4,9 +4,6 @@ using GDEngine.Core;
 using GDEngine.Core.Collections;
 using GDEngine.Core.Entities;
 using GDEngine.Core.Factories;
-using GDEngine.Core.Input.Data;
-using GDEngine.Core.Orchestration;
-using GDEngine.Core.Rendering.UI;
 using GDEngine.Core.Screen;
 using GDEngine.Core.Serialization;
 using GDEngine.Core.Services;
@@ -17,7 +14,6 @@ using GDGame.Scripts.Events.Channels;
 using GDGame.Scripts.Player;
 using GDGame.Scripts.Systems;
 using GDGame.Scripts.Traps;
-using GDGame.Scripts.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -78,7 +74,7 @@ namespace GDGame
             InitializeMouse();
             InitializeContext();
             GenerateMaterials();
-            InitializeScene();
+            InitScene();
             LoadAssetsFromJSON(AppData.ASSET_MANIFEST_PATH);
             InitializeSystems();
             InitGameSystems();
@@ -114,9 +110,11 @@ namespace GDGame
             _materialGenerator = new MaterialGenerator(_graphics);
         }
 
-        private void InitializeScene()
+        private void InitScene()
         {
             _sceneController = new SceneController(this);
+            Components.Add(_sceneController);
+            _sceneController.Initialise();
             _scene = _sceneController.CurrentScene;
         }
 
@@ -214,30 +212,13 @@ namespace GDGame
 
         private void InitAudioSystem()
         {
-            if (_audioController == null) return;
-
-            _audioController.PlayMusic();
-            _audioController.Generate3DAudio();
-
-            foreach (var sound in _audioController.SoundsList)
-                _scene.Add(sound);
+            _audioController.Initialise();
         }
 
         private void InitInputSystem()
         {
             _inputManager = new InputManager();
-
-            InitInputEvents();
-
-            var inputGO = new GameObject(AppData.INPUT_NAME);
-            inputGO.AddComponent(_inputManager);
-
-            _scene.Add(inputGO);
-            _scene.Add(_inputManager.Input);
-        }
-
-        private void InitInputEvents()
-        {
+            _inputManager.Initialise();
             _inputEventChannel.FullscreenToggle.Subscribe(HandleFullscreenToggle);
             _inputEventChannel.ApplicationExit.Subscribe(HandleGameExit);
         }
@@ -249,9 +230,7 @@ namespace GDGame
 
         private void InitializeUI()
         {
-            _uiController.InitUserInterface();
-            foreach (var obj in _uiController.UIObjects)
-                _scene.Add(obj);
+            _uiController.Initialise();
         }
 
         #endregion
@@ -260,43 +239,32 @@ namespace GDGame
 
         private void InitPlayer()
         {
-            _playerController = new PlayerController(
-                (float)_graphics.PreferredBackBufferWidth / _graphics.PreferredBackBufferHeight);
-
-            _playerController.PlayerGO.AddComponent(_audioController);
-
-            _scene.Add(_playerController.PlayerGO);
-            _scene.SetActiveCamera(_playerController.PlayerCam);
+            var aspectRatio = (float)_graphics.PreferredBackBufferWidth / _graphics.PreferredBackBufferHeight;
+            _playerController = new PlayerController(aspectRatio, _audioController);
         }
 
         private void InitTraps()
         {
             _trapManager = new TrapManager();
-            foreach (var trap in _trapManager.TrapList)
-                _scene.Add(trap.TrapGO);
         }
 
         private void InitTime()
         {
             _timeController = new TimeController();
-            _inputEventChannel.PauseToggle.Subscribe(_timeController.TogglePause);
         }
 
         #endregion
 
         #region Game Loop
-
         protected override void Update(GameTime gameTime)
         {
             Time.Update(gameTime);
-            _scene.Update(Time.DeltaTimeSecs);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            _scene.Draw(Time.DeltaTimeSecs);
             base.Draw(gameTime);
         }
 

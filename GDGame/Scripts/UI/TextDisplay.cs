@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GDEngine.Core.Rendering.UI;
+using GDGame.Scripts.Systems;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GDGame.Scripts.UI
@@ -10,6 +12,7 @@ namespace GDGame.Scripts.UI
         private Color _textColour;
         private SpriteFont _font;
         private Vector2 _position;
+        private UIText _uiText;
         #endregion
 
         #region Constructors
@@ -19,6 +22,7 @@ namespace GDGame.Scripts.UI
             _textKey = textKey;
             _font = font;
             _position = new Vector2(5, 5);
+            _uiText = new UIText(_font, LocalisationController.Instance.Get(textKey), _position);
         }
         #endregion
 
@@ -27,6 +31,7 @@ namespace GDGame.Scripts.UI
         public Color TextColour => _textColour;
         public SpriteFont Font => _font;
         public Vector2 Position => _position;
+        public UIText UIText => _uiText;
         #endregion
 
         #region Methods

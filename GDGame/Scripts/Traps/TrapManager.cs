@@ -32,7 +32,10 @@ namespace GDGame.Scripts.Traps
             if (_trapList.Count == 0) return;
 
             foreach (var trap in _trapList)
+            {
                 trap.InitTrap();
+            }
+                
         }
         private void UpdateTraps()
         {

@@ -7,6 +7,7 @@ using GDEngine.Core.Collections;
 using GDEngine.Core.Components;
 using GDEngine.Core.Entities;
 using GDEngine.Core.Enums;
+using GDEngine.Core.Rendering.UI;
 using GDEngine.Core.Systems.Base;
 using GDGame.Scripts.UI;
 using Microsoft.Xna.Framework;
@@ -22,7 +23,6 @@ namespace GDGame.Scripts.Systems
         private ContentDictionary<Texture2D> _interfaceTextures;
         private CursorController _cursorController;
         private List<GameObject> _uiObjects;
-        private List<TextDisplay> _textDisplays;
         #endregion
 
         #region Constructors
@@ -33,12 +33,20 @@ namespace GDGame.Scripts.Systems
             _spriteBatch = batch;
             _fonts = fonts;
             _interfaceTextures = textures;
-            _textDisplays = new List<TextDisplay>();
         }
         #endregion
 
         #region Accessors
-        public List<GameObject> UIObjects => _uiObjects;
+        public List<GameObject> UIObjects 
+        { 
+            get 
+            {
+                _uiObjects ??= [];
+
+                return _uiObjects;
+            } 
+        }
+
         #endregion
 
         #region Methods
@@ -50,28 +58,38 @@ namespace GDGame.Scripts.Systems
 
         private void InitText()
         {
-            var text1 = new TextDisplay(
-                LocalisationController.Instance.Get("Play"), Color.Black, _fonts.Get("menufont"));
-
-            _textDisplays.Add(text1);
+            var textGO = new GameObject("TextTest");
+            var uiText = new UIText();
+            uiText.Color = Color.White;
+            uiText.TextProvider = () => LocalisationController.Instance.Get("Play");
+            uiText.PositionProvider = () => new Vector2(200, 200);
+            uiText.Font = _fonts.Get("menufont");
+            uiText.LayerDepth = UILayer.HUD;
+            textGO.AddComponent(uiText);
+            SceneController.AddToCurrentScene(textGO);
         }
 
         private void DisplayText()
         {
-            foreach (var text in _textDisplays)
-                _spriteBatch.DrawString(text.Font, text.Text, text.Position, text.TextColour);
+            
         }
 
-        public void InitUserInterface()
+        private void AddObjectsToScene()
+        {
+            foreach (var obj in _uiObjects)
+                SceneController.AddToCurrentScene(obj);
+        }
+
+        public void Initialise()
         {
             InitCursor();
             InitText();
+            AddObjectsToScene();
         }
 
         public override void Draw(float deltaTime)
         {
             _spriteBatch.Begin();
-            DisplayText();
             _spriteBatch.End();
         }
         #endregion

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GDEngine.Core.Timing;
+using GDGame.Scripts.Events.Channels;
 
 namespace GDGame.Scripts.Systems
 {
@@ -18,6 +19,7 @@ namespace GDGame.Scripts.Systems
         {
             _isPlaying = true;
             Time.TimeScale = 1.0f;
+            EventChannelManager.Instance.InputEvents.PauseToggle.Subscribe(TogglePause);
         }
         #endregion
 

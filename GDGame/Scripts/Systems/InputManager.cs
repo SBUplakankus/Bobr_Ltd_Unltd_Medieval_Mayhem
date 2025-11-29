@@ -1,4 +1,5 @@
 ﻿using GDEngine.Core.Components;
+using GDEngine.Core.Entities;
 using GDEngine.Core.Input.Data;
 using GDEngine.Core.Input.Devices;
 using GDEngine.Core.Systems;
@@ -13,6 +14,7 @@ namespace GDGame.Scripts.Systems
         #region Fields
         private InputEventChannel _inputEventChannel;
         private InputSystem _inputSystem;
+        private GameObject _inputGO;
         private KeyboardState _newKBState, _oldKBState;
         private readonly float _mouseSensitivity = 0.12f;
         private readonly int _debounceMs = 60;
@@ -54,6 +56,17 @@ namespace GDGame.Scripts.Systems
 
         #region Accessors
         public InputSystem Input => _inputSystem;
+        #endregion
+
+        #region Methods
+        public void Initialise()
+        {
+            _inputGO = new GameObject(AppData.INPUT_NAME);
+            _inputGO.AddComponent(this);
+
+            SceneController.AddToCurrentScene(_inputGO);
+            SceneController.AddToCurrentScene(_inputSystem);
+        }
         #endregion
 
         #region Input Methods
