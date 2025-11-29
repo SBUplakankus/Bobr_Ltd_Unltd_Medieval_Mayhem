@@ -16,6 +16,7 @@ namespace GDGame.Scripts.Events.Channels
         {
             _inputEvents = new InputEventChannel();
             _playerEvents = new PlayerEventChannel();
+            _audioEvents = new AudioEventChannel();
         }
 
         #region Accessors
@@ -40,6 +41,13 @@ namespace GDGame.Scripts.Events.Channels
             if(_instance != null) return;
 
             _instance = new EventChannelManager();
+        }
+
+        public void ClearEventChannels()
+        {
+            _inputEvents.ClearEventChannel();
+            _playerEvents.ClearEventChannel();
+            _audioEvents.ClearEventChannel();
         }
 
         #endregion

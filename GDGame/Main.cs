@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
 using GDEngine.Core;
 using GDEngine.Core.Collections;
@@ -32,7 +33,6 @@ namespace GDGame
         private ContentDictionary<Effect> _effectsDictionary;
         private Scene _scene;
         private bool _disposed = false;
-        private OrchestrationSystem _orchestrationSystem;
 
         // Game Systems
         private AudioController _audioController;
@@ -44,6 +44,7 @@ namespace GDGame
         private InputManager _inputManager;
         private TrapManager _trapManager;
         private TimeController _timeController;
+        private CinematicCamController _cineCamController;
 
         // Player
         private PlayerController _playerController;
@@ -70,14 +71,14 @@ namespace GDGame
         {
             Window.Title = AppData.GAME_WINDOW_TITLE;
 
+
             InitializeGraphics(ScreenResolution.R_FHD_16_9_1920x1080);
-            InitializeMouse();
             InitializeContext();
-            GenerateMaterials();
-            InitScene();
-            LoadAssetsFromJSON(AppData.ASSET_MANIFEST_PATH);
+            InitEvents();
             InitializeSystems();
+            LoadAssetsFromJSON(AppData.ASSET_MANIFEST_PATH);
             InitGameSystems();
+
 
             base.Initialize();
         }
@@ -113,9 +114,9 @@ namespace GDGame
         private void InitScene()
         {
             _sceneController = new SceneController(this);
-            Components.Add(_sceneController);
             _sceneController.Initialise();
             _scene = _sceneController.CurrentScene;
+            Components.Add(_sceneController);
         }
 
         private void InitEvents()
@@ -159,28 +160,6 @@ namespace GDGame
             _modelGenerator = new ModelGenerator(textures, models, _materialGenerator.MatBasicUnlit, _graphics);
         }
 
-        private void InitializeSystems()
-        {
-            InitEvents();
-            InitPhysicsSystem();
-            InitPhysicsDebugSystem(true);
-            InitCameraAndRenderSystems();
-            InitAudioSystem();
-            InitInputSystem();
-            InitLocalisation();
-            GenerateBaseScene();
-            InitializeUI();
-        }
-
-        private void InitGameSystems()
-        {
-            InitPlayer();
-            InitTraps();
-            InitTime();
-            DemoLoadFromJSON();
-            TestObjectLoad();
-        }
-
         private void InitPhysicsSystem()
         {
             var physicsSystem = _scene.AddSystem(new PhysicsSystem());
@@ -210,11 +189,23 @@ namespace GDGame
             _scene.Add(uiRenderSystem);
         }
 
+        private void InitializeSystems()
+        {
+            InitializeMouse();
+            GenerateMaterials();
+            InitScene();
+            InitPhysicsSystem();
+            InitPhysicsDebugSystem(true);
+            InitCameraAndRenderSystems();
+        }
+
+        #endregion
+
+        #region Game Systems
         private void InitAudioSystem()
         {
             _audioController.Initialise();
         }
-
         private void InitInputSystem()
         {
             _inputManager = new InputManager();
@@ -232,11 +223,6 @@ namespace GDGame
         {
             _uiController.Initialise();
         }
-
-        #endregion
-
-        #region Game Systems
-
         private void InitPlayer()
         {
             var aspectRatio = (float)_graphics.PreferredBackBufferWidth / _graphics.PreferredBackBufferHeight;
@@ -251,6 +237,26 @@ namespace GDGame
         private void InitTime()
         {
             _timeController = new TimeController();
+        }
+
+        private void InitCineCam()
+        {
+            _cineCamController = new CinematicCamController();
+            _cineCamController.Initialise();
+        }
+        private void InitGameSystems()
+        {
+            GenerateBaseScene();
+            InitInputSystem();
+            InitLocalisation();
+            InitializeUI();
+            InitPlayer();
+            InitCineCam();
+            InitAudioSystem();
+            InitTraps();
+            InitTime();
+            DemoLoadFromJSON();
+            TestObjectLoad();
         }
 
         #endregion
@@ -309,7 +315,7 @@ namespace GDGame
         /// </summary>
         private void UnscubscribeFromEvents()
         {
-            _inputEventChannel.ClearEventChannel();
+            EventChannelManager.Instance.ClearEventChannels();
         }
 
         protected override void Dispose(bool disposing)

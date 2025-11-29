@@ -8,8 +8,8 @@ namespace GDGame.Scripts.Events.Channels
 {
     public class AudioEventChannel
     {
-        public EventBase<string> PlayMusic;
-        public EventBase<string> PlaySFX;
+        public EventBase<string> PlayMusic = new();
+        public EventBase<string> PlaySFX = new();
 
         /// <summary>
         /// Unsubscribe from all events in the Channel

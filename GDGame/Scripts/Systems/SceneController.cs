@@ -71,7 +71,16 @@ namespace GDGame.Scripts.Systems
         /// Set the Active Camera in the Current Scene
         /// </summary>
         /// <param name="cam">Camera to Set</param>
-        public static void SetActiveCamera(Camera cam) => _currentScene.ActiveCamera = cam;
+        public static void SetActiveCamera(string camName)
+        {
+            var go = _currentScene?.Find(go => go.Name.Equals(camName));
+            var _camera = go?.GetComponent<Camera>();
+            if (_camera != null)
+                _currentScene?.SetActiveCamera(_camera);
+        }
+
+        public static void SetActiveCamera(Camera camera) => _currentScene?.SetActiveCamera(camera);
+
 
         public override void Update(GameTime gameTime)
         {

@@ -31,7 +31,6 @@ namespace GDGame.Scripts.Player
             _playerGO.Transform.RotateEulerBy(_startRot);
 
             SceneController.AddToCurrentScene(_playerGO);
-            SceneController.SetActiveCamera(PlayerCam);
         }
         #endregion
 

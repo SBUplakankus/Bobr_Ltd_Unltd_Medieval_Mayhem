@@ -28,7 +28,6 @@ namespace GDGame.Scripts.Systems
             _sounds = sounds;
             _3DsoundsList = new();
             _audioSystem = new AudioSystem(_sounds);
-            _audioEventChannel = EventChannelManager.Instance.AudioEvents;
         }
         #endregion
 
@@ -87,6 +86,7 @@ namespace GDGame.Scripts.Systems
         }
         public void Initialise()
         {
+            _audioEventChannel = EventChannelManager.Instance.AudioEvents;
             PlayMusic(AppData.MAIN_MUSIC);
             Generate3DAudio();
             Add3DAudioToScene();
