@@ -16,6 +16,7 @@ namespace GDGame.Scripts.Systems
         private ContentDictionary<SpriteFont> _fonts;
         private ContentDictionary<Texture2D> _interfaceTextures;
         private CursorController _cursorController;
+        private PlayerHUD _playerHUD;
         #endregion
 
         #region Constructors
@@ -36,37 +37,16 @@ namespace GDGame.Scripts.Systems
             SceneController.AddToCurrentScene(_cursorController.Reticle);
         }
 
-        private void CreateText(string key, Vector2 pos)
+        private void InitHUD()
         {
-            var textGO = new GameObject($"Text Object: {key}");
-            var uiText = new UIText
-            {
-                Color = Color.White,
-                Font = _fonts.Get("gamefont"),
-                LayerDepth = UILayer.HUD,
-                TextProvider = () => LocalisationController.Instance.Get(key),
-                PositionProvider = () => pos
-            };
-
-            textGO.AddComponent(uiText);
-            SceneController.AddToCurrentScene(textGO);
-        }
-
-        private void InitText()
-        {
-            var startPos = new Vector2(200, 200);
-            var increment = new Vector2(0, 50);
-            CreateText("Play", startPos);
-            CreateText("Pause", startPos += increment);
-            CreateText("GameOver", startPos += increment);
-            CreateText("Victory", startPos += increment);
-            CreateText("Score", startPos += increment);
+            _playerHUD = new PlayerHUD(_fonts.Get("gamefont"));
+            _playerHUD.Initialise();
         }
 
         public void Initialise()
         {
             InitCursor();
-            InitText();
+            InitHUD();
         }
 
         public override void Draw(float deltaTime)
