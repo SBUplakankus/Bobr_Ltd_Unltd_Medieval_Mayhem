@@ -6,26 +6,25 @@
 		<Spacing>0</Spacing>
 		<UseKerning>true</UseKerning>
 		<Style>Regular</Style>
+
 		<CharacterRegions>
-			<!-- Basic ASCII (English) -->
+
 			<CharacterRegion>
 				<Start> </Start>
 				<End>~</End>
 			</CharacterRegion>
 
-			<!-- Latin-1 / Latin-Extended (Czech, diacritics) -->
 			<CharacterRegion>
-				<Start>À</Start>
-				<End>ž</End>
+				<Start>&#x00A0;</Start>
+				<End>&#x024F;</End>
 			</CharacterRegion>
 
-			<!-- Cyrillic (Ukrainian) -->
 			<CharacterRegion>
-				<Start>Ѐ</Start>
-				<!-- U+0400 -->
-				<End>ӿ</End>
-				<!-- U+04FF -->
+				<Start>&#x0400;</Start>
+				<End>&#x04FF;</End>
 			</CharacterRegion>
+
 		</CharacterRegions>
+
 	</Asset>
 </XnaContent>

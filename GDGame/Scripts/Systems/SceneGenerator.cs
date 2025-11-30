@@ -10,6 +10,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GDGame.Scripts.Systems
 {
+    /// <summary>
+    /// Generates the base skybox and ground for the main scene
+    /// </summary>
     public class SceneGenerator
     {
         #region Fields

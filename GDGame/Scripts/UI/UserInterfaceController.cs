@@ -3,6 +3,7 @@ using GDEngine.Core.Entities;
 using GDEngine.Core.Enums;
 using GDEngine.Core.Rendering.UI;
 using GDEngine.Core.Systems.Base;
+using GDGame.Scripts.Player;
 using GDGame.Scripts.Systems;
 using GDGame.Scripts.UI;
 using Microsoft.Xna.Framework;
@@ -38,16 +39,16 @@ namespace GDGame.Scripts.UI
             SceneController.AddToCurrentScene(_cursorController.Reticle);
         }
 
-        private void InitHUD()
+        private void InitHUD(PlayerStats stats)
         {
-            _playerHUD = new PlayerHUD(_fonts.Get("gamefont"));
+            _playerHUD = new PlayerHUD(_fonts.Get("gamefont"), stats);
             _playerHUD.Initialise();
         }
 
-        public void Initialise()
+        public void Initialise(PlayerStats stats)
         {
             InitCursor();
-            InitHUD();
+            InitHUD(stats);
         }
 
         public override void Draw(float deltaTime)

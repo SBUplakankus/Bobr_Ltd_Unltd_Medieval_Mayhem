@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GDEngine.Core.Entities;
 using GDEngine.Core.Rendering.UI;
+using GDGame.Scripts.Player;
 using GDGame.Scripts.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -18,13 +19,14 @@ namespace GDGame.Scripts.UI
     public class PlayerHUD
     {
         #region Fields
+        private PlayerStats _playerStats;
         private SpriteFont _hudFont;
         private Color _hudTextColour = Color.White;
         private readonly Dictionary<string, Vector2> _hudPositions = new()
         {
             ["top_left"] = new Vector2(200, 100),
             ["vert_increment"] = new Vector2(0, 50),
-            ["hor_increment"] = new Vector2(200, 0),
+            ["hor_increment"] = new Vector2(285, 0),
             ["health"] = new Vector2(200, 230),
             ["orbs"] = new Vector2(200,260),
             ["objective"] = new Vector2(1500, 200),
@@ -33,9 +35,10 @@ namespace GDGame.Scripts.UI
         #endregion
 
         #region Constructors
-        public PlayerHUD(SpriteFont hudFont)
+        public PlayerHUD(SpriteFont hudFont, PlayerStats stats)
         {
             _hudFont = hudFont;
+            _playerStats = stats;
         }
         #endregion
 
@@ -56,6 +59,38 @@ namespace GDGame.Scripts.UI
             SceneController.AddToCurrentScene(textGO);
         }
 
+        private void CreateOrbStat(Vector2 pos)
+        {
+            var textGO = new GameObject($"Text Object: Orbs");
+            var uiText = new UIText
+            {
+                Color = _hudTextColour,
+                Font = _hudFont,
+                LayerDepth = UILayer.HUD,
+                TextProvider = () => _playerStats.OrbsCollected.ToString(),
+                PositionProvider = () => pos
+            };
+
+            textGO.AddComponent(uiText);
+            SceneController.AddToCurrentScene(textGO);
+        }
+
+        private void CreateHealthStat(Vector2 pos)
+        {
+            var textGO = new GameObject($"Text Object: Health");
+            var uiText = new UIText
+            {
+                Color = _hudTextColour,
+                Font = _hudFont,
+                LayerDepth = UILayer.HUD,
+                TextProvider = () => _playerStats.CurrentHealth.ToString(),
+                PositionProvider = () => pos
+            };
+
+            textGO.AddComponent(uiText);
+            SceneController.AddToCurrentScene(textGO);
+        }
+
         private Vector2 GetPos(string key)
         {
             if (_hudPositions.TryGetValue(key, out var result))
@@ -67,11 +102,14 @@ namespace GDGame.Scripts.UI
         private void InitHUDText()
         {
             var startPos = GetPos("top_left");
-            var increment = GetPos("vert_increment");
+            var vertIncrement = GetPos("vert_increment");
+            var horIncrement = GetPos("hor_increment");
 
             CreateText(AppData.LANG_TIME_KEY, startPos);
-            CreateText(AppData.LANG_HEALTH_KEY, startPos += increment);
-            CreateText(AppData.LANG_ORB_KEY, startPos += increment);
+            CreateText(AppData.LANG_HEALTH_KEY, startPos += vertIncrement);
+            CreateHealthStat(startPos + horIncrement);
+            CreateText(AppData.LANG_ORB_KEY, startPos += vertIncrement);
+            CreateOrbStat(startPos + horIncrement);
         }
 
         public void Initialise()

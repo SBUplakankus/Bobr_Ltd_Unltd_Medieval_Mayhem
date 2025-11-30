@@ -17,6 +17,7 @@ namespace GDGame.Scripts.Player
         private GameObject _playerGO;
         private PlayerMovement _playerMovement;
         private PlayerCamera _playerCamera;
+        private PlayerStats _playerStats;
         private Vector3 _startPos = new (0, 0, 0);
         private Vector3 _startRot = new (0, 0, 0);
         #endregion
@@ -35,24 +36,30 @@ namespace GDGame.Scripts.Player
             _playerGO.Transform.TranslateTo(_startPos);
             _playerGO.Transform.RotateEulerBy(_startRot);
 
+            _playerStats = new PlayerStats();
+            _playerStats.Initialise();
+
+            InitPlayerEvents();
+
             SceneController.AddToCurrentScene(_playerGO);
+
         }
         #endregion
 
         #region Accessors
         public GameObject PlayerGO => _playerGO;
         public Camera PlayerCam => _playerCamera.Cam;
+        public PlayerStats Stats => _playerStats;
         #endregion
 
-        #region EventHandlers
+        #region Event Handlers
+        private void InitPlayerEvents()
+        {
+            // EventChannelManager.Instance.InputEvents.MovementInput.Subscribe(_playerMovement.HandleMovement);
+        }
         #endregion
 
         #region Methods
-        protected override void Awake()
-        {
-            // EventChannelManager.Instance.InputEvents.MovementInput.Subscribe(_playerMovement.HandleMovement);
-            base.Awake();
-        }
         #endregion
     }
 }

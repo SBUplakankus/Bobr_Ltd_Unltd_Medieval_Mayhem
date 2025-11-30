@@ -16,6 +16,7 @@ using GDGame.Scripts.Events.Channels;
 using GDGame.Scripts.Player;
 using GDGame.Scripts.Systems;
 using GDGame.Scripts.Traps;
+using GDGame.Scripts.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -223,7 +224,7 @@ namespace GDGame
 
         private void InitializeUI()
         {
-            _uiController.Initialise();
+            _uiController.Initialise(_playerController.Stats);
         }
         private void InitPlayer()
         {
@@ -257,8 +258,8 @@ namespace GDGame
             GenerateBaseScene();
             InitInputSystem();
             InitLocalisation();
-            InitializeUI();
             InitPlayer();
+            InitializeUI();
             InitAudioSystem();
             InitCineCam();
             InitTraps();
