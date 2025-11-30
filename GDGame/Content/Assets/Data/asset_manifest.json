@@ -87,6 +87,18 @@
         {
             "name": "dungeon_audio",
             "contentPath": "assets/sounds/dungeon-air-6983"
+        },
+        {
+            "name": "game_intro",
+            "contentPath": "assets/sounds/intro_extended_3"
+        },
+        {
+            "name": "rattle",
+            "contentPath": "assets/sounds/rattle_loop_1"
+        },
+        {
+            "name": "oof",
+            "contentPath": "assets/sounds/hit_2"
         }
 
     ],

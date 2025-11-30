@@ -46,7 +46,7 @@ namespace GDGame.Scripts.Systems
 
         private void PlaySFX(string key)
         {
-            _audioSystem.PlayOneShot(key, SFX_VOLUME);
+            _audioSystem.PlayOneShot(key);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace GDGame.Scripts.Systems
         /// </summary>
         private void Generate3DAudio()
         {
-            var obj1 = Generate3DAudioObject(AppData.FIRE_AUDIO_NAME, new Vector3(1000, 1, 1));
+            var obj1 = Generate3DAudioObject(AppData.RATTLE_KEY, new Vector3(1, 1, 1));
             _3DsoundsList.Add(obj1);
 
             var obj2 = Generate3DAudioObject(AppData.CAT_AUDIO_NAME, new Vector3(1, 1, 1));

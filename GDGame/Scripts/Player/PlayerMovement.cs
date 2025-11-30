@@ -7,7 +7,7 @@ namespace GDGame.Scripts.Player
     public class PlayerMovement
     {
         #region Fields
-        private float _moveSpeed = 40f;
+        private float _moveSpeed = 60f;
         private RigidBody _rb;
         private SphereCollider _collider;
         private GameObject _playerParent;
@@ -25,8 +25,6 @@ namespace GDGame.Scripts.Player
             _rb = new RigidBody();
             _rb.BodyType = BodyType.Dynamic;
             _rb.Mass = 1f;
-            _rb.AngularDamping = 1;
-            _rb.LinearDamping = 1;
             _playerParent.AddComponent(_rb);
 
             // parent.AddComponent<KeyboardWASDController>();

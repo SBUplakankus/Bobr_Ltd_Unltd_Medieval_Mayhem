@@ -45,6 +45,7 @@ namespace GDGame
         private TrapManager _trapManager;
         private TimeController _timeController;
         private CinematicCamController _cineCamController;
+        private GameStateManager _gameStateManager;
 
         // Player
         private PlayerController _playerController;
@@ -244,6 +245,11 @@ namespace GDGame
             _cineCamController = new CinematicCamController();
             _cineCamController.Initialise();
         }
+
+        private void InitGameStateManager()
+        {
+            _gameStateManager = new GameStateManager();
+        }
         private void InitGameSystems()
         {
             GenerateBaseScene();
@@ -251,10 +257,11 @@ namespace GDGame
             InitLocalisation();
             InitializeUI();
             InitPlayer();
-            InitCineCam();
             InitAudioSystem();
+            InitCineCam();
             InitTraps();
             InitTime();
+            InitGameStateManager();
             DemoLoadFromJSON();
             TestObjectLoad();
         }

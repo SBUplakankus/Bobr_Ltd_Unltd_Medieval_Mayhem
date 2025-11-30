@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GDEngine.Core.Components;
 using GDEngine.Core.Entities;
+using GDGame.Scripts.Events.Channels;
 
 namespace GDGame.Scripts.Systems
 {
@@ -14,9 +15,11 @@ namespace GDGame.Scripts.Systems
     {
         #region Fields
         private GameObject _cineCamGO;
+        private AudioEventChannel _audioEventChannel;
+        private PlayerEventChannel _playerEventChannel;
         private Camera _camera;
-        private Vector3 _startPos = new (8,8,8);
-        private Vector3 _endPos = new (18, 5, 18);
+        private Vector3 _startPos = new (8,28,8);
+        private Vector3 _endPos = new (18, 25, 18);
         private bool _isActive;
         private readonly float _duration = 5f;
         private float _counter = 0f;
@@ -31,7 +34,7 @@ namespace GDGame.Scripts.Systems
             _cineCamGO.AddComponent(this);
             _camera = _cineCamGO.AddComponent<Camera>();
             _camera.FarPlane = FAR_PLANE_LIMIT;
-            _camera.AspectRatio = 0.5f;
+            _camera.AspectRatio = 1f;
             _camera.FieldOfView = _cameraFOV;
         }
         #endregion
@@ -41,27 +44,44 @@ namespace GDGame.Scripts.Systems
         {
             SceneController.AddToCurrentScene(_cineCamGO);
             SceneController.SetActiveCamera(_camera);
+            _audioEventChannel = EventChannelManager.Instance.AudioEvents;
+            _playerEventChannel = EventChannelManager.Instance.PlayerEvents;
+            StartCameraMovement();
+        }
+
+        private void StartCameraMovement()
+        {
             _cineCamGO.Transform.TranslateTo(_startPos);
             _isActive = true;
+            Debug.WriteLine("hi");
+            _audioEventChannel.PlaySFX.Raise(AppData.GAME_INTRO_KEY);
+        }
+
+        private void HandleCameraMovement()
+        {
+            float t = Math.Clamp(_counter / _duration, 0f, 1f);
+            _cineCamGO.Transform.TranslateTo(Vector3.Lerp(_startPos, _endPos, t));
+        }
+
+        private void HandleCompletion()
+        {
+            _isActive = false;
+            SceneController.SetActiveCamera(AppData.PLAYER_NAME);
+            _playerEventChannel.GameStateChange.Raise(GameState.GameActive);
         }
 
         protected override void Update(float deltaTime)
         {
-            Debug.WriteLine("Hi");
             if (!_isActive) return;
 
             if(_counter < _duration)
             {
                 _counter += deltaTime;
-                float t = Math.Clamp(_counter / _duration, 0f, 1f);
-                Debug.WriteLine(t);
-
-                _cineCamGO.Transform.TranslateTo(Vector3.Lerp(_startPos, _endPos, t));
+                HandleCameraMovement();
             }
             else
             {
-                _isActive = false;
-                SceneController.SetActiveCamera(AppData.PLAYER_NAME);
+                HandleCompletion();
             }
 
             base.Update(deltaTime);

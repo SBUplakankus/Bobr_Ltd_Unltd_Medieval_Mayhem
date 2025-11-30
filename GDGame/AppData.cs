@@ -65,6 +65,12 @@ namespace GDGame
         public static readonly int LEFT_MOVE_NUM = 3;
         #endregion
 
+        #region Audio
+        public static readonly string GAME_INTRO_KEY = "game_intro";
+        public static readonly string OOF_KEY = "oof";
+        public static readonly string RATTLE_KEY = "rattle";
+        #endregion
+
         #region Content
         public static readonly string MAIN_MUSIC = "test-music";
         #endregion
