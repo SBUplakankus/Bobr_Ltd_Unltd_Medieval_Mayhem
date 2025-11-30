@@ -16,6 +16,16 @@ namespace GDGame.Scripts.UI
         #region Fields
         private SpriteFont _hudFont;
         private Color _hudTextColour = Color.White;
+        private readonly Dictionary<string, Vector2> _hudPositions = new()
+        {
+            ["top_left"] = new Vector2(200, 100),
+            ["vert_increment"] = new Vector2(0, 50),
+            ["hor_increment"] = new Vector2(200, 0),
+            ["health"] = new Vector2(200, 230),
+            ["orbs"] = new Vector2(200,260),
+            ["objective"] = new Vector2(1500, 200),
+            ["message"] = new Vector2(800,800)
+        };
         #endregion
 
         #region Constructors
@@ -42,15 +52,22 @@ namespace GDGame.Scripts.UI
             SceneController.AddToCurrentScene(textGO);
         }
 
+        private Vector2 GetPos(string key)
+        {
+            if (_hudPositions.TryGetValue(key, out var result))
+                return result;
+            else
+                throw new Exception($"{key}: not found in HUD Position Dictionary");
+        }
+
         private void InitHUDText()
         {
-            var startPos = new Vector2(200, 200);
-            var increment = new Vector2(0, 50);
-            CreateText("Play", startPos);
-            CreateText("Pause", startPos += increment);
-            CreateText("GameOver", startPos += increment);
-            CreateText("Victory", startPos += increment);
-            CreateText("Score", startPos += increment);
+            var startPos = GetPos("top_left");
+            var increment = GetPos("vert_increment");
+
+            CreateText(AppData.LANG_TIME_KEY, startPos);
+            CreateText(AppData.LANG_HEALTH_KEY, startPos += increment);
+            CreateText(AppData.LANG_ORB_KEY, startPos += increment);
         }
 
         public void Initialise()

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GDGame.Scripts.Events.Channels
+﻿namespace GDGame.Scripts.Events.Channels
 {
+    /// <summary>
+    /// Controls Audio Events in the game such as Playing Music and Sound Effects
+    /// </summary>
     public class AudioEventChannel
     {
         public EventBase<string> PlayMusic = new();

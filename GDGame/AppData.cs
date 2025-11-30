@@ -81,6 +81,9 @@ namespace GDGame
         public static readonly string LANG_SCORE_KEY = "Score";
         public static readonly string LANG_GAME_OVER_KEY = "GameOver";
         public static readonly string LANG_VICTORY_KEY = "Victory";
+        public static readonly string LANG_TIME_KEY = "Time";
+        public static readonly string LANG_ORB_KEY = "Orbs";
+        public static readonly string LANG_HEALTH_KEY = "Health";
         #endregion
 
     }

@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using GDEngine.Core.Components;
 using GDEngine.Core.Entities;
+using GDGame.Scripts.Audio;
 using GDGame.Scripts.Events.Channels;
 using GDGame.Scripts.Systems;
 

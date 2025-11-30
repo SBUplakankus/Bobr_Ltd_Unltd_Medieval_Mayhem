@@ -4,12 +4,15 @@ using GDEngine.Core.Collections;
 using GDEngine.Core.Components;
 using GDEngine.Core.Entities;
 using GDEngine.Core.Systems;
-using GDGame.Scripts.Audio;
 using GDGame.Scripts.Events.Channels;
+using GDGame.Scripts.Systems;
 using Microsoft.Xna.Framework.Audio;
 
-namespace GDGame.Scripts.Systems
+namespace GDGame.Scripts.Audio
 {
+    /// <summary>
+    /// Controls all Audio in the game and stores the Sound files
+    /// </summary>
     public class AudioController : Component
     {
 

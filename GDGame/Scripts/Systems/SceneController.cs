@@ -9,6 +9,10 @@ using Microsoft.Xna.Framework;
 
 namespace GDGame.Scripts.Systems
 {
+    /// <summary>
+    /// Creates Scenes, Stores Scenes and allows other classes to add Systems and Game Objects to the 
+    /// current scene.
+    /// </summary>
     public class SceneController : DrawableGameComponent
     {
         #region Fields
