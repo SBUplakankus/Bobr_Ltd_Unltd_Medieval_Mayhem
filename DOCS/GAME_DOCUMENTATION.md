@@ -83,7 +83,7 @@ A place for nots on any classes created for our game in the engine.
 - Creates the Reticle in in the middle of the screen.
 - Loads the texture named `reticle` from the JSON
 
-### 🖱️ [Player HUD](../GDGame/Scripts/UI/PlayerHUD.cs)
+### ❤️ [Player HUD](../GDGame/Scripts/UI/PlayerHUD.cs)
 - Created in `UserInterfaceController`
 - Creates the player HUD in the top left of the screen
 - Displays the data from `PlayerStats` and updates each frame
@@ -140,7 +140,7 @@ A place for nots on any classes created for our game in the engine.
 - Events created from `EventBase`
 - Controls Game Over and Game Won events
 
-- ### 📻 [Audio Event Channel](../GDGame/Scripts/Events/Channels/AudioEventChannel.cs)
+### 📻 [Audio Event Channel](../GDGame/Scripts/Events/Channels/AudioEventChannel.cs)
 - Created in `EventChannelManager`
 - Events created from `EventBase`
 - Controls Audio requests such as Music, Narration and Sound Effects
