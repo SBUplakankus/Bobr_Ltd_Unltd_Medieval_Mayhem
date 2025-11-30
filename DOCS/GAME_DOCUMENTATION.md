@@ -6,16 +6,6 @@ A place for nots on any classes created for our game in the engine.
 
 ## ⚙️ Custom Systems
 
-### 🔉[Audio Controller](../GDGame/Scripts/Systems/AudioController.cs)
-- Created in `Main`
-- Encapsulates functions for playing audio to clear up main
-- Takes in the Sounds Dictionary when constructed
-
-### 🔊 [3D Audio Controller](../GDGame/Scripts/Audio/3DAudioController.cs)
-- Created in `AudioController` and attached to a `GameObject`
-- Takes in a sound effect, spawn position, volume and radius
-- Plays 3D Audio in the Game Scene
-
 ### ⛰️ [Scene Controller](../GDGame/Scripts/Systems/SceneController.cs)
 - Created in `Main`
 - Stores the current scene and any new ones created
@@ -49,6 +39,17 @@ A place for nots on any classes created for our game in the engine.
 - Options are stored in `.csv` files in the `Languages` folder
 - When accessing text to display in game, you use `LocalisationController.Get("text")`
 
+### 🎥 [Cinematic Camera Controller](../GDGame/Scripts/Systems/CineCamController.cs)
+- Created in `Main`
+- Controls the cinematic intro to the game with the moving camera
+- Plays narrator audio through the `AudioEventChannel`
+- Switches to the `PlayerCamera` upon completion
+
+### 💽 [Game State Manager](../GDGame/Scripts/Systems/GameStateManager.cs)
+- Created in `Main`
+- Stores the current state of the game which include `GameActive`, `GameInactive`, `GameOver` and `GameWon`
+- Triggers related events upon state change
+
 ---
 
 ## ⚙️ Player Systems
@@ -65,6 +66,10 @@ A place for nots on any classes created for our game in the engine.
 - Created in `PlayerController`
 - Handles the physics based player movement
 
+### ♥️ [Player Stats](../GDGame/Scripts/Player/PlayerStas.cs)
+- Created in `PlayerController`
+- Stores the player stats such as Health and Orbs Collected
+
 ---
 
 ## 🖥️ User Interface Systems
@@ -74,9 +79,14 @@ A place for nots on any classes created for our game in the engine.
 - Takes in the Fonts and 2D Textures on construction
 
 ### 🖱️ [Cursor Controller](../GDGame/Scripts/UI/UserInterfaceController.cs)
-- Created in `Main`
+- Created in `UserInterfaceController`
 - Creates the Reticle in in the middle of the screen.
 - Loads the texture named `reticle` from the JSON
+
+### 🖱️ [Player HUD](../GDGame/Scripts/UI/PlayerHUD.cs)
+- Created in `UserInterfaceController`
+- Creates the player HUD in the top left of the screen
+- Displays the data from `PlayerStats` and updates each frame
 
 ---
 
@@ -98,6 +108,20 @@ A place for nots on any classes created for our game in the engine.
 
 ---
 
+## Audio Systems
+
+### 🔉[Audio Controller](../GDGame/Scripts/Audio/AudioController.cs)
+- Created in `Main`
+- Encapsulates functions for playing audio to clear up main
+- Takes in the Sounds Dictionary when constructed
+
+### 🔊 [3D Audio Controller](../GDGame/Scripts/Audio/3DAudioController.cs)
+- Created in `AudioController` and attached to a `GameObject`
+- Takes in a sound effect, spawn position, volume and radius
+- Plays 3D Audio in the Game Scene
+
+---
+
 ## 🛥️ Event Systems
 
 ### ⛵ [Event Base](../GDGame/Scripts/Events/Channels/EventBase.cs)
@@ -111,10 +135,15 @@ A place for nots on any classes created for our game in the engine.
 - Events created from `EventBase`
 - Controls Fullscreen Toggle, Pause Toggle, Movement and Exit Events
 
-### 🧔 [Player Event Channel](../GDGame/Scripts/Events/Channels/PlayerEvent.cs)
+### 🧔 [Player Event Channel](../GDGame/Scripts/Events/Channels/PlayerEventChannl.cs)
 - Created in `EventChannelManager`
 - Events created from `EventBase`
 - Controls Game Over and Game Won events
+
+- ### 📻 [Audio Event Channel](../GDGame/Scripts/Events/Channels/AudioEventChannel.cs)
+- Created in `EventChannelManager`
+- Events created from `EventBase`
+- Controls Audio requests such as Music, Narration and Sound Effects
 
 ### 🧰 [Event Channel Manager](../GDGame/Scripts/Events/Channels/EventChannelManager.cs)
 - Static Class that can be accessed anywhere
