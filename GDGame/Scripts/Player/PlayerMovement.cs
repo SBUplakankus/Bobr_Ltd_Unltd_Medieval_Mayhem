@@ -4,6 +4,10 @@ using Microsoft.Xna.Framework;
 
 namespace GDGame.Scripts.Player
 {
+    /// <summary>
+    /// Controls the player physics movement.
+    /// Created in <see cref="PlayerController"/>.
+    /// </summary>
     public class PlayerMovement
     {
         #region Fields

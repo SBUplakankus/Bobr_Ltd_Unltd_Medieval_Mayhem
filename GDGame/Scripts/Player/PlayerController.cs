@@ -7,6 +7,10 @@ using GDGame.Scripts.Systems;
 
 namespace GDGame.Scripts.Player
 {
+    /// <summary>
+    /// Controls the player.
+    /// Uses <see cref="PlayerCamera"/> and <see cref="PlayerMovement"/>.
+    /// </summary>
     public class PlayerController : Component
     {
         #region Fields

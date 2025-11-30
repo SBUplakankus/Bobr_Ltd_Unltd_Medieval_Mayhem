@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GDGame.Scripts.Systems
 {
+    /// <summary>
+    /// Creates the game materials
+    /// </summary>
     public class MaterialGenerator
     {
         #region Fields

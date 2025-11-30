@@ -2,6 +2,10 @@
 
 namespace GDGame.Scripts.Events.Channels
 {
+    /// <summary>
+    /// Controls Player Events in the game such as Winning, Losing and Game State Changes.
+    /// Uses <see cref="EventBase"/> to host events.
+    /// </summary>
     public class PlayerEventChannel
     {
         public EventBase PlayerLose = new();

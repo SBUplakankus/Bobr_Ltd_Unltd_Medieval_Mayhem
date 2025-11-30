@@ -2,6 +2,11 @@
 
 namespace GDGame.Scripts.Events.Channels
 {
+    /// <summary>
+    /// Stores all event channels for the game. 
+    /// Creates an Instance that can be accessed by other scripts.
+    /// Consists of event channels using <see cref="EventBase"/>.
+    /// </summary>
     public class EventChannelManager
     {
         // Instance

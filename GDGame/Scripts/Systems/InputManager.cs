@@ -9,6 +9,10 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GDGame.Scripts.Systems
 {
+    /// <summary>
+    /// Controls the input for the game, storing the <see cref="Keys"/> for each event and the <see cref="KeyboardState"/>.
+    /// Uses the <see cref="InputSystem"/> and <see cref="InputEventChannel"/> to pass them through the game.
+    /// </summary>
     public class InputManager : Component
     {
         #region Fields

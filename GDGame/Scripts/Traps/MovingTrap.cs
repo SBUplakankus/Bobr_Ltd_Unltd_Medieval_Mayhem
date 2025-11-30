@@ -2,6 +2,9 @@
 
 namespace GDGame.Scripts.Traps
 {
+    /// <summary>
+    /// Moving Obstacle Trap which inherits from <see cref="TrapBase"/>.
+    /// </summary>
     public class MovingTrap : TrapBase
     {
         #region Fields

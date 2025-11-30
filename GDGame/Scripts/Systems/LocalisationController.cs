@@ -7,6 +7,12 @@ using Microsoft.VisualBasic.FileIO;
 namespace GDGame.Scripts.Systems
 {
     public enum LanguageOption { English, Czech, Ukranian }
+
+    /// <summary>
+    /// Controls the localisation for the game, loading the data from CSV files into dictionaries for each language.
+    /// Uses <see cref="LanguageOption"/> to set the current language of the game. 
+    /// Uses <see cref="LanguageOption.English"/> for the keys and as a fallback.
+    /// </summary>
     public class LocalisationController
     {
         #region Fields

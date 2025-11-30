@@ -11,6 +11,9 @@ using GDGame.Scripts.Events.Channels;
 
 namespace GDGame.Scripts.Systems
 {
+    /// <summary>
+    /// Controls the intro of the game with the cinematic camera movement and audio.
+    /// </summary>
     public class CinematicCamController : Component
     {
         #region Fields

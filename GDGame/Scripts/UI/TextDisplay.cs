@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GDGame.Scripts.UI
 {
+    /// <summary>
+    /// Unused
+    /// </summary>
     public class TextDisplay
     {
         #region Fields

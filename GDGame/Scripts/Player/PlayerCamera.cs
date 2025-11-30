@@ -4,6 +4,10 @@ using Microsoft.Xna.Framework;
 
 namespace GDGame.Scripts.Player
 {
+    /// <summary>
+    /// Controls the player camera movement.
+    /// Created in <see cref="PlayerController"/>.
+    /// </summary>
     public class PlayerCamera
     {
         #region Fields

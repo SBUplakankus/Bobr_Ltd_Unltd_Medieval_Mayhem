@@ -6,6 +6,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GDGame.Scripts.UI
 {
+    /// <summary>
+    /// Controls the cursor reticle in the centre of the screen.
+    /// Created in <see cref="UserInterfaceController"/>.
+    /// </summary>
     public class CursorController
     {
         #region Fields

@@ -3,6 +3,9 @@ using GDGame.Scripts.Systems;
 
 namespace GDGame.Scripts.Traps
     {
+    /// <summary>
+    /// Base Abstract class all traps derive from.
+    /// </summary>
         public abstract class TrapBase
         {
             #region Fields

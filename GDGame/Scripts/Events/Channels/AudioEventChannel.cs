@@ -1,7 +1,8 @@
 ﻿namespace GDGame.Scripts.Events.Channels
 {
     /// <summary>
-    /// Controls Audio Events in the game such as Playing Music and Sound Effects
+    /// Controls Audio Events in the game such as Playing Music and Sound Effects.
+    /// Uses <see cref="EventBase"/> to host events.
     /// </summary>
     public class AudioEventChannel
     {

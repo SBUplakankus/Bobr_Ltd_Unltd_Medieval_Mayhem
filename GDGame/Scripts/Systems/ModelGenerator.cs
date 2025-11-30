@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GDGame.Scripts.Systems
 {
+    /// <summary>
+    /// Creates Models off of given data
+    /// </summary>
     public class ModelGenerator
     {
         #region Fields

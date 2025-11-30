@@ -2,6 +2,9 @@
 
 namespace GDGame.Scripts.Events.Channels
 {
+    /// <summary>
+    /// Used in <see cref="EventChannelManager"/> channels to store subscribes and raise events
+    /// </summary>
     public class EventBase
     {
         private event Action Handlers;

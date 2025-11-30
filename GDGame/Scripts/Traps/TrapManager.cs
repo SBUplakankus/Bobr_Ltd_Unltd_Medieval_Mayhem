@@ -3,6 +3,9 @@ using GDEngine.Core.Components;
 
 namespace GDGame.Scripts.Traps
 {
+    /// <summary>
+    /// Creates and Updates the traps in the game which are based off of <see cref="TrapBase"/>.
+    /// </summary>
     public class TrapManager : Component
     {
         #region Fields

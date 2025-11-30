@@ -11,6 +11,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GDGame.Scripts.UI
 {
+    /// <summary>
+    /// Controls the Player HUD which displays stats and messages on the screen.
+    /// Created in <see cref="UserInterfaceController"/>.
+    /// </summary>
     public class PlayerHUD
     {
         #region Fields

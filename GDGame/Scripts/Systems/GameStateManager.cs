@@ -11,6 +11,11 @@ using GDGame.Scripts.Events.Channels;
 namespace GDGame.Scripts.Systems
 {
     public enum GameState { GameActive, GameInactive, GameOver, GameWon }
+
+    /// <summary>
+    /// Controls the current state of the game and runs needed events when called 
+    /// depending on the current <see cref="GameState"/>.
+    /// </summary>
     public class GameStateManager : Component
     {
         #region Fields

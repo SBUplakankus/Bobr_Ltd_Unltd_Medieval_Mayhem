@@ -2,6 +2,9 @@
 
 namespace GDGame.Scripts.Events.Channels
 {
+    /// <summary>
+    /// Unused
+    /// </summary>
     public class EventBaseList
     {
         private readonly List<EventBase> _events;

@@ -1,5 +1,9 @@
 ﻿namespace GDGame.Scripts.Events.Channels
 {
+    /// <summary>
+    /// Controls Input Events in the game such as Toggling Pause, Language Swapping, Exit and Fullscreen.
+    /// Uses <see cref="EventBase"/> to host events.
+    /// </summary>
     public class InputEventChannel
     {
         public EventBase FullscreenToggle = new();

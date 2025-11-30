@@ -3,6 +3,9 @@ using GDGame.Scripts.Events.Channels;
 
 namespace GDGame.Scripts.Systems
 {
+    /// <summary>
+    /// Controls the time of the game using <see cref="Time.TimeScale"/>.
+    /// </summary>
     public class TimeController
     {
         #region Fields

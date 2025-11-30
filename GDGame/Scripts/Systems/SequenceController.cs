@@ -10,6 +10,9 @@ using static GDEngine.Core.Orchestration.Orchestrator;
 
 namespace GDGame.Scripts.Systems
 {
+    /// <summary>
+    /// Unused
+    /// </summary>
     public class SequenceController
     {
         #region Fields
