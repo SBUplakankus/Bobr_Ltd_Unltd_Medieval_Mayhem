@@ -21,20 +21,20 @@ namespace GDGame.Scripts.Systems
         private Vector3 _startPos = new (8,28,8);
         private Vector3 _endPos = new (18, 25, 18);
         private bool _isActive;
-        private readonly float _duration = 5f;
+        private readonly float _duration = 2f;
         private float _counter = 0f;
         private float _cameraFOV = 0.9f;
         private const int FAR_PLANE_LIMIT = 1000;
         #endregion
 
         #region Constructors
-        public CinematicCamController()
+        public CinematicCamController(float aspect)
         {
             _cineCamGO = new GameObject("CineCam");
             _cineCamGO.AddComponent(this);
             _camera = _cineCamGO.AddComponent<Camera>();
             _camera.FarPlane = FAR_PLANE_LIMIT;
-            _camera.AspectRatio = 1f;
+            _camera.AspectRatio = aspect;
             _camera.FieldOfView = _cameraFOV;
         }
         #endregion
@@ -53,7 +53,6 @@ namespace GDGame.Scripts.Systems
         {
             _cineCamGO.Transform.TranslateTo(_startPos);
             _isActive = true;
-            Debug.WriteLine("hi");
             _audioEventChannel.PlaySFX.Raise(AppData.GAME_INTRO_KEY);
         }
 

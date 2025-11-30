@@ -242,7 +242,8 @@ namespace GDGame
 
         private void InitCineCam()
         {
-            _cineCamController = new CinematicCamController();
+            var aspectRatio = (float)_graphics.PreferredBackBufferWidth / _graphics.PreferredBackBufferHeight;
+            _cineCamController = new CinematicCamController(aspectRatio);
             _cineCamController.Initialise();
         }
 
