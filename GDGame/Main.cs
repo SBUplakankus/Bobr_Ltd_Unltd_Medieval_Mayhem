@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows.Forms;
 using GDEngine.Core;
 using GDEngine.Core.Collections;
@@ -13,6 +12,7 @@ using GDEngine.Core.Timing;
 using GDEngine.Core.Utilities;
 using GDGame.Scripts.Audio;
 using GDGame.Scripts.Events.Channels;
+using GDGame.Scripts.DemoGame;
 using GDGame.Scripts.Player;
 using GDGame.Scripts.Systems;
 using GDGame.Scripts.Traps;
@@ -22,6 +22,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Color = Microsoft.Xna.Framework.Color;
+using GDGame.Scripts.Demo_Game;
 
 namespace GDGame
 {
@@ -48,6 +49,8 @@ namespace GDGame
         private TimeController _timeController;
         private CinematicCamController _cineCamController;
         private GameStateManager _gameStateManager;
+        private GameOverObject _gameOver;
+        private GameWonObject _gameWon;
 
         // Player
         private PlayerController _playerController;
@@ -253,6 +256,12 @@ namespace GDGame
         {
             _gameStateManager = new GameStateManager();
         }
+
+        private void InitDemoGameEvents()
+        {
+            _gameOver = new GameOverObject();
+            _gameWon = new GameWonObject();
+        }
         private void InitGameSystems()
         {
             GenerateBaseScene();
@@ -267,6 +276,7 @@ namespace GDGame
             InitGameStateManager();
             DemoLoadFromJSON();
             TestObjectLoad();
+            InitDemoGameEvents();
         }
 
         #endregion

@@ -1,4 +1,6 @@
-﻿using GDGame.Scripts.Systems;
+﻿using BepuPhysics.CollisionDetection.CollisionTasks;
+using GDEngine.Core.Events;
+using GDGame.Scripts.Systems;
 
 namespace GDGame.Scripts.Events.Channels
 {
@@ -13,6 +15,7 @@ namespace GDGame.Scripts.Events.Channels
         public EventBase<GameState> OnGameStateChange = new();
         public EventBase<int> OnPlayerDamaged = new();
         public EventBase OnOrbCollected = new();
+        public EventBase<CollisionEvent> OnPlayerCollision = new();
 
         /// <summary>
         /// Unsubscribe from all events in the Channel
@@ -24,6 +27,7 @@ namespace GDGame.Scripts.Events.Channels
             OnGameStateChange.UnsubscribeAll();
             OnOrbCollected.UnsubscribeAll();
             OnPlayerDamaged.UnsubscribeAll();
+            OnPlayerCollision.UnsubscribeAll();
         }
     }
 }

@@ -1,5 +1,8 @@
-﻿using GDEngine.Core.Components;
+﻿using System.Diagnostics;
+using GDEngine.Core.Components;
 using GDEngine.Core.Entities;
+using GDEngine.Core.Events;
+using GDEngine.Core.Rendering.Base;
 using Microsoft.Xna.Framework;
 
 namespace GDGame.Scripts.Player
@@ -15,6 +18,11 @@ namespace GDGame.Scripts.Player
         private RigidBody _rb;
         private SphereCollider _collider;
         private GameObject _playerParent;
+        private LayerMask _playerLayerMask = LayerMask.All;
+        #endregion
+
+        #region Accessors
+        public RigidBody RB => _rb;
         #endregion
 
         #region Constructors
@@ -37,8 +45,37 @@ namespace GDGame.Scripts.Player
 
             _rb = new RigidBody();
             _rb.BodyType = BodyType.Dynamic;
-            _rb.Mass = 0.1f;
+            _rb.Mass = 0f;
+            _rb.UseGravity = false;
             _playerParent.AddComponent(_rb);
+        }
+
+        public void HandlePlayerCollision(CollisionEvent collision)
+        {
+            // Early Exit if the Collsiion doesnt match the player layer mask
+            // Or if it doesn't involve the player
+            var a = collision.BodyA;
+            var b = collision.BodyB;
+
+            // Try keep A as player when calling events
+
+            if (!collision.Matches(_playerLayerMask)) return;
+            if (a != _rb && b != _rb) return;
+
+            var colName = b.GameObject.Name;
+
+            switch (colName)
+            {
+                case "Game_Over":
+                    Debug.WriteLine("Game Over");
+                    break;
+                case "Game_Won":
+                    Debug.WriteLine("Game Won");
+                    break;
+                default:
+                    Debug.WriteLine("Collison not Set Up");
+                    break;
+            }
         }
         private void Move(Vector3 dir)
         {
