@@ -3,6 +3,7 @@ using GDEngine.Core.Entities;
 using GDEngine.Core.Enums;
 using GDEngine.Core.Rendering.UI;
 using GDEngine.Core.Systems.Base;
+using GDGame.Scripts.Events.Channels;
 using GDGame.Scripts.Player;
 using GDGame.Scripts.Systems;
 using GDGame.Scripts.UI;

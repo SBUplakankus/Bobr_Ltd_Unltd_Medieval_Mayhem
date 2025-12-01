@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using GDEngine.Core.Collections;
 using GDEngine.Core.Entities;
 using GDEngine.Core.Rendering.UI;
@@ -45,7 +46,9 @@ namespace GDGame.Scripts.UI
             _pausePanel = new UIMenuPanel();
             _pauseGO.AddComponent(_pausePanel);
             _pausePanel.PanelPosition = _screenCentre;
-            _pausePanel.AddButton("Potato", _textures.Get("button"), _font, HandleButtonClick);
+            _pausePanel.AddButton("Resume", _textures.Get("button"), _font, HandlePauseToggle);
+            _pausePanel.PanelPosition = _screenCentre + new Vector2(0,50);
+            _pausePanel.AddButton("Quit", _textures.Get("button"), _font, HandlePauseToggle);
 
             _pauseText = new UIText
             {
@@ -71,6 +74,11 @@ namespace GDGame.Scripts.UI
             _isVisible = !_isVisible;
             _pausePanel.IsVisible = _isVisible;
             _pauseText.Enabled = _isVisible;
+        }
+
+        private void HandleExit()
+        {
+            Application.Exit();
         }
 
         private Vector2 GetTextPos()
