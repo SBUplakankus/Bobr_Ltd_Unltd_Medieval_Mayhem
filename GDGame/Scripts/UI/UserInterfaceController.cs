@@ -20,16 +20,18 @@ namespace GDGame.Scripts.UI
         private CursorController _cursorController;
         private PlayerHUD _playerHUD;
         private PauseMenu _pauseMenu;
+        private Vector2 _screenCentre;
         #endregion
 
         #region Constructors
         public UserInterfaceController(SpriteBatch batch, 
-            ContentDictionary<SpriteFont> fonts, ContentDictionary<Texture2D> textures) : 
+            ContentDictionary<SpriteFont> fonts, ContentDictionary<Texture2D> textures, Vector2 centre) : 
             base(FrameLifecycle.PostRender, order: 10)
         {
             _spriteBatch = batch;
             _fonts = fonts;
             _interfaceTextures = textures;
+            _screenCentre = centre;
         }
         #endregion
 
@@ -48,7 +50,7 @@ namespace GDGame.Scripts.UI
 
         private void InitPauseMenu()
         {
-            _pauseMenu = new PauseMenu(_interfaceTextures, _fonts.Get("gamefont"));
+            _pauseMenu = new PauseMenu(_interfaceTextures, _fonts.Get("gamefont"), _screenCentre);
         }
 
         public void Initialise(PlayerStats stats)

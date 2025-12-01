@@ -36,6 +36,7 @@ namespace GDGame
         private ContentDictionary<Effect> _effectsDictionary;
         private Scene _scene;
         private bool _disposed = false;
+        private Vector2 _screenCentre;
 
         // Game Systems
         private AudioController _audioController;
@@ -91,11 +92,12 @@ namespace GDGame
             Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
             ScreenResolution.SetResolution(_graphics, resolution);
             WindowUtility.CenterOnMonitor(this, 1);
+            _screenCentre = new Vector2(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
         }
 
         private void InitializeMouse()
         {
-            Mouse.SetPosition(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2);
+            Mouse.SetPosition((int)_screenCentre.X, (int) _screenCentre.Y);
             IsMouseVisible = false;
         }
 
@@ -159,7 +161,7 @@ namespace GDGame
             }
 
             _audioController = new AudioController(sounds);
-            _uiController = new UserInterfaceController(EngineContext.Instance.SpriteBatch ,fonts, textures);
+            _uiController = new UserInterfaceController(EngineContext.Instance.SpriteBatch ,fonts, textures, _screenCentre);
             _sceneGenerator = new SceneGenerator(textures, _materialGenerator.MatBasicLit, _materialGenerator.MatBasicUnlit,
                 _materialGenerator.MatBasicUnlitGround, _graphics);
             _modelGenerator = new ModelGenerator(textures, models, _materialGenerator.MatBasicUnlit, _graphics);
@@ -217,6 +219,7 @@ namespace GDGame
             _inputManager.Initialise();
             _inputEventChannel.OnFullscreenToggle.Subscribe(HandleFullscreenToggle);
             _inputEventChannel.OnApplicationExit.Subscribe(HandleGameExit);
+            _inputEventChannel.OnPauseToggle.Subscribe(HandlePause);
         }
 
         private void GenerateBaseScene()
@@ -300,6 +303,7 @@ namespace GDGame
 
         private void HandleFullscreenToggle() => _graphics.ToggleFullScreen();
         private void HandleGameExit() => Application.Exit();
+        private void HandlePause() => IsMouseVisible = !IsMouseVisible;
 
         #endregion
 

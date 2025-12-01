@@ -19,15 +19,20 @@ namespace GDGame.Scripts.UI
         #region Fields
         private GameObject _pauseGO;
         private UIMenuPanel _pausePanel;
+        private UIText _pauseText;
+        private Color _pauseTextColour = Color.White;
+
         private bool _isVisible = false;
         private ContentDictionary<Texture2D> _textures;
         private SpriteFont _font;
+        private Vector2 _screenCentre;
         #endregion
 
-        public PauseMenu(ContentDictionary<Texture2D> textures, SpriteFont font)
+        public PauseMenu(ContentDictionary<Texture2D> textures, SpriteFont font, Vector2 centre)
         {
             _textures = textures;
             _font = font;
+            _screenCentre = centre;
             
             Initialise();
         }
@@ -39,11 +44,24 @@ namespace GDGame.Scripts.UI
 
             _pausePanel = new UIMenuPanel();
             _pauseGO.AddComponent(_pausePanel);
+            _pausePanel.PanelPosition = _screenCentre;
             _pausePanel.AddButton("Potato", _textures.Get("button"), _font, HandleButtonClick);
-            _pausePanel.PanelPosition = new Vector2(500, 500);
+
+            _pauseText = new UIText
+            {
+                Color = _pauseTextColour,
+                Font = _font,
+                UniformScale = 2,
+                LayerDepth = UILayer.HUD,
+                TextProvider = () => LocalisationController.Instance.Get(AppData.LANG_PAUSE_KEY),
+                PositionProvider = () => GetTextPos()
+            };
+            _pauseGO.AddComponent(_pauseText);
+
 
             _isVisible = false;
             _pausePanel.IsVisible = _isVisible;
+            _pauseText.Enabled = _isVisible;
 
             EventChannelManager.Instance.InputEvents.OnPauseToggle.Subscribe(HandlePauseToggle);
         }
@@ -52,6 +70,12 @@ namespace GDGame.Scripts.UI
         {
             _isVisible = !_isVisible;
             _pausePanel.IsVisible = _isVisible;
+            _pauseText.Enabled = _isVisible;
+        }
+
+        private Vector2 GetTextPos()
+        {
+            return _screenCentre + new Vector2(0, -200);
         }
 
         private void HandleButtonClick()
