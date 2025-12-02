@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GDEngine.Core.Components;
+using GDGame.Scripts.Systems;
+using Microsoft.Xna.Framework;
 using System;
 
 namespace GDGame.Scripts.Traps
@@ -15,6 +17,9 @@ namespace GDGame.Scripts.Traps
         #region Constructors
         public RotatingTrap(int id, float rotSpeed) : base(id)
         {
+            _trapGO = ModelGenerator.Instance.GenerateCube(new Vector3(-10, 10, 0), Vector3.Zero, new Vector3(5, 5, 5), "ground_grass", AppData.TRAP_NAME + id);
+            _trapGO.AddComponent<BoxCollider>();
+            SceneController.AddToCurrentScene(_trapGO);
             _rotSpeed = rotSpeed;
         }
         #endregion
@@ -22,6 +27,7 @@ namespace GDGame.Scripts.Traps
         #region Methods
         public override void UpdateTrap()
         {
+            TrapGO.Transform.RotateBy(Quaternion.CreateFromAxisAngle(Vector3.Up, MathHelper.ToRadians(_rotSpeed)));
             if (Quaternion.Dot(TrapGO.Transform.Rotation, Quaternion.CreateFromAxisAngle(Vector3.Up, MathHelper.Pi)) > 0.9f)
             {
                 flip();

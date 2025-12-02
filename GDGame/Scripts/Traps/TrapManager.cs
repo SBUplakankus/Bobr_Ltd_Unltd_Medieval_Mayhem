@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using GDEngine.Core.Components;
+﻿using GDEngine.Core.Components;
+using System;
+using System.Collections.Generic;
 
 namespace GDGame.Scripts.Traps
 {
@@ -16,7 +17,8 @@ namespace GDGame.Scripts.Traps
         public TrapManager() 
         {
             _trapList = new List<TrapBase>();
-            _trapList.Add(new MovingTrap(1,5));
+            //_trapList.Add(new MovingTrap(1,5));
+            //_trapList.Add(new RotatingTrap(2,3));
         }
         #endregion
 
@@ -47,6 +49,13 @@ namespace GDGame.Scripts.Traps
         #region Engine Methods
         protected override void Start()
         {
+            // Create traps now that the scene and engine are initialized
+            _trapList.Add(new MovingTrap(1, 1f));
+            _trapList.Add(new RotatingTrap(2, 3f));
+
+            // Optional: log so you can see this ran
+            Console.WriteLine("TrapManager.Start called - created traps: " + _trapList.Count);
+
             InitTraps();
         }
         protected override void Update(float deltaTime)

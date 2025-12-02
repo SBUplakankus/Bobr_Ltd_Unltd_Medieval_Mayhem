@@ -17,7 +17,7 @@ namespace GDGame.Scripts.Traps
         #region Constructors
         public MovingTrap(int id, float moveSpeed) : base(id)
         {
-            _trapGO = ModelGenerator.Instance.GenerateCube(new Vector3(10, 10, 10), Vector3.Zero, new Vector3(10,10,10), "ground_grass", AppData.TRAP_NAME + id);
+            _trapGO = ModelGenerator.Instance.GenerateCube(new Vector3(10, 10, 10), Vector3.Zero, new Vector3(10, 10, 10), "ground_grass", AppData.TRAP_NAME + id);
             _trapGO.AddComponent<BoxCollider>();
             SceneController.AddToCurrentScene(_trapGO);
             _moveSpeed = moveSpeed;
@@ -27,7 +27,7 @@ namespace GDGame.Scripts.Traps
         #region Methods
         public override void UpdateTrap()
         {
-            _trapGO.Transform.TranslateBy(new Vector3(0,0,_moveSpeed));
+            _trapGO.Transform.TranslateBy(new Vector3(0, 0, _moveSpeed));
             if (_trapGO.Transform.Position.Z > 50f || _trapGO.Transform.Position.Z < -50f)
             {
                 flip();
@@ -36,7 +36,6 @@ namespace GDGame.Scripts.Traps
 
         public override void InitTrap()
         {
-            SceneController.AddToCurrentScene(_trapGO);
 
         }
 
