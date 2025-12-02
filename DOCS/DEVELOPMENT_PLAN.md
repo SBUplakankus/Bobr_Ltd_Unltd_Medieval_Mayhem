@@ -9,7 +9,7 @@
 - [ ] Player Movement 
 - [ ] Single Trap Obstacle
 - [x] Basic Game Audio
-- [ ] Basic User Interface
+- [x] Basic User Interface
 - [ ] Game Win Condition
 - [ ] Game Over Condition
 
@@ -18,14 +18,14 @@
 ### 🔧 Supporting Features (Should-Have) 
 - [ ] Trap Physics 
 - [ ] Trap Animation
-- [ ] Additional Sound Effects
+- [x] Additional Sound Effects
 - [ ] Basic Level Design
 - [ ] Start Menu
 
 ---
 
 ### ✨ Extra Features (Nice-to-Have)
-- [ ] Pause Menu 
+- [x] Pause Menu 
 - [ ] Camera Effects
 - [ ] Player Abilities
 
@@ -67,7 +67,7 @@
 ## **📅 Week 4 — Polish & Finalisation**
 ### Goals
 - [ ] Working Game Start to Finish
-- [ ] Working UI
+- [x] Working UI
 - [ ] Basic Physics Implementation
 - [ ] Working Trap  
 
