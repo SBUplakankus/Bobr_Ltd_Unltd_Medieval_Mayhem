@@ -38,6 +38,7 @@ namespace GDGame.Scripts.Systems
         private readonly Keys _languageSwitchKey = Keys.L;
         private readonly Keys _orbTestKey = Keys.O;
         private readonly Keys _damageTestKey = Keys.P;
+        private static MovementKeys _movementKeys;
         #endregion
 
         #region Constructors
@@ -65,6 +66,7 @@ namespace GDGame.Scripts.Systems
 
         #region Accessors
         public InputSystem Input => _inputSystem;
+        public static MovementKeys MoveKeys => _movementKeys;
         #endregion
 
         #region Methods
@@ -72,6 +74,14 @@ namespace GDGame.Scripts.Systems
         {
             _inputGO = new GameObject(AppData.INPUT_NAME);
             _inputGO.AddComponent(this);
+
+            _movementKeys = new MovementKeys()
+            {
+                right = _rightKey,
+                forward = _forwardKey,
+                left = _leftKey,
+                back = _backwardKey
+            };
 
             SceneController.AddToCurrentScene(_inputGO);
             SceneController.AddToCurrentScene(_inputSystem);
@@ -103,21 +113,6 @@ namespace GDGame.Scripts.Systems
             _inputEventChannel.OnApplicationExit.Raise();
         }
 
-        private void CheckForMovement()
-        {
-            if (_newKBState.IsKeyDown(_forwardKey))
-                _inputEventChannel.OnMovementInput.Raise(AppData.FORWARD_MOVE_NUM);
-
-            if (_newKBState.IsKeyDown(_backwardKey))
-                _inputEventChannel.OnMovementInput.Raise(AppData.BACKWARD_MOVE_NUM);
-
-            if (_newKBState.IsKeyDown(_leftKey))
-                _inputEventChannel.OnMovementInput.Raise(AppData.LEFT_MOVE_NUM);
-
-            if (_newKBState.IsKeyDown(_rightKey))
-                _inputEventChannel.OnMovementInput.Raise(AppData.RIGHT_MOVE_NUM);
-        }
-
         private void CheckForLanguageSwap()
         {
             bool isPressed = _newKBState.IsKeyDown(_languageSwitchKey) && !_oldKBState.IsKeyDown(_languageSwitchKey);
@@ -147,7 +142,6 @@ namespace GDGame.Scripts.Systems
             CheckForPause();
             CheckForFullscreen();
             CheckForExit();
-            CheckForMovement();
             CheckForLanguageSwap();
             CheckForOrbTest();
             CheckForDamageTest();
@@ -164,5 +158,10 @@ namespace GDGame.Scripts.Systems
             base.Update(deltaTime);
         }
         #endregion
+    }
+
+    public struct MovementKeys 
+    { 
+        public Keys forward, right, back, left; 
     }
 }

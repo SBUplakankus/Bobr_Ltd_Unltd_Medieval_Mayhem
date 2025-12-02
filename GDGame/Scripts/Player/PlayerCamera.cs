@@ -8,24 +8,23 @@ namespace GDGame.Scripts.Player
     /// Controls the player camera movement.
     /// Created in <see cref="PlayerController"/>.
     /// </summary>
-    public class PlayerCamera
+    public class PlayerCamera : Component
     {
         #region Fields
         private Camera _camera;
         private float _cameraFOV = 0.9f;
-        private readonly Vector3 _startPos = new(0, 5, 0);
         private const int FAR_PLANE_LIMIT = 1000;
         #endregion
 
         #region Constructors
-        public PlayerCamera(GameObject parent, float aspectRatio)
+        public PlayerCamera(float aspectRatio)
         {
-            _camera = parent.AddComponent<Camera>();
-            _camera.FarPlane = FAR_PLANE_LIMIT;
-            _camera.AspectRatio = aspectRatio;
-            _camera.FieldOfView = _cameraFOV;
-
-            parent.AddComponent<MouseYawPitchController>();
+            _camera = new()
+            {
+                FarPlane = FAR_PLANE_LIMIT,
+                AspectRatio = aspectRatio,
+                FieldOfView = _cameraFOV
+            };
         }
         #endregion
 
