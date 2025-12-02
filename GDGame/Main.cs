@@ -175,7 +175,7 @@ namespace GDGame
 
         private void InitPhysicsDebugSystem(bool isEnabled)
         {
-            var physicsDebugRenderer = _scene.AddSystem(new PhysicsDebugRenderer());
+            var physicsDebugRenderer = _scene.AddSystem(new PhysicsDebugSystem());
             physicsDebugRenderer.Enabled = isEnabled;
 
             physicsDebugRenderer.StaticColor = Color.Green;

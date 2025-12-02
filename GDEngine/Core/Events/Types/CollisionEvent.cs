@@ -11,6 +11,7 @@ namespace GDEngine.Core.Events
     {
         public RigidBody BodyA { get; }
         public RigidBody BodyB { get; }
+
         public LayerMask LayerA { get; }
         public LayerMask LayerB { get; }
 

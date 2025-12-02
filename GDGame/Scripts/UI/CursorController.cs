@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using GDEngine.Core.Entities;
+using GDEngine.Core.Rendering;
 using GDEngine.Core.Rendering.UI;
 using GDEngine.Core.Utilities;
 using Microsoft.Xna.Framework.Graphics;

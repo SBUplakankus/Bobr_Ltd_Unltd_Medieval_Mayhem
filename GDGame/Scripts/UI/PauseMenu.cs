@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GDEngine.Core.Collections;
 using GDEngine.Core.Entities;
+using GDEngine.Core.Rendering;
 using GDEngine.Core.Rendering.UI;
 using GDGame.Scripts.Events.Channels;
 using GDGame.Scripts.Systems;

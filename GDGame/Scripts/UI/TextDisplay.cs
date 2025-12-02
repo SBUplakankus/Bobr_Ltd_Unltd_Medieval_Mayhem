@@ -1,4 +1,5 @@
-﻿using GDEngine.Core.Rendering.UI;
+﻿using GDEngine.Core.Rendering;
+using GDEngine.Core.Rendering.UI;
 using GDGame.Scripts.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GDEngine.Core.Entities;
+using GDEngine.Core.Rendering;
 using GDEngine.Core.Rendering.UI;
 using GDGame.Scripts.Events.Channels;
 using GDGame.Scripts.Player;
