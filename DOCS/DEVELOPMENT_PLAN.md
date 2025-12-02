@@ -6,8 +6,8 @@
 
 ### ✅ Core Features (Must-Have)
 - [x] Player Camera  
-- [ ] Player Movement 
-- [ ] Single Trap Obstacle
+- [x] Player Movement 
+- [x] Single Trap Obstacle
 - [x] Basic Game Audio
 - [x] Basic User Interface
 - [ ] Game Win Condition
@@ -17,7 +17,7 @@
 
 ### 🔧 Supporting Features (Should-Have) 
 - [ ] Trap Physics 
-- [ ] Trap Animation
+- [x] Trap Animation
 - [x] Additional Sound Effects
 - [ ] Basic Level Design
 - [ ] Start Menu
@@ -47,16 +47,16 @@
 - [x] Loaded models into in project
 - [x] Loaded basic texture in project
 - [x] Basic UI Element
-- [ ] Chosen Trap Designed
+- [x] Chosen Trap Designed
 - [ ] Chosen Game Win Condition Designed
 - [ ] Chosen Game Over Condition Designed
-- [ ] Chosen Basic Sound Effect
+- [x] Chosen Basic Sound Effect
 
 ---
 
 ## **📅 Week 3 — Feature Implementation**
 ### Goals
-- [ ] Player Movement
+- [x] Player Movement
 - [x] Player Camera
 - [ ] Game Win System
 - [ ] Game Over System
@@ -68,7 +68,7 @@
 ### Goals
 - [ ] Working Game Start to Finish
 - [x] Working UI
-- [ ] Basic Physics Implementation
+- [x] Basic Physics Implementation
 - [ ] Working Trap  
 
 ---
