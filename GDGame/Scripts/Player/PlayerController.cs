@@ -17,10 +17,10 @@ namespace GDGame.Scripts.Player
     public class PlayerController
     {
         #region Fields
-        private GameObject _playerGO;
-        private PlayerMovement _playerMovement;
-        private PlayerCamera _playerCamera;
-        private PlayerStats _playerStats;
+        private readonly GameObject _playerGO;
+        private readonly PlayerMovement _playerMovement;
+        private readonly PlayerCamera _playerCamera;
+        private readonly PlayerStats _playerStats;
         private PlayerEventChannel _playerEventChannel;
         private Vector3 _startPos = new (0, 10, 0);
         private Vector3 _startRot = new (0, 0, 0);
@@ -69,11 +69,6 @@ namespace GDGame.Scripts.Player
             _playerEventChannel.OnPlayerDamaged.Subscribe(_playerStats.TakeDamage);
             EngineContext.Instance.Events.Subscribe<CollisionEvent>(_playerMovement.HandlePlayerCollision);
         }
-
-
-        #endregion
-
-        #region Methods
         #endregion
     }
 }

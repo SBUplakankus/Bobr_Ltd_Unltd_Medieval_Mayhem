@@ -19,10 +19,10 @@ namespace GDGame.Scripts.Player
     public class PlayerMovement : Component
     {
         #region Fields
-        private float _moveSpeed = 5f;
+        private readonly float _moveSpeed = 5f;
         private RigidBody _rb;
         private BoxCollider _collider;
-        private LayerMask _playerLayerMask = LayerMask.All;
+        private readonly LayerMask _playerLayerMask = LayerMask.All;
         private Keys _forwardKey, _rightKey, _backKey, _leftKey;
         private KeyboardState _keyboardState;
         #endregion

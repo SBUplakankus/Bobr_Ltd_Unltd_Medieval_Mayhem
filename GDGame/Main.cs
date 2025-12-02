@@ -31,7 +31,7 @@ namespace GDGame
         #region Fields
 
         // Core
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
         private ContentDictionary<Model> _modelDictionary;
         private ContentDictionary<Effect> _effectsDictionary;
         private Scene _scene;
@@ -46,7 +46,7 @@ namespace GDGame
         private ModelGenerator _modelGenerator;
         private MaterialGenerator _materialGenerator;
         private InputManager _inputManager;
-        private TrapManager _trapManager;
+        private readonly TrapManager _trapManager;
         private TimeController _timeController;
         private CinematicCamController _cineCamController;
         private GameStateManager _gameStateManager;
@@ -106,7 +106,7 @@ namespace GDGame
             EngineContext.Initialize(GraphicsDevice, Content);
         }
 
-        private void InitLocalisation()
+        private static void InitLocalisation()
         {
             LocalisationController.Initialise();
         }
@@ -237,11 +237,11 @@ namespace GDGame
             _playerController = new PlayerController(aspectRatio, _audioController);
         }
 
-        private void InitTraps()
+        private static void InitTraps()
         {
             //_trapManager = new TrapManager();
             var trapManagerGO = new GameObject("TrapManagerGO");
-            var trapManager = trapManagerGO.AddComponent<TrapManager>();
+            trapManagerGO.AddComponent<TrapManager>();
             SceneController.AddToCurrentScene(trapManagerGO);
         }
 
@@ -340,7 +340,7 @@ namespace GDGame
         /// <summary>
         /// Clear all of the event channels
         /// </summary>
-        private void UnscubscribeFromEvents()
+        private static void UnscubscribeFromEvents()
         {
             EventChannelManager.Instance.ClearEventChannels();
         }

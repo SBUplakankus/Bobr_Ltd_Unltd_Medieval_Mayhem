@@ -16,9 +16,9 @@ namespace GDGame.Scripts.Systems
     public class InputManager : Component
     {
         #region Fields
-        private InputEventChannel _inputEventChannel;
-        private PlayerEventChannel _playerEventChannel;
-        private InputSystem _inputSystem;
+        private readonly InputEventChannel _inputEventChannel;
+        private readonly PlayerEventChannel _playerEventChannel;
+        private readonly InputSystem _inputSystem;
         private GameObject _inputGO;
         private KeyboardState _newKBState, _oldKBState;
         private readonly float _mouseSensitivity = 0.12f;
