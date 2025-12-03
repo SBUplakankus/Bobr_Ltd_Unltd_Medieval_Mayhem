@@ -31,6 +31,7 @@ namespace GDGame.Scripts.UI
 
         // Event Channels
         private GameEventChannel _gameEvents;
+        private AudioEventChannel _audioEvents;
 
         #endregion
 
@@ -45,6 +46,7 @@ namespace GDGame.Scripts.UI
             _screenCentre = centre;
             _game = game;
             _gameEvents = EventChannelManager.Instance.GameEvents;
+            _audioEvents = EventChannelManager.Instance.AudioEvents;
         }
         #endregion
 
@@ -71,18 +73,18 @@ namespace GDGame.Scripts.UI
             _menuController = new MenuController(_game);
             _game.Components.Add(_menuController);
 
-            Texture2D btnTex = _interfaceTextures.Get("button2");
-            Texture2D trackTex = _interfaceTextures.Get("hyphon");
-            Texture2D handleTex = _interfaceTextures.Get("toggle");
-            Texture2D controlsTx = _interfaceTextures.Get("toggle");
-            SpriteFont uiFont = _fonts.Get("gamefont");
+            Texture2D btnTex = _interfaceTextures.Get(AppData.BUTTON_TEXTURE);
+            Texture2D trackTex = _interfaceTextures.Get(AppData.HYPHON_TEXTURE);
+            Texture2D handleTex = _interfaceTextures.Get(AppData.TOGGLE_TEXTURE);
+            Texture2D controlsTx = _interfaceTextures.Get(AppData.TOGGLE_TEXTURE);
+            SpriteFont uiFont = _fonts.Get(AppData.FONT_NAME);
 
             // Wire UIManager to the menu scene
             _menuController.Initialize(SceneController.GetCurrentScene,
                 btnTex, trackTex, handleTex, controlsTx, uiFont,
-                _interfaceTextures.Get("bg_1"),
-                 _interfaceTextures.Get("bg_2"),
-                  _interfaceTextures.Get("bg_3"));
+                _interfaceTextures.Get(AppData.MAIN_MENU_TEXTURE),
+                 _interfaceTextures.Get(AppData.AUDIO_MENU_TEXTURE),
+                  _interfaceTextures.Get(AppData.CONTROL_MENU_TEXTURE));
 
             // Subscribe to high-level events
             _menuController.PlayRequested += () =>
@@ -98,19 +100,12 @@ namespace GDGame.Scripts.UI
 
             _menuController.MusicVolumeChanged += v =>
             {
-                // Forward to audio manager
-                System.Diagnostics.Debug.WriteLine("MusicVolumeChanged");
-
-                //raise event to set sound
-                // EngineContext.Instance.Events.Publish(new PlaySfxEvent)
+                _audioEvents.OnMusicVolumeChanged.Raise(v);
             };
 
             _menuController.SfxVolumeChanged += v =>
             {
-                // Forward to audio manager
-                System.Diagnostics.Debug.WriteLine("SfxVolumeChanged");
-
-                //raise event to set sound
+                _audioEvents.OnSFXVolumeChanged.Raise(v);
             };
         }
 

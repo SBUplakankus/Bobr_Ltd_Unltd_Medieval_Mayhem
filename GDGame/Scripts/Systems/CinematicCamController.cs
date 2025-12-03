@@ -33,7 +33,7 @@ namespace GDGame.Scripts.Systems
         #region Constructors
         public CinematicCamController(float aspect)
         {
-            _cineCamGO = new GameObject("CineCam");
+            _cineCamGO = new GameObject(AppData.CINE_CAM_NAME);
             _cineCamGO.AddComponent(this);
             _camera = _cineCamGO.AddComponent<Camera>();
             _camera.FarPlane = FAR_PLANE_LIMIT;

@@ -8,6 +8,8 @@
     {
         public EventBase<string> OnMusicRequested = new();
         public EventBase<string> OnSFXRequested = new();
+        public EventBase<float> OnMusicVolumeChanged = new();
+        public EventBase<float> OnSFXVolumeChanged = new();
 
         /// <summary>
         /// Unsubscribe from all events in the Channel
@@ -16,6 +18,8 @@
         {
             OnMusicRequested.UnsubscribeAll();
             OnSFXRequested.UnsubscribeAll();
+            OnMusicVolumeChanged.UnsubscribeAll();
+            OnSFXVolumeChanged.UnsubscribeAll();
         }
     }
 }
