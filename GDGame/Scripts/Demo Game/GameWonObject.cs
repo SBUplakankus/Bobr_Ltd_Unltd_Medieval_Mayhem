@@ -10,6 +10,9 @@ using Microsoft.Xna.Framework;
 
 namespace GDGame.Scripts.Demo_Game
 {
+    /// <summary>
+    /// Triggers victory when colliding with the player
+    /// </summary>
     public class GameWonObject
     {
         private GameObject _go;

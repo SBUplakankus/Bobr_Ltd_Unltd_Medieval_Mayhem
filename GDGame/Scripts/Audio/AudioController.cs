@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Numerics;
+using GDEngine.Core.Audio;
 using GDEngine.Core.Collections;
 using GDEngine.Core.Components;
 using GDEngine.Core.Entities;
@@ -7,13 +10,14 @@ using GDEngine.Core.Systems;
 using GDGame.Scripts.Events.Channels;
 using GDGame.Scripts.Systems;
 using Microsoft.Xna.Framework.Audio;
+using static GDEngine.Core.Audio.AudioMixer;
 
 namespace GDGame.Scripts.Audio
 {
     /// <summary>
     /// Controls all Audio in the game and stores the Sound files
     /// </summary>
-    public class AudioController : Component
+    public class AudioController : Component, IDisposable
     {
 
         #region Fields
@@ -21,8 +25,11 @@ namespace GDGame.Scripts.Audio
         private ContentDictionary<SoundEffect> _sounds;
         private List<GameObject> _3DsoundsList;
         private AudioEventChannel _audioEventChannel;
-        private const float MUSIC_VOLUME = 0.25f;
-        private const float SFX_VOLUME = 0.8f;
+        private float _musicVolume = 0.25f;
+        private float _sfxVolume = 0.8f;
+        private float _musicFade = 0;
+        private bool _musicLooped = true;
+        private bool disposedValue;
         #endregion
 
         #region Constructors
@@ -44,12 +51,12 @@ namespace GDGame.Scripts.Audio
         /// </summary>
         private void PlayMusic(string key)
         {
-            _audioSystem.PlayMusic(key, MUSIC_VOLUME);
+            _audioSystem.PlayMusic(key, _musicVolume, _musicFade, _musicLooped);
         }
 
         private void PlaySFX(string key)
         {
-            _audioSystem.PlayOneShot(key);
+            _audioSystem.PlayOneShot(key, _sfxVolume);
         }
 
         /// <summary>
@@ -82,18 +89,61 @@ namespace GDGame.Scripts.Audio
             return soundGO;
         }
 
+        private void HandleMusicVolumeChange(float volume)
+        {
+            _musicVolume = volume;
+            _audioSystem.Mixer.SetVolume(AudioChannel.Music, _musicVolume);
+            _audioSystem.CurrentMusic.Volume = _musicVolume;
+        }
+        private void HandleSFXVolumeChange(float volume)
+        {
+            _sfxVolume = volume;
+            _audioSystem.SetChannelVolume(AudioChannel.Sfx, _sfxVolume);
+        }
         private void InitEventHandlers()
         {
             _audioEventChannel.OnMusicRequested.Subscribe(PlayMusic);
+            _audioEventChannel.OnMusicVolumeChanged.Subscribe(HandleMusicVolumeChange);
             _audioEventChannel.OnSFXRequested.Subscribe(PlaySFX);
+            _audioEventChannel.OnSFXVolumeChanged.Subscribe(HandleSFXVolumeChange);
         }
         public void Initialise()
         {
             _audioEventChannel = EventChannelManager.Instance.AudioEvents;
-            PlayMusic(AppData.MAIN_MUSIC);
+            PlayMusic(AppData.MAIN_THEME_KEY);
             Generate3DAudio();
             Add3DAudioToScene();
             InitEventHandlers();
+        }
+
+        private void Clear()
+        {
+            _audioSystem?.Dispose();
+            _audioSystem = null;
+
+            _sounds?.Dispose();
+            _sounds = null;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposedValue) return;
+
+            if (disposing)
+                Clear();
+
+            disposedValue = true;
+        }
+
+        ~AudioController()
+        {
+            Dispose(disposing: false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
         #endregion
 

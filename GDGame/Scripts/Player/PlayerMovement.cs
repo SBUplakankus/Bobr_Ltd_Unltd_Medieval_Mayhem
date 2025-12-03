@@ -10,8 +10,6 @@ using SharpDX.Direct3D9;
 
 namespace GDGame.Scripts.Player
 {
-    
-
     /// <summary>
     /// Controls the player physics movement.
     /// Created in <see cref="PlayerController"/>.

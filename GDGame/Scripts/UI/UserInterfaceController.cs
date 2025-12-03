@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using GDEngine.Core.Collections;
 using GDEngine.Core.Entities;
 using GDEngine.Core.Enums;
@@ -14,7 +15,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GDGame.Scripts.UI
 {
-    public class UserInterfaceController : SystemBase
+    /// <summary>
+    /// Controls the User Interface for the game, creating and storing 
+    /// <see cref="CursorController"/> for the reticle in the centre of the screen, 
+    /// <see cref="MenuController"/> for the start menu and options menus, 
+    /// <see cref="PlayerHUD"/> for the stats displayed in the top left of the screen.
+    /// </summary>
+    public class UserInterfaceController : SystemBase, IDisposable
     {
         #region Fields
 
@@ -28,9 +35,11 @@ namespace GDGame.Scripts.UI
         private PauseMenu _pauseMenu;
         private Vector2 _screenCentre;
         private Game _game;
+        private bool disposedValue;
 
         // Event Channels
         private GameEventChannel _gameEvents;
+        private AudioEventChannel _audioEvents;
 
         #endregion
 
@@ -45,6 +54,7 @@ namespace GDGame.Scripts.UI
             _screenCentre = centre;
             _game = game;
             _gameEvents = EventChannelManager.Instance.GameEvents;
+            _audioEvents = EventChannelManager.Instance.AudioEvents;
         }
         #endregion
 
@@ -57,13 +67,13 @@ namespace GDGame.Scripts.UI
 
         private void InitHUD(PlayerStats stats)
         {
-            _playerHUD = new PlayerHUD(_fonts.Get("gamefont"), stats);
+            _playerHUD = new PlayerHUD(_fonts.Get(AppData.FONT_NAME), stats);
             _playerHUD.Initialise();
         }
 
         private void InitPauseMenu()
         {
-            _pauseMenu = new PauseMenu(_interfaceTextures, _fonts.Get("gamefont"), _screenCentre);
+            _pauseMenu = new PauseMenu(_interfaceTextures, _fonts.Get(AppData.FONT_NAME), _screenCentre);
         }
 
         private void InitMenuController()
@@ -71,18 +81,18 @@ namespace GDGame.Scripts.UI
             _menuController = new MenuController(_game);
             _game.Components.Add(_menuController);
 
-            Texture2D btnTex = _interfaceTextures.Get("button2");
-            Texture2D trackTex = _interfaceTextures.Get("hyphon");
-            Texture2D handleTex = _interfaceTextures.Get("toggle");
-            Texture2D controlsTx = _interfaceTextures.Get("toggle");
-            SpriteFont uiFont = _fonts.Get("gamefont");
+            Texture2D btnTex = _interfaceTextures.Get(AppData.BUTTON_TEXTURE);
+            Texture2D trackTex = _interfaceTextures.Get(AppData.HYPHON_TEXTURE);
+            Texture2D handleTex = _interfaceTextures.Get(AppData.TOGGLE_TEXTURE);
+            Texture2D controlsTx = _interfaceTextures.Get(AppData.TOGGLE_TEXTURE);
+            SpriteFont uiFont = _fonts.Get(AppData.FONT_NAME);
 
             // Wire UIManager to the menu scene
             _menuController.Initialize(SceneController.GetCurrentScene,
                 btnTex, trackTex, handleTex, controlsTx, uiFont,
-                _interfaceTextures.Get("bg_1"),
-                 _interfaceTextures.Get("bg_2"),
-                  _interfaceTextures.Get("bg_3"));
+                _interfaceTextures.Get(AppData.MAIN_MENU_TEXTURE),
+                 _interfaceTextures.Get(AppData.AUDIO_MENU_TEXTURE),
+                  _interfaceTextures.Get(AppData.CONTROL_MENU_TEXTURE));
 
             // Subscribe to high-level events
             _menuController.PlayRequested += () =>
@@ -98,19 +108,12 @@ namespace GDGame.Scripts.UI
 
             _menuController.MusicVolumeChanged += v =>
             {
-                // Forward to audio manager
-                System.Diagnostics.Debug.WriteLine("MusicVolumeChanged");
-
-                //raise event to set sound
-                // EngineContext.Instance.Events.Publish(new PlaySfxEvent)
+                _audioEvents.OnMusicVolumeChanged.Raise(v);
             };
 
             _menuController.SfxVolumeChanged += v =>
             {
-                // Forward to audio manager
-                System.Diagnostics.Debug.WriteLine("SfxVolumeChanged");
-
-                //raise event to set sound
+                _audioEvents.OnSFXVolumeChanged.Raise(v);
             };
         }
 
@@ -126,6 +129,43 @@ namespace GDGame.Scripts.UI
         {
             _spriteBatch.Begin();
             _spriteBatch.End();
+        }
+
+        private void Clear()
+        {
+            _menuController?.Dispose();
+            _menuController = null;
+
+            _cursorController?.Dispose();
+            _cursorController = null;
+
+            _spriteBatch?.Dispose();
+            _spriteBatch = null;
+
+            _playerHUD?.Dispose();
+            _playerHUD = null;
+
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposedValue) return;
+
+            if (disposing)
+                Clear();
+
+            disposedValue = true;
+        }
+
+        ~UserInterfaceController()
+        {
+             Dispose(disposing: false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
         #endregion
     }

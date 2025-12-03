@@ -50,6 +50,7 @@ namespace GDGame
         public static readonly string FIRE_AUDIO_NAME = "fire_audio";
         public static readonly string CAT_AUDIO_NAME = "cat_audio";
         public static readonly string DUNGEON_AUDIO_NAME = "dungeon_audio";
+        public static readonly string CINE_CAM_NAME = "cine_cam";
         #endregion
 
         #region Game
@@ -58,6 +59,7 @@ namespace GDGame
         public static readonly string MAIN_SCENE_NAME = "Main Game";
         public static readonly string GAMEPAD_P1_NAME = "Gamepad P1";
         public static readonly string LOCALISATION_KEY_ERROR = "Key Not Found";
+        public static readonly string FONT_NAME = "gamefont";
         public static readonly int RENDER_ORDER = 100;
         public static readonly int FORWARD_MOVE_NUM = 0;
         public static readonly int BACKWARD_MOVE_NUM = 1;
@@ -65,10 +67,21 @@ namespace GDGame
         public static readonly int LEFT_MOVE_NUM = 3;
         #endregion
 
+        #region Textures
+        public static readonly string BUTTON_TEXTURE = "button2";
+        public static readonly string HYPHON_TEXTURE = "hyphon";
+        public static readonly string TOGGLE_TEXTURE = "toggle";
+        public static readonly string MAIN_MENU_TEXTURE = "bg_1";
+        public static readonly string AUDIO_MENU_TEXTURE = "bg_2";
+        public static readonly string CONTROL_MENU_TEXTURE = "bg_3";
+        public static readonly string SAND_TEXTURE = "Plane_sand_openPBR_shader1_BaseColor";
+        #endregion
+
         #region Audio
         public static readonly string GAME_INTRO_KEY = "game_intro";
         public static readonly string OOF_KEY = "oof";
         public static readonly string RATTLE_KEY = "rattle";
+        public static readonly string MAIN_THEME_KEY = "main_theme";
         #endregion
 
         #region Content

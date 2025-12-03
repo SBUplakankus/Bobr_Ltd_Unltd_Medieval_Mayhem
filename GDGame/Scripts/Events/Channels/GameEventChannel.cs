@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace GDGame.Scripts.Events.Channels
 {
+    /// <summary>
+    /// Game Event Channel for Starting, Pausing and Unpausing. 
+    /// Unused at the moment.
+    /// </summary>
     public class GameEventChannel
     {
         public EventBase OnGameStarted = new();

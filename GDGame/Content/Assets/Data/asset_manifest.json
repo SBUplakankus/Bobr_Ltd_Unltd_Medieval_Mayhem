@@ -74,6 +74,35 @@
         {
             "name": "bg_4",
             "contentPath": "assets/textures/ui/4"
+        },
+        {
+            "name": "Plane_sand_openPBR_shader1_BaseColor",
+            "contentPath": "assets/textures/Plane_sand_openPBR_shader1_BaseColor"
+        },
+        {
+            "name": "Castle_Section_openPBR_shader1_BaseColor",
+            "contentPath": "assets/textures/Castle_Section_openPBR_shader1_BaseColor"
+        },
+        {
+            "name": "Guilitene_base_lambert1_BaseColor",
+            "contentPath": "assets/textures/Guilitene_base_lambert1_BaseColor"
+        },
+        {
+            "name": "Long_Platform_lambert1_BaseColor",
+            "contentPath": "assets/textures/Long_Platform_lambert1_BaseColor"
+        },
+
+        {
+            "name": "Guilitinne_openPBR_shader1_BaseColor",
+            "contentPath": "assets/textures/Guilitinne_openPBR_shader1_BaseColor"
+        },
+        {
+            "name": "small_platform_text",
+            "contentPath": "assets/textures/small_platform_text"
+        },
+        {
+            "name": "Spike_lambert1_BaseColor",
+            "contentPath": "assets/textures/Spike_lambert1_BaseColor"
         }
     ],
     "models": [
@@ -88,6 +117,30 @@
         {
             "name": "corridor",
             "contentPath": "assets/models/corridor-intersection"
+        },
+        {
+            "name": "Castle_Section",
+            "contentPath": "assets/models/Castle_Section"
+        },
+        {
+            "name": "Guilitene_base",
+            "contentPath": "assets/models/Guilitene_base"
+        },
+        {
+            "name": "Spike",
+            "contentPath": "assets/models/Spike"
+        },
+        {
+            "name": "Spike_Platform",
+            "contentPath": "assets/models/Spike_Platform"
+        },
+        {
+            "name": "Long_Platform",
+            "contentPath": "assets/models/Long_Platform"
+        },
+        {
+            "name": "Guilitinne_final",
+            "contentPath": "assets/models/Guilitinne_final"
         }
     ],
     "sounds": [
@@ -118,6 +171,10 @@
         {
             "name": "oof",
             "contentPath": "assets/sounds/hit_2"
+        },
+        {
+            "name": "main_theme",
+            "contentPath": "assets/sounds/Medieval_Mayhem_OST1.1"
         }
 
     ],
