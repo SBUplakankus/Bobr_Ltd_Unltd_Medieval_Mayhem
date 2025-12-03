@@ -171,6 +171,10 @@
         {
             "name": "oof",
             "contentPath": "assets/sounds/hit_2"
+        },
+        {
+            "name": "main_theme",
+            "contentPath": "assets/sounds/Medieval_Mayhem_OST1.1"
         }
 
     ],

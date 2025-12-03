@@ -323,6 +323,12 @@
 /processorParam:Quality=Best
 /build:Assets/Sounds/intro_extended_3.wav;Assets/Sounds/intro_extended_3
 
+#begin Assets/Sounds/Medieval_Mayhem_OST1.1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Assets/Sounds/Medieval_Mayhem_OST1.1.wav;Assets/Sounds/Medieval_Mayhem_OST1.1
+
 #begin Assets/Sounds/rattle_loop_1.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

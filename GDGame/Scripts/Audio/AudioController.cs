@@ -110,7 +110,7 @@ namespace GDGame.Scripts.Audio
         public void Initialise()
         {
             _audioEventChannel = EventChannelManager.Instance.AudioEvents;
-            PlayMusic(AppData.MAIN_MUSIC);
+            PlayMusic(AppData.MAIN_THEME_KEY);
             Generate3DAudio();
             Add3DAudioToScene();
             InitEventHandlers();

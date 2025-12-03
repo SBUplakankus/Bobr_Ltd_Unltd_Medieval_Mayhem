@@ -81,6 +81,7 @@ namespace GDGame
         public static readonly string GAME_INTRO_KEY = "game_intro";
         public static readonly string OOF_KEY = "oof";
         public static readonly string RATTLE_KEY = "rattle";
+        public static readonly string MAIN_THEME_KEY = "main_theme";
         #endregion
 
         #region Content
