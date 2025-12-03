@@ -1,13 +1,12 @@
-﻿using System;
+﻿using GDEngine.Core.Components;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GDEngine.Core.Components;
-using GDEngine.Core.Entities;
 
 namespace GDGame.Scripts.Traps
 {
+    /// <summary>
+    /// Creates and Updates the traps in the game which are based off of <see cref="TrapBase"/>.
+    /// </summary>
     public class TrapManager : Component
     {
         #region Fields
@@ -18,7 +17,8 @@ namespace GDGame.Scripts.Traps
         public TrapManager() 
         {
             _trapList = new List<TrapBase>();
-            _trapList.Add(new MovingTrap(1,5));
+            //_trapList.Add(new MovingTrap(1,5));
+            //_trapList.Add(new RotatingTrap(2,3));
         }
         #endregion
 
@@ -32,7 +32,10 @@ namespace GDGame.Scripts.Traps
             if (_trapList.Count == 0) return;
 
             foreach (var trap in _trapList)
+            {
                 trap.InitTrap();
+            }
+                
         }
         private void UpdateTraps()
         {
@@ -46,6 +49,9 @@ namespace GDGame.Scripts.Traps
         #region Engine Methods
         protected override void Start()
         {
+            _trapList.Add(new MovingTrap(1, 1f));
+            _trapList.Add(new RotatingTrap(2, 1f));
+
             InitTraps();
         }
         protected override void Update(float deltaTime)

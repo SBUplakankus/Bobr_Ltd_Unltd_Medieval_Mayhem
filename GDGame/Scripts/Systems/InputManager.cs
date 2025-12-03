@@ -1,4 +1,5 @@
 ﻿using GDEngine.Core.Components;
+using GDEngine.Core.Entities;
 using GDEngine.Core.Input.Data;
 using GDEngine.Core.Input.Devices;
 using GDEngine.Core.Systems;
@@ -8,26 +9,37 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GDGame.Scripts.Systems
 {
+    /// <summary>
+    /// Controls the input for the game, storing the <see cref="Keys"/> for each event and the <see cref="KeyboardState"/>.
+    /// Uses the <see cref="InputSystem"/> and <see cref="InputEventChannel"/> to pass them through the game.
+    /// </summary>
     public class InputManager : Component
     {
         #region Fields
-        private InputEventChannel _inputEventChannel;
-        private InputSystem _inputSystem;
+        private readonly InputEventChannel _inputEventChannel;
+        private readonly PlayerEventChannel _playerEventChannel;
+        private readonly InputSystem _inputSystem;
+        private GameObject _inputGO;
         private KeyboardState _newKBState, _oldKBState;
         private readonly float _mouseSensitivity = 0.12f;
         private readonly int _debounceMs = 60;
         private readonly bool _enableKeyRepeat = true;
         private readonly int _keyRepeatMs = 300;
+        private bool _isPaused;
         #endregion
 
         #region Input Keys
-        private readonly Keys _pauseKey = Keys.Escape;
+        private readonly Keys _pauseKey = Keys.Q;
         private readonly Keys _fullscreenKey = Keys.F11;
         private readonly Keys _exitKey = Keys.E;
         private readonly Keys _forwardKey = Keys.W;
         private readonly Keys _backwardKey = Keys.S;
         private readonly Keys _leftKey = Keys.A;
         private readonly Keys _rightKey = Keys.D;
+        private readonly Keys _languageSwitchKey = Keys.L;
+        private readonly Keys _orbTestKey = Keys.O;
+        private readonly Keys _damageTestKey = Keys.P;
+        private static MovementKeys _movementKeys;
         #endregion
 
         #region Constructors
@@ -49,11 +61,32 @@ namespace GDGame.Scripts.Systems
             _inputSystem.Add(new GDGamepadInput(PlayerIndex.One, AppData.GAMEPAD_P1_NAME));
 
             _inputEventChannel = EventChannelManager.Instance.InputEvents;
+            _playerEventChannel = EventChannelManager.Instance.PlayerEvents;
         }
         #endregion
 
         #region Accessors
         public InputSystem Input => _inputSystem;
+        public static MovementKeys MoveKeys => _movementKeys;
+        #endregion
+
+        #region Methods
+        public void Initialise()
+        {
+            _inputGO = new GameObject(AppData.INPUT_NAME);
+            _inputGO.AddComponent(this);
+
+            _movementKeys = new MovementKeys()
+            {
+                right = _rightKey,
+                forward = _forwardKey,
+                left = _leftKey,
+                back = _backwardKey
+            };
+
+            SceneController.AddToCurrentScene(_inputGO);
+            SceneController.AddToCurrentScene(_inputSystem);
+        }
         #endregion
 
         #region Input Methods
@@ -62,7 +95,7 @@ namespace GDGame.Scripts.Systems
             bool isPressed = _newKBState.IsKeyDown(_pauseKey) && !_oldKBState.IsKeyDown(_pauseKey);
             if (!isPressed) return;
 
-            _inputEventChannel.PauseToggle.Raise();    
+            _inputEventChannel.OnPauseToggle.Raise();    
         }
 
         private void CheckForFullscreen()
@@ -70,7 +103,7 @@ namespace GDGame.Scripts.Systems
             bool isPressed = _newKBState.IsKeyDown(_fullscreenKey) && !_oldKBState.IsKeyDown(_fullscreenKey);
             if (!isPressed) return;
 
-            _inputEventChannel.FullscreenToggle.Raise();
+            _inputEventChannel.OnFullscreenToggle.Raise();
         }
 
         private void CheckForExit()
@@ -78,30 +111,41 @@ namespace GDGame.Scripts.Systems
             bool isPressed = _newKBState.IsKeyDown(_exitKey) && !_oldKBState.IsKeyDown(_exitKey);
             if (!isPressed) return;
 
-            _inputEventChannel.ApplicationExit.Raise();
+            _inputEventChannel.OnApplicationExit.Raise();
         }
 
-        private void CheckForMovement()
+        private void CheckForLanguageSwap()
         {
-            if (_newKBState.IsKeyDown(_forwardKey))
-                _inputEventChannel.MovementInput.Raise(AppData.FORWARD_MOVE_NUM);
+            bool isPressed = _newKBState.IsKeyDown(_languageSwitchKey) && !_oldKBState.IsKeyDown(_languageSwitchKey);
+            if (!isPressed) return;
 
-            if (_newKBState.IsKeyDown(_backwardKey))
-                _inputEventChannel.MovementInput.Raise(AppData.BACKWARD_MOVE_NUM);
+            _inputEventChannel.OnLanguageSwap.Raise();
+        }
 
-            if (_newKBState.IsKeyDown(_leftKey))
-                _inputEventChannel.MovementInput.Raise(AppData.LEFT_MOVE_NUM);
+        private void CheckForOrbTest()
+        {
+            bool isPressed = _newKBState.IsKeyDown(_orbTestKey) && !_oldKBState.IsKeyDown(_orbTestKey);
+            if (!isPressed) return;
 
-            if (_newKBState.IsKeyDown(_rightKey))
-                _inputEventChannel.MovementInput.Raise(AppData.RIGHT_MOVE_NUM);
+            _playerEventChannel.OnOrbCollected.Raise();
+        }
+
+        private void CheckForDamageTest()
+        {
+            bool isPressed = _newKBState.IsKeyDown(_damageTestKey) && !_oldKBState.IsKeyDown(_damageTestKey);
+            if (!isPressed) return;
+
+            _playerEventChannel.OnPlayerDamaged.Raise(5);
         }
         
         private void CheckForInputs()
         {
-            CheckForPause();
             CheckForFullscreen();
             CheckForExit();
-            CheckForMovement();
+            CheckForLanguageSwap();
+            CheckForOrbTest();
+            CheckForDamageTest();
+            CheckForPause();
         }
         #endregion
 
@@ -115,5 +159,10 @@ namespace GDGame.Scripts.Systems
             base.Update(deltaTime);
         }
         #endregion
+    }
+
+    public struct MovementKeys 
+    { 
+        public Keys forward, right, back, left; 
     }
 }

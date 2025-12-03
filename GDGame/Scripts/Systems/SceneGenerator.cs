@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GDEngine.Core.Collections;
 using GDEngine.Core.Components;
 using GDEngine.Core.Entities;
@@ -12,11 +8,13 @@ using GDEngine.Core.Rendering;
 using GDGame.Demos.Controllers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct2D1.Effects;
 
 namespace GDGame.Scripts.Systems
 {
-    public class SceneGenerator
+    /// <summary>
+    /// Generates the base skybox and ground for the main scene
+    /// </summary>
+    public class SceneGenerator : IDisposable
     {
         #region Fields
         private ContentDictionary<Texture2D> _textures;
@@ -27,7 +25,7 @@ namespace GDGame.Scripts.Systems
         private const int SKY_SCALE = 500;
         private const int GROUND_SCALE = 500;
         private Vector3 _skyScaleVector = new(SKY_SCALE, SKY_SCALE, 1);
-
+        private bool disposedValue;
         private readonly Dictionary<string, Vector3> _skyPositions =
             new()
             {
@@ -147,7 +145,7 @@ namespace GDGame.Scripts.Systems
             gameObject.AddComponent(meshFilter);
             meshRenderer = gameObject.AddComponent<MeshRenderer>();
             meshRenderer.Material = _matBasicUnlitGround;
-            meshRenderer.Overrides.MainTexture = _textures.Get("ground_grass");
+            meshRenderer.Overrides.MainTexture = _textures.Get(AppData.SAND_TEXTURE);
 
             // Add a box collider matching the ground size
             var collider = gameObject.AddComponent<BoxCollider>();
@@ -160,6 +158,46 @@ namespace GDGame.Scripts.Systems
             gameObject.IsStatic = true;
 
             currentScene.Add(gameObject);
+        }
+
+        private void Clear()
+        {
+            _textures?.Dispose();
+            _textures = null;
+
+            _matBasicLit?.Dispose();
+            _matBasicLit = null;
+
+            _matBasicUnlit?.Dispose();
+            _matBasicUnlit = null;
+
+            _matBasicUnlitGround?.Dispose();
+            _matBasicUnlitGround = null;
+
+            _graphics?.Dispose();
+            _graphics = null;
+
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposedValue) return;
+
+            if (disposing)
+                Clear();
+
+            disposedValue = true;
+        }
+
+        ~SceneGenerator()
+        {
+            Dispose(disposing: false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
         #endregion
     }

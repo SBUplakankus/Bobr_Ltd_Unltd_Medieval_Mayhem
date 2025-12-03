@@ -1,21 +1,13 @@
 {
-  "version": 1,
+  "version": 67,
   "meta": {
-    "author": "NMCG",
-    "asset": "Game assets - Level 1 - Forbidden Planet"
+    "author": "Bobr Limited Unlimited",
+    "asset": "MEdieval Mayhem"
   },
   "fonts": [
     {
-      "name": "perf_stats_font",
-      "contentPath": "assets/fonts/perfStats"
-    },
-    {
-      "name": "mouse_reticle_font",
-      "contentPath": "assets/fonts/uiReticleText"
-    },
-    {
-      "name": "menufont",
-      "contentPath": "assets/fonts/menufont"
+      "name": "gamefont",
+      "contentPath": "assets/fonts/gamefont"
     }
   ],
     "textures": [
@@ -23,7 +15,6 @@
             "name": "ground_grass",
             "contentPath": "assets/textures/foliage/ground/grass1"
         },
-
         {
             "name": "skybox_back",
             "contentPath": "assets/textures/skybox/back"
@@ -51,6 +42,67 @@
         {
             "name": "colormap",
             "contentPath": "assets/models/textures/colormap"
+        },
+        {
+            "name": "button",
+            "contentPath": "assets/textures/ui/button_rectangle_12"
+        },
+        {
+            "name": "button2",
+            "contentPath": "assets/textures/ui/button_rectangle_10"
+        },
+        {
+            "name": "hyphon",
+            "contentPath": "assets/textures/ui/Free Flat Hyphen Icon"
+        },
+        {
+            "name": "toggle",
+            "contentPath": "assets/textures/ui/Free Flat Toggle Thumb Centre Icon"
+        },
+        {
+            "name": "bg_1",
+            "contentPath": "assets/textures/ui/1"
+        },
+        {
+            "name": "bg_2",
+            "contentPath": "assets/textures/ui/2"
+        },
+        {
+            "name": "bg_3",
+            "contentPath": "assets/textures/ui/3"
+        },
+        {
+            "name": "bg_4",
+            "contentPath": "assets/textures/ui/4"
+        },
+        {
+            "name": "Plane_sand_openPBR_shader1_BaseColor",
+            "contentPath": "assets/textures/Plane_sand_openPBR_shader1_BaseColor"
+        },
+        {
+            "name": "Castle_Section_openPBR_shader1_BaseColor",
+            "contentPath": "assets/textures/Castle_Section_openPBR_shader1_BaseColor"
+        },
+        {
+            "name": "Guilitene_base_lambert1_BaseColor",
+            "contentPath": "assets/textures/Guilitene_base_lambert1_BaseColor"
+        },
+        {
+            "name": "Long_Platform_lambert1_BaseColor",
+            "contentPath": "assets/textures/Long_Platform_lambert1_BaseColor"
+        },
+
+        {
+            "name": "Guilitinne_openPBR_shader1_BaseColor",
+            "contentPath": "assets/textures/Guilitinne_openPBR_shader1_BaseColor"
+        },
+        {
+            "name": "small_platform_text",
+            "contentPath": "assets/textures/small_platform_text"
+        },
+        {
+            "name": "Spike_lambert1_BaseColor",
+            "contentPath": "assets/textures/Spike_lambert1_BaseColor"
         }
     ],
     "models": [
@@ -65,13 +117,33 @@
         {
             "name": "corridor",
             "contentPath": "assets/models/corridor-intersection"
+        },
+        {
+            "name": "Castle_Section",
+            "contentPath": "assets/models/Castle_Section"
+        },
+        {
+            "name": "Guilitene_base",
+            "contentPath": "assets/models/Guilitene_base"
+        },
+        {
+            "name": "Spike",
+            "contentPath": "assets/models/Spike"
+        },
+        {
+            "name": "Spike_Platform",
+            "contentPath": "assets/models/Spike_Platform"
+        },
+        {
+            "name": "Long_Platform",
+            "contentPath": "assets/models/Long_Platform"
+        },
+        {
+            "name": "Guilitinne_final",
+            "contentPath": "assets/models/Guilitinne_final"
         }
     ],
     "sounds": [
-        {
-            "name": "explosion1",
-            "contentPath": "assets/sounds/Explosion 1"
-        },
         {
             "name": "test-music",
             "contentPath": "assets/sounds/test-music"
@@ -87,6 +159,22 @@
         {
             "name": "dungeon_audio",
             "contentPath": "assets/sounds/dungeon-air-6983"
+        },
+        {
+            "name": "game_intro",
+            "contentPath": "assets/sounds/intro_extended_3"
+        },
+        {
+            "name": "rattle",
+            "contentPath": "assets/sounds/rattle_loop_1"
+        },
+        {
+            "name": "oof",
+            "contentPath": "assets/sounds/hit_2"
+        },
+        {
+            "name": "main_theme",
+            "contentPath": "assets/sounds/Medieval_Mayhem_OST1.1"
         }
 
     ],

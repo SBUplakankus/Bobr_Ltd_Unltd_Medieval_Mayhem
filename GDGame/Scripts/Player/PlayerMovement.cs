@@ -1,71 +1,167 @@
-﻿using GDEngine.Core.Components;
-using GDEngine.Core.Entities;
+﻿using System.Diagnostics;
+using GDEngine.Core.Components;
+using GDEngine.Core.Events;
+using GDEngine.Core.Rendering.Base;
 using GDEngine.Core.Timing;
+using GDGame.Scripts.Systems;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using SharpDX.Direct3D9;
 
 namespace GDGame.Scripts.Player
 {
-    public class PlayerMovement
+    /// <summary>
+    /// Controls the player physics movement.
+    /// Created in <see cref="PlayerController"/>.
+    /// Takes parts of code from <see cref="PhysicsWASDController"/>.
+    /// </summary>
+    public class PlayerMovement : Component
     {
         #region Fields
-        private float _moveSpeed = 40f;
+        private readonly float _moveSpeed = 15f;
         private RigidBody _rb;
-        private SphereCollider _collider;
-        private GameObject _playerParent;
+        private BoxCollider _collider;
+        private readonly LayerMask _playerLayerMask = LayerMask.All;
+        private Keys _forwardKey, _rightKey, _backKey, _leftKey;
+        private KeyboardState _keyboardState;
+        #endregion
+
+        #region Accessors
+        public RigidBody RB => _rb;
+        public BoxCollider Collider => _collider;
         #endregion
 
         #region Constructors
-        public PlayerMovement(GameObject parent)
+        public PlayerMovement()
         {
-            _playerParent = parent;
-
-            _collider = new SphereCollider();
-            _collider.Diameter = Vector3.One.Length();
-            _playerParent.AddComponent(_collider);
-
-            _rb = new RigidBody();
-            _rb.BodyType = BodyType.Dynamic;
-            _rb.Mass = 1f;
-            _rb.AngularDamping = 1;
-            _rb.LinearDamping = 1;
-            _playerParent.AddComponent(_rb);
-
-            // parent.AddComponent<KeyboardWASDController>();
+            InitMovementKeys();
+            InitRB();
         }
         #endregion
 
         #region Methods
-        private void Move(Vector3 dir)
+        private void InitMovementKeys()
         {
-            dir.Normalize();
-            Vector3 delta = dir * _moveSpeed;
-            _rb.AddForce(delta);
+            var keys = InputManager.MoveKeys;
+            _rightKey = keys.right;
+            _leftKey = keys.left;
+            _backKey = keys.back;
+            _forwardKey = keys.forward;
         }
-        public void HandleMovement(int dir)
+        private void InitRB()
         {
+            _collider = new BoxCollider
+            {
+                Size = new Vector3(3,3,3),
+            };
+
+            _rb = new RigidBody
+            {
+                BodyType = BodyType.Dynamic,
+            };
+        }
+        
+        private void Move(Vector3 moveDir, float speed)
+        {
+            var velocity = _rb.LinearVelocity;
+
+            if (moveDir.LengthSquared() > 0f && speed > 0f)
+            {
+                moveDir.Normalize();
+
+                // Set horizontal velocity; keep Y as-is.
+                velocity.X = moveDir.X * speed;
+                velocity.Z = moveDir.Z * speed;
+            }
+            else
+            {
+                // No movement input: stop horizontal motion, let damping & gravity handle the rest.
+                velocity.X = 0f;
+                velocity.Z = 0.1f;
+            }
+
+            _rb.LinearVelocity = velocity;
+        }
+
+        private void HandleMovement()
+        {
+
+            // Set the Base Direction Vectors
             var forward = _rb.Transform.Forward;
             var right = _rb.Transform.Right;
 
             forward.Y = 0;
             right.Y = 0;
 
+            if (forward.LengthSquared() > 0f)
+                forward.Normalize();
+            else
+                forward = Vector3.Forward;
+
+            if (right.LengthSquared() > 0f)
+                right.Normalize();
+            else
+                right = Vector3.Right;
+
+            _keyboardState = Keyboard.GetState();
+
             var moveDir = Vector3.Zero;
 
-            if (dir == AppData.FORWARD_MOVE_NUM)
+            // Apply Direction based on the input
+            if (_keyboardState.IsKeyDown(_forwardKey))
                 moveDir += forward;
-
-            if(dir == AppData.BACKWARD_MOVE_NUM)
+            if (_keyboardState.IsKeyDown(_backKey))
                 moveDir -= forward;
-
-            if (dir == AppData.LEFT_MOVE_NUM)
+            if (_keyboardState.IsKeyDown(_rightKey))
+                moveDir += right;
+            if (_keyboardState.IsKeyDown(_leftKey))
                 moveDir -= right;
 
-            if(dir == AppData.RIGHT_MOVE_NUM)
-                moveDir += right;
+            var speed = _moveSpeed;
 
-            if(moveDir.LengthSquared() == 0) return;
+            // Move the players rigid body
+            Move(moveDir, speed);
+        }
+        #endregion
 
-            Move(moveDir);
+        #region Game Loop
+        protected override void Update(float deltaTime)
+        {
+            HandleMovement();
+        }
+        #endregion
+
+        #region Events
+        /// <summary>
+        /// Handle the players collision with objects in the world
+        /// </summary>
+        /// <param name="collision">Collision Event</param>
+        public void HandlePlayerCollision(CollisionEvent collision)
+        {
+            // Early Exit if the Collsiion doesnt match the player layer mask
+            // Or if it doesn't involve the player
+            var a = collision.BodyA;
+            var b = collision.BodyB;
+
+            // Try keep A as player when calling events
+
+            if (!collision.Matches(_playerLayerMask)) return;
+            if (a != _rb && b != _rb) return;
+
+            var colName = b.GameObject.Name;
+
+            switch (colName)
+            {
+                case "Game_Over":
+                    Debug.WriteLine("Game Over");
+                    break;
+                case "Game_Won":
+                    Debug.WriteLine("Game Won");
+                    break;
+                default:
+                    // Debug.WriteLine("Collison not Set Up");
+                    break;
+            }
         }
         #endregion
     }

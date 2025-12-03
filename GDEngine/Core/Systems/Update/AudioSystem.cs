@@ -1,16 +1,13 @@
 ﻿#nullable enable
 using GDEngine.Core.Audio;
-using GDEngine.Core.Audio.Events;
 using GDEngine.Core.Collections;
 using GDEngine.Core.Components;
 using GDEngine.Core.Entities;
 using GDEngine.Core.Enums;
 using GDEngine.Core.Events;
 using GDEngine.Core.Services;
-using GDEngine.Core.Systems.Base;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 
 namespace GDEngine.Core.Audio
 {
@@ -154,7 +151,7 @@ namespace GDEngine.Core.Audio
     }
 }
 
-namespace GDEngine.Core.Audio.Events
+namespace GDEngine.Core.Audio
 {
     /// <summary>
     /// Event to request a one-shot sound effect.
@@ -235,7 +232,7 @@ namespace GDEngine.Core.Audio.Events
     public sealed class FadeChannelEvent
     {
         #region Properties
-        public GDEngine.Core.Audio.AudioMixer.AudioChannel Channel { get; }
+        public AudioMixer.AudioChannel Channel { get; }
         public float TargetVolume { get; }
         public float DurationSeconds { get; }
         #endregion
@@ -277,8 +274,6 @@ namespace GDEngine.Core.Systems
 
         private readonly AudioListener _listener = new AudioListener();
         private readonly AudioEmitter _emitter = new AudioEmitter();
-
-        private SoundEffectInstance? _musicCurrent;
         private SoundEffectInstance? _musicNext;
 
         private float _musicBaseVolume = 1f;
@@ -301,9 +296,11 @@ namespace GDEngine.Core.Systems
         {
             get { return _mixer; }
         }
-        #endregion
+
+        public SoundEffectInstance CurrentMusic { get; private set; }
 
         public AudioListener Listener => _listener;
+        #endregion
 
         #region Constructors
         public AudioSystem(ContentDictionary<SoundEffect> sounds)
@@ -373,7 +370,7 @@ namespace GDEngine.Core.Systems
             // Apply 3D spatialisation based on listener + emitter
             instance.Apply3D(_listener, _emitter);
 
-            // Volume still goes through your mixer
+            // Volume still goes through the mixer
             instance.Volume = v;
             instance.Play();
 
@@ -407,22 +404,22 @@ namespace GDEngine.Core.Systems
 
             _musicBaseVolume = MathHelper.Clamp(volume, 0f, 1f);
 
-            if (_musicCurrent == null || fadeInSeconds <= 0f)
+            if (CurrentMusic == null || fadeInSeconds <= 0f)
             {
-                if (_musicCurrent != null)
+                if (CurrentMusic != null)
                 {
-                    _musicCurrent.Stop();
-                    _musicCurrent.Dispose();
+                    CurrentMusic.Stop();
+                    CurrentMusic.Dispose();
                 }
 
-                _musicCurrent = instance;
+                CurrentMusic = instance;
                 _musicCrossFading = false;
                 _musicCrossFadeElapsed = 0f;
                 _musicCrossFadeDuration = 0f;
 
                 float v = _mixer.GetEffectiveVolume(AudioMixer.AudioChannel.Music, _musicBaseVolume);
-                _musicCurrent.Volume = v;
-                _musicCurrent.Play();
+                CurrentMusic.Volume = v;
+                CurrentMusic.Play();
                 return;
             }
 
@@ -443,14 +440,14 @@ namespace GDEngine.Core.Systems
 
         public void StopMusic(float fadeOutSeconds = 0f)
         {
-            if (_musicCurrent == null)
+            if (CurrentMusic == null)
                 return;
 
             if (fadeOutSeconds <= 0f)
             {
-                _musicCurrent.Stop();
-                _musicCurrent.Dispose();
-                _musicCurrent = null;
+                CurrentMusic.Stop();
+                CurrentMusic.Dispose();
+                CurrentMusic = null;
 
                 if (_musicNext != null)
                 {
@@ -522,12 +519,15 @@ namespace GDEngine.Core.Systems
             // Update listener from active camera
             if (_scene != null && _scene.ActiveCamera != null)
             {
-                Transform camTransform = _scene.ActiveCamera.Transform;
+                Transform? camTransform = _scene.ActiveCamera.Transform;
 
-                _listener.Position = camTransform.Position;
-                _listener.Forward = camTransform.Forward;
-                _listener.Up = camTransform.Up;
-                _listener.Velocity = Vector3.Zero;
+                if (camTransform != null)
+                {
+                    _listener.Position = camTransform.Position;
+                    _listener.Forward = camTransform.Forward;
+                    _listener.Up = camTransform.Up;
+                    _listener.Velocity = Vector3.Zero;
+                }
             }
 
             _mixer.Update(deltaTime);
@@ -558,18 +558,18 @@ namespace GDEngine.Core.Systems
         {
             StopAllSfx();
 
-            if (_musicCurrent != null)
+            if (CurrentMusic != null)
             {
                 try
                 {
-                    _musicCurrent.Stop();
-                    _musicCurrent.Dispose();
+                    CurrentMusic.Stop();
+                    CurrentMusic.Dispose();
                 }
                 catch
                 {
                 }
 
-                _musicCurrent = null;
+                CurrentMusic = null;
             }
 
             if (_musicNext != null)
@@ -624,15 +624,15 @@ namespace GDEngine.Core.Systems
 
         private void UpdateMusic(float deltaTime)
         {
-            if (_musicCurrent == null && _musicNext == null)
+            if (CurrentMusic == null && _musicNext == null)
                 return;
 
             if (!_musicCrossFading)
             {
-                if (_musicCurrent != null)
+                if (CurrentMusic != null)
                 {
                     float v = _mixer.GetEffectiveVolume(AudioMixer.AudioChannel.Music, _musicBaseVolume);
-                    _musicCurrent.Volume = v;
+                    CurrentMusic.Volume = v;
                 }
 
                 return;
@@ -651,27 +651,27 @@ namespace GDEngine.Core.Systems
             if (t > 1f)
                 t = 1f;
 
-            if (_musicNext != null && _musicCurrent != null)
+            if (_musicNext != null && CurrentMusic != null)
             {
                 float vCurrent = _mixer.GetEffectiveVolume(AudioMixer.AudioChannel.Music, _musicBaseVolume * (1f - t));
                 float vNext = _mixer.GetEffectiveVolume(AudioMixer.AudioChannel.Music, _musicBaseVolume * t);
 
-                _musicCurrent.Volume = vCurrent;
+                CurrentMusic.Volume = vCurrent;
                 _musicNext.Volume = vNext;
 
                 if (t >= 1f)
                     CompleteMusicCrossFade();
             }
-            else if (_musicCurrent != null)
+            else if (CurrentMusic != null)
             {
                 float v = _mixer.GetEffectiveVolume(AudioMixer.AudioChannel.Music, _musicBaseVolume * (1f - t));
-                _musicCurrent.Volume = v;
+                CurrentMusic.Volume = v;
 
                 if (t >= 1f)
                 {
-                    _musicCurrent.Stop();
-                    _musicCurrent.Dispose();
-                    _musicCurrent = null;
+                    CurrentMusic.Stop();
+                    CurrentMusic.Dispose();
+                    CurrentMusic = null;
 
                     _musicCrossFading = false;
                     _musicCrossFadeElapsed = 0f;
@@ -688,15 +688,15 @@ namespace GDEngine.Core.Systems
 
         private void CompleteMusicCrossFade()
         {
-            if (_musicCurrent != null && _musicNext != null)
+            if (CurrentMusic != null && _musicNext != null)
             {
-                _musicCurrent.Stop();
-                _musicCurrent.Dispose();
-                _musicCurrent = _musicNext;
+                CurrentMusic.Stop();
+                CurrentMusic.Dispose();
+                CurrentMusic = _musicNext;
                 _musicNext = null;
 
                 float v = _mixer.GetEffectiveVolume(AudioMixer.AudioChannel.Music, _musicBaseVolume);
-                _musicCurrent.Volume = v;
+                CurrentMusic.Volume = v;
             }
 
             _musicCrossFading = false;
