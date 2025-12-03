@@ -19,8 +19,8 @@
 - [ ] Trap Physics 
 - [x] Trap Animation
 - [x] Additional Sound Effects
-- [ ] Basic Level Design
-- [ ] Start Menu
+- [x] Basic Level Design
+- [x] Start Menu
 
 ---
 
@@ -48,8 +48,8 @@
 - [x] Loaded basic texture in project
 - [x] Basic UI Element
 - [x] Chosen Trap Designed
-- [ ] Chosen Game Win Condition Designed
-- [ ] Chosen Game Over Condition Designed
+- [x] Chosen Game Win Condition Designed
+- [x] Chosen Game Over Condition Designed
 - [x] Chosen Basic Sound Effect
 
 ---
@@ -69,11 +69,12 @@
 - [ ] Working Game Start to Finish
 - [x] Working UI
 - [x] Basic Physics Implementation
-- [ ] Working Trap  
+- [x] Working Trap  
 
 ---
 
 ## ✏ Notes
 - Will be updated throughout the duration with any additional plans and goals
+- Didn't have a working physics movement collider implemented before UDP Deadline which hindered game event and physics tasks
 
 ---
