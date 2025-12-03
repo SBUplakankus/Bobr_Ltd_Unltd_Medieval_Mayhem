@@ -75,7 +75,7 @@ namespace GDGame.Scripts.Systems
             gameObject = new GameObject(objectName);
             gameObject.Transform.TranslateTo(position);
             gameObject.Transform.RotateEulerBy(eulerRotationDegrees * MathHelper.Pi / 180f);
-            gameObject.Transform.ScaleTo(scale);
+            gameObject.Transform.ScaleTo(scale / 100);
 
             var model = _models.Get(modelName);
             var texture = _textures.Get(textureName);

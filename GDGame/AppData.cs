@@ -74,6 +74,7 @@ namespace GDGame
         public static readonly string MAIN_MENU_TEXTURE = "bg_1";
         public static readonly string AUDIO_MENU_TEXTURE = "bg_2";
         public static readonly string CONTROL_MENU_TEXTURE = "bg_3";
+        public static readonly string SAND_TEXTURE = "Plane_sand_openPBR_shader1_BaseColor";
         #endregion
 
         #region Audio
