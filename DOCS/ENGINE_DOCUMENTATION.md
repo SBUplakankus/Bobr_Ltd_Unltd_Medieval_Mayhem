@@ -188,6 +188,33 @@ A shared place for quick notes, how-tos, reminders, and useful information disco
        }   
       ```
 
+### 📓 Using AppData - Eliminating Magic Variables
+   Steps:
+   
+   1. The `AppData` file is used to declare globally accessible variables.
+   2. This is done with the aim of reducing the amount of magic numbers and strings in the project.
+   3. `AppData` stores the name keys for Game Objetcs, Textures, Models, Sound Files etc.
+   4. This makes it safe, easy to access and easy to understand.
+```cs
+   // Magic Number Version
+   private void CreateText(string key)
+   {
+      CreateButton("Play");
+   }
+
+   /* -------------------------------------------*/
+   // Declaration in AppData.cs
+   public static readonly string PLAY_BUTTON_TEXT = "Play";
+   /* -------------------------------------------*/
+
+   // Improved Version
+   private void CreateText(string key)
+   {
+      // This passes through "Play" just like above
+      CreateButton(AppData.PLAY_BUTTON_TEXT);
+   }
+```
+
 ---
 
 ## 🧩 Common Problems & Fixes
