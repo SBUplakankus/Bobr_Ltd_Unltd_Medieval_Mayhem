@@ -19,7 +19,7 @@ namespace GDGame.Scripts.UI
     /// This class is a MonoGame <see cref="GameComponent"/> so it
     /// can live alongside a <c>SceneManager : DrawableGameComponent</c>
     /// and configure a dedicated "menu scene" that is separate from
-    /// gameplay scenes.
+    /// gameplay scenes. Based off of <see cref="MenuManager"/>.
     /// </summary>
     /// <see cref="Scene"/>
     /// <see cref="UIMenuPanel"/>

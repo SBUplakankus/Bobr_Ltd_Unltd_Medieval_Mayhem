@@ -10,6 +10,9 @@ using GDGame.Scripts.Systems;
 
 namespace GDGame.Scripts.DemoGame
 {
+    /// <summary>
+    /// Triggers defeat when colliding with the player
+    /// </summary>
     public class GameOverObject
     {
         private GameObject _go;

@@ -15,6 +15,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GDGame.Scripts.UI
 {
+    /// <summary>
+    /// Controls the User Interface for the game, creating and storing 
+    /// <see cref="CursorController"/> for the reticle in the centre of the screen, 
+    /// <see cref="MenuController"/> for the start menu and options menus, 
+    /// <see cref="PlayerHUD"/> for the stats displayed in the top left of the screen.
+    /// </summary>
     public class UserInterfaceController : SystemBase, IDisposable
     {
         #region Fields

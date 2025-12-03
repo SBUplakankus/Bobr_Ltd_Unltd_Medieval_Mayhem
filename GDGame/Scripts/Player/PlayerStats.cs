@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 namespace GDGame.Scripts.Player
 {
+    /// <summary>
+    /// Controls the player stats in the game that are displayed in the Player HUD.
+    /// Created and stored in <see cref="PlayerController"/>.
+    /// </summary>
     public class PlayerStats
     {
         #region Fields
