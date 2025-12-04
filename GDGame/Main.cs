@@ -233,13 +233,17 @@ namespace GDGame
         }
 
         /// <summary>
-        /// Load the objects from the single model and multi model spawn JSON files
+        /// Load the objects from the multi model spawn JSON file
         /// </summary>
         private void LoadModelsFromJSON()
         {
-            foreach (var d in JSONSerializationUtility.LoadData<ModelSpawnData>(Content, AppData.MULTI_MODEL_SPAWN_PATH))
-                SceneController.GetCurrentScene.Add(_modelGenerator.GenerateModel(
-                    d.Position, d.RotationDegrees, d.Scale, d.TextureName, d.ModelName, d.ObjectName));
+            foreach (var m in JSONSerializationUtility.LoadData<ModelSpawnData>(Content, AppData.MULTI_MODEL_SPAWN_PATH))
+            {
+                var modelGO = _modelGenerator.GenerateModel(
+                    m.Position, m.RotationDegrees, m.Scale, m.TextureName, m.ModelName, m.ObjectName);
+
+                SceneController.GetCurrentScene.Add(modelGO);
+            }
         }
 
         /// <summary>
