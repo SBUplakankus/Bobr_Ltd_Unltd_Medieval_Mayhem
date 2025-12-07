@@ -71,7 +71,7 @@ namespace GDGame.Scripts.UI
                 PositionProvider = () => pos
             };
 
-            textGO.AddComponent(uiText);
+            textGO.AddComponent(uiText);  
             _textObjects.Add(uiText);
             SceneController.AddToCurrentScene(textGO);
         }
