@@ -39,7 +39,7 @@ A place for nots on any classes created for our game in the engine.
 - Options are stored in `.csv` files in the `Languages` folder
 - When accessing text to display in game, you use `LocalisationController.Get("text")`
 
-### 🎥 [Cinematic Camera Controller](../GDGame/Scripts/Systems/CineCamController.cs)
+### 🎥 [Cinematic Camera Controller](../GDGame/Scripts/Systems/CinematicCameraController.cs)
 - Created in `Main`
 - Controls the cinematic intro to the game with the moving camera
 - Plays narrator audio through the `AudioEventChannel`
@@ -78,7 +78,7 @@ A place for nots on any classes created for our game in the engine.
 - Created in `Main`
 - Takes in the Fonts and 2D Textures on construction
 
-### 🖱️ [Cursor Controller](../GDGame/Scripts/UI/UserInterfaceController.cs)
+### 🖱️ [Cursor Controller](../GDGame/Scripts/UI/CursorController.cs)
 - Created in `UserInterfaceController`
 - Creates the Reticle in in the middle of the screen.
 - Loads the texture named `reticle` from the JSON
