@@ -22,20 +22,20 @@ namespace GDGame.Scripts.Traps
         #region Constructors
         public RotatingTrap(int id, float rotSpeed) : base(id)
         {
-            _trapGO = ModelGenerator.Instance.GenerateCube(
-                new Vector3(-3, 5, 0),
-                Vector3.Zero,
-                new Vector3(0.5f, 0.5f, 0.5f),
-                "ground_grass",
-                AppData.TRAP_NAME + id);
+            //_trapGO = ModelGenerator.Instance.GenerateCube(
+            //    new Vector3(-3, 5, 0),
+            //    Vector3.Zero,
+            //    new Vector3(0.5f, 0.5f, 0.5f),
+            //    "ground_grass",
+            //    AppData.TRAP_NAME + id);
 
-            _trapModelGO = ModelGenerator.Instance.GenerateModel(
-                Vector3.Zero, Vector3.Zero, new Vector3(3,3,3),
+            _trapGO = ModelGenerator.Instance.GenerateModel(
+                new Vector3(3.4f, 5.2f, 0.2f), Vector3.Zero, new Vector3(3,3,3),
                 "Guilitinne_openPBR_shader1_BaseColor",
                 "Guilitinne_final",
                 AppData.TRAP_NAME + id);
 
-            _trapModelGO.AddComponent<BoxCollider>();
+            _trapGO.AddComponent<BoxCollider>();
 
             SceneController.AddToCurrentScene(_trapGO);
             //SceneController.AddToCurrentScene(_trapModelGO);
@@ -43,20 +43,6 @@ namespace GDGame.Scripts.Traps
 
             // Make sure parent has no scale applied
             _trapGO.Transform.ScaleTo(Vector3.One);
-
-            // Then generate the model with normal scale
-            _trapModelGO.Transform.TranslateTo (new Vector3(1, 1, 1));
-
-            // Then parent it
-            _trapModelGO.Transform.SetParent(_trapGO.Transform);
-
-            // now place the model locally
-            _trapModelGO.Transform.TranslateTo(
-                new Vector3(-118.5f, 0.05f, 4)
-                //new Vector3(0, 10, 0)
-                );
-
-            // Only add the parent to the scene
 
             _rotSpeed = rotSpeed;
         }
