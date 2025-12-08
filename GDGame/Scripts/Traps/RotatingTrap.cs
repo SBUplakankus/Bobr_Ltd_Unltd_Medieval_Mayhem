@@ -13,8 +13,7 @@ namespace GDGame.Scripts.Traps
     {
         #region Fields
         private float _rotSpeed = 5f;
-        private float _startAngle = -90f;
-        private float _endAngle = 90f;
+        private float _endAngle = 60f;
         private float _currentAngle = 0f;
         private bool _rotatingClockwise = true;
         #endregion
@@ -49,30 +48,71 @@ namespace GDGame.Scripts.Traps
         #endregion
 
         #region Methods
+        //public override void UpdateTrap()
+        //{
+        //    _trapGO.Transform.RotateBy(Quaternion.CreateFromAxisAngle(Vector3.Forward, MathHelper.ToRadians(_rotSpeed)));
+        //    if (_rotatingClockwise)
+        //    {
+        //        _currentAngle++;
+        //    }
+        //    else
+        //    {
+        //        _currentAngle--;
+        //    }
+
+        //    if (_currentAngle >= _endAngle)
+        //    {
+        //        _rotatingClockwise = false;
+        //        flip();
+        //    }
+        //    if (_currentAngle <= _startAngle)
+        //    {
+        //        _rotatingClockwise = true;
+        //        flip();
+        //    }
+
+
+        //}
+
         public override void UpdateTrap()
         {
-            _trapGO.Transform.RotateBy(Quaternion.CreateFromAxisAngle(Vector3.Forward, MathHelper.ToRadians(_rotSpeed)));
+            float Lerp(float a, float b, float t) => a + (b - a) * t;
+
+            float baseRad = MathHelper.ToRadians(_rotSpeed);
+
+            float distFromCenter = MathF.Abs(_currentAngle) / 60f;
+            distFromCenter = Math.Clamp(distFromCenter, 0f, 1f);
+
+            float easing = (1f + MathF.Cos(distFromCenter * MathF.PI)) * 0.5f;
+            float easedMul = Lerp(0.2f, 1f, easing);
+
+            float finalRot = baseRad * easedMul;
+            float degChange = MathHelper.ToDegrees(finalRot);
+
             if (_rotatingClockwise)
-            {
-                _currentAngle++;
-            }
+                _currentAngle += degChange;
             else
-            {
-                _currentAngle--;
-            }
+                _currentAngle -= degChange;
 
             if (_currentAngle >= _endAngle)
             {
+                _currentAngle = _endAngle;
                 _rotatingClockwise = false;
                 flip();
             }
-            if (_currentAngle <= _startAngle)
+            else if (_currentAngle <= -_endAngle)
             {
+                _currentAngle = -_endAngle;
                 _rotatingClockwise = true;
                 flip();
             }
 
-
+            _trapGO.Transform.RotateBy(
+                Quaternion.CreateFromAxisAngle(
+                    Vector3.Forward,
+                    finalRot * (_rotatingClockwise ? 1f : -1f)
+                )
+            );
         }
 
         public override void InitTrap()
