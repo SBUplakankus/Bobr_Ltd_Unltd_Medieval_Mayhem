@@ -1,10 +1,11 @@
-﻿using System;
-using GDEngine.Core.Collections;
+﻿using GDEngine.Core.Collections;
+using GDEngine.Core.Components;
 using GDEngine.Core.Entities;
 using GDEngine.Core.Factories;
 using GDEngine.Core.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace GDGame.Scripts.Systems
 {
@@ -57,7 +58,7 @@ namespace GDGame.Scripts.Systems
         }
 
         /// <summary>
-        /// Generate a GameObject with a textured model
+        /// Generate a GameObject with a textured model attached
         /// </summary>
         /// <param name="position">Spawn Position</param>
         /// <param name="eulerRotationDegrees">Spawn Rotation</param>
@@ -75,7 +76,7 @@ namespace GDGame.Scripts.Systems
             gameObject = new GameObject(objectName);
             gameObject.Transform.TranslateTo(position);
             gameObject.Transform.RotateEulerBy(eulerRotationDegrees * MathHelper.Pi / 180f);
-            gameObject.Transform.ScaleTo(scale / 100);
+           // gameObject.Transform.ScaleTo(scale / 100);
 
             var model = _models.Get(modelName);
             var texture = _textures.Get(textureName);
@@ -87,11 +88,23 @@ namespace GDGame.Scripts.Systems
             meshRenderer.Material = _material;
             meshRenderer.Overrides.MainTexture = texture;
 
+            var rb = new RigidBody
+            {
+                BodyType = BodyType.Static,
+            };
+            gameObject.AddComponent(rb);
+
+            var collider = new BoxCollider
+            {
+                Size = scale
+            };
+            gameObject.AddComponent(collider);
+
             return gameObject;
         }
 
         /// <summary>
-        /// Generate a GameObject with a textured cube
+        /// Generate a GameObject with a textured cube attached
         /// </summary>
         /// <param name="position">Spawn Position</param>
         /// <param name="eulerRotationDegrees">Spawn Rotation</param>
@@ -118,6 +131,18 @@ namespace GDGame.Scripts.Systems
 
             meshRenderer.Material = _material;
             meshRenderer.Overrides.MainTexture = texture;
+
+            var rb = new RigidBody
+            {
+                BodyType = BodyType.Static,
+            };
+            gameObject.AddComponent(rb);
+
+            var collider = new BoxCollider
+            {
+                Size = scale
+            };
+            gameObject.AddComponent(collider);
 
             return gameObject;
         }

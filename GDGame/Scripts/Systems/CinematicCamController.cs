@@ -20,11 +20,14 @@ namespace GDGame.Scripts.Systems
         private readonly GameObject _cineCamGO;
         private AudioEventChannel _audioEventChannel;
         private PlayerEventChannel _playerEventChannel;
+        private GameEventChannel _gameEventChannel;
+        private InputEventChannel _inputEventChannel;
         private readonly Camera _camera;
-        private Vector3 _startPos = new (8,18,8);
-        private Vector3 _endPos = new (18, 15, 18);
+        private Vector3 _startPos = new (-3, 25,-20);
+        private Vector3 _endPos = new (-3, 20, 10);
+        private Vector3 _startRotation = new (-45, 0, 0);
         private bool _isActive;
-        private readonly float _duration = 0.1f;
+        private readonly float _duration = 7;
         private float _counter = 0f;
         private readonly float _cameraFOV = 0.9f;
         private const int FAR_PLANE_LIMIT = 1000;
@@ -47,14 +50,22 @@ namespace GDGame.Scripts.Systems
         {
             SceneController.AddToCurrentScene(_cineCamGO);
             SceneController.SetActiveCamera(_camera);
+
             _audioEventChannel = EventChannelManager.Instance.AudioEvents;
             _playerEventChannel = EventChannelManager.Instance.PlayerEvents;
-            StartCameraMovement();
+            _gameEventChannel = EventChannelManager.Instance.GameEvents;
+
+            _gameEventChannel.OnGameStarted.Subscribe(StartCameraMovement);
+
+            _inputEventChannel = EventChannelManager.Instance.InputEvents;
+            _inputEventChannel.OnIntroSkip.Subscribe(HandleSkip);
+
         }
 
         private void StartCameraMovement()
         {
             _cineCamGO.Transform.TranslateTo(_startPos);
+            _cineCamGO.Transform.RotateEulerBy(_startRotation);
             _isActive = true;
             _audioEventChannel.OnSFXRequested.Raise(AppData.GAME_INTRO_KEY);
         }
@@ -71,7 +82,12 @@ namespace GDGame.Scripts.Systems
             SceneController.SetActiveCamera(AppData.PLAYER_NAME);
             _playerEventChannel.OnGameStateChange.Raise(GameState.GameActive);
         }
-
+        private void HandleSkip()
+        {
+            if (!_isActive) return;
+            _counter = _duration;
+           
+        }
         protected override void Update(float deltaTime)
         {
             if (!_isActive) return;
