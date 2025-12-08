@@ -20,5 +20,6 @@ Due to time constraint, there is not much game there but more of a demo for the 
 | Toggle Fullscreen | `F11` |
 | Add Orb | `O` |
 | Remove Health | `P` |
+| Skip Intro | `T` |
 
 ---
