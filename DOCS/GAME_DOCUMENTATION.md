@@ -39,7 +39,7 @@ A place for nots on any classes created for our game in the engine.
 - Options are stored in `.csv` files in the `Languages` folder
 - When accessing text to display in game, you use `LocalisationController.Get("text")`
 
-### 🎥 [Cinematic Camera Controller](../GDGame/Scripts/Systems/CinematicCameraController.cs)
+### 🎥 [Cinematic Camera Controller](../GDGame/Scripts/Systems/CinematicCamController.cs)
 - Created in `Main`
 - Controls the cinematic intro to the game with the moving camera
 - Plays narrator audio through the `AudioEventChannel`
