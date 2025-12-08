@@ -4,428 +4,370 @@
     "author": "NMCG",
     "asset": "Multi game object loaded from JSON"
   },
-    "spawns": [
-        {
-            "position": [
-                0,
-                1,
-                0
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Long_Platform_lambert1_BaseColor",
-            "modelName": "Long_Platform",
-            "objectName": "cube_spawn-1"
-        },
-        {
-            "position": [
-                -118.5,
-                0.05,
-                4
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitinne_openPBR_shader1_BaseColor",
-            "modelName": "Guilitinne_final",
-            "objectName": "Guilitinne_final"
-        },
-        {
-            "position": [
-                0,
-                1,
-                0
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitene_base_lambert1_BaseColor",
-            "modelName": "Guilitene_base",
-            "objectName": "Guilitene_base"
-        },
-        {
-            "position": [
-                -118.5,
-                0.05,
-                0
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitinne_openPBR_shader1_BaseColor",
-            "modelName": "Guilitinne_final",
-            "objectName": "Guilitinne_final"
-        },
-        {
-            "position": [
-                0,
-                1,
-                -4
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitene_base_lambert1_BaseColor",
-            "modelName": "Guilitene_base",
-            "objectName": "Guilitene_base"
-        },
-        {
-            "position": [
-                -118.5,
-                0.05,
-                -4
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitinne_openPBR_shader1_BaseColor",
-            "modelName": "Guilitinne_final",
-            "objectName": "Guilitinne_final"
-        },
-        {
-            "position": [
-                0,
-                1,
-                -8
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitene_base_lambert1_BaseColor",
-            "modelName": "Guilitene_base",
-            "objectName": "Guilitene_base"
-        },
-        {
-            "position": [
-                -118.5,
-                0.05,
-                -8
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitinne_openPBR_shader1_BaseColor",
-            "modelName": "Guilitinne_final",
-            "objectName": "Guilitinne_final"
-        },
-        {
-            "position": [
-                0,
-                1,
-                -12
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitene_base_lambert1_BaseColor",
-            "modelName": "Guilitene_base",
-            "objectName": "Guilitene_base"
-        },
-        {
-            "position": [
-                -118.5,
-                0.05,
-                -12
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitinne_openPBR_shader1_BaseColor",
-            "modelName": "Guilitinne_final",
-            "objectName": "Guilitinne_final"
-        },
-        {
-            "position": [
-                0,
-                1,
-                -16
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitene_base_lambert1_BaseColor",
-            "modelName": "Guilitene_base",
-            "objectName": "Guilitene_base"
-        },
-        {
-            "position": [
-                -118.5,
-                0.05,
-                -16
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitinne_openPBR_shader1_BaseColor",
-            "modelName": "Guilitinne_final",
-            "objectName": "Guilitinne_final"
-        },
-        {
-            "position": [
-                0,
-                1,
-                -20
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitene_base_lambert1_BaseColor",
-            "modelName": "Guilitene_base",
-            "objectName": "Guilitene_base"
-        },
-        {
-            "position": [
-                -118.5,
-                0.05,
-                -20
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitinne_openPBR_shader1_BaseColor",
-            "modelName": "Guilitinne_final",
-            "objectName": "Guilitinne_final"
-        },
-        {
-            "position": [
-                0,
-                1,
-                -24
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitene_base_lambert1_BaseColor",
-            "modelName": "Guilitene_base",
-            "objectName": "Guilitene_base"
-        },
-        {
-            "position": [
-                -3.7,
-                -0.3,
-                -30
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "small_platform_text",
-            "modelName": "Spike_Platform",
-            "objectName": "Spike_Platform"
-        },
+  "spawns": [
+    {
+      "position": [
+        7.2,
+        -0.9,
+        -26
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Long_Platform_lambert1_BaseColor",
+      "modelName": "Long_Platform_Final",
+      "objectName": "Long_Platform_Final"
+    },
+    {
+      "position": [
+        3.4,
+        5.2,
+        0.2
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Guilitinne_openPBR_shader1_BaseColor",
+      "modelName": "Guilitinne_final",
+      "objectName": "Guilitinne_final"
+    },
+    {
+      "position": [
+        0,
+        1,
+        0
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Guilitene_base_lambert1_BaseColor",
+      "modelName": "Guilitene_base",
+      "objectName": "Guilitene_base"
+    },
+    {
+      "position": [
+        3.4,
+        5.2,
+        -3.8
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Guilitinne_openPBR_shader1_BaseColor",
+      "modelName": "Guilitinne_final",
+      "objectName": "Guilitinne_final"
+    },
+    {
+      "position": [
+        0,
+        1,
+        -4
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Guilitene_base_lambert1_BaseColor",
+      "modelName": "Guilitene_base",
+      "objectName": "Guilitene_base"
+    },
+    {
+      "position": [
+        3.4,
+        5.2,
+        -7.8
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Guilitinne_openPBR_shader1_BaseColor",
+      "modelName": "Guilitinne_final",
+      "objectName": "Guilitinne_final"
+    },
+    {
+      "position": [
+        0,
+        1,
+        -8
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Guilitene_base_lambert1_BaseColor",
+      "modelName": "Guilitene_base",
+      "objectName": "Guilitene_base"
+    },
+    {
+      "position": [
+        3.4,
+        5.2,
+        -11.8
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Guilitinne_openPBR_shader1_BaseColor",
+      "modelName": "Guilitinne_final",
+      "objectName": "Guilitinne_final"
+    },
+    {
+      "position": [
+        0,
+        1,
+        -12
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Guilitene_base_lambert1_BaseColor",
+      "modelName": "Guilitene_base",
+      "objectName": "Guilitene_base"
+    },
+    {
+      "position": [
+        3.4,
+        5.2,
+        -15.8
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Guilitinne_openPBR_shader1_BaseColor",
+      "modelName": "Guilitinne_final",
+      "objectName": "Guilitinne_final"
+    },
+    {
+      "position": [
+        0,
+        1,
+        -16
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Guilitene_base_lambert1_BaseColor",
+      "modelName": "Guilitene_base",
+      "objectName": "Guilitene_base"
+    },
+    {
+      "position": [
+        3.4,
+        5.2,
+        -19.8
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Guilitinne_openPBR_shader1_BaseColor",
+      "modelName": "Guilitinne_final",
+      "objectName": "Guilitinne_final"
+    },
+    {
+      "position": [
+        0,
+        1,
+        -20
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Guilitene_base_lambert1_BaseColor",
+      "modelName": "Guilitene_base",
+      "objectName": "Guilitene_base"
+    },
+    {
+      "position": [
+        3.4,
+        5.2,
+        -23.8
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Guilitinne_openPBR_shader1_BaseColor",
+      "modelName": "Guilitinne_final",
+      "objectName": "Guilitinne_final"
+    },
+    {
+      "position": [
+        0,
+        1,
+        -24
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Guilitene_base_lambert1_BaseColor",
+      "modelName": "Guilitene_base",
+      "objectName": "Guilitene_base"
+    },
+    {
+      "position": [
+        0,
+        -0.3,
+        -35
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "small_platform_text",
+      "modelName": "Spike_Platform",
+      "objectName": "Spike_Platform"
+    },
 
-        {
-            "position": [
-                0,
-                0,
-                0
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Guilitinne_openPBR_shader1_BaseColor",
-            "modelName": "Guilitinne_final",
-            "objectName": "Guilitinne_final"
-        },
-        {
-            "position": [
-                -20,
-                0,
-                -22
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                2,
-                2,
-                2
-            ],
-            "textureName": "Castle_Section_openPBR_shader1_BaseColor",
-            "modelName": "Castle_Section",
-            "objectName": "Castle_Section"
-        },
-        {
-            "position": [
-                -20,
-                0,
-                -60
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                2,
-                2,
-                2
-            ],
-            "textureName": "Castle_Section_openPBR_shader1_BaseColor",
-            "modelName": "Castle_Section",
-            "objectName": "Castle_Section"
-        },
-        {
-            "position": [
-                15,
-                0,
-                0
-            ],
-            "rotationDegrees": [
-                0,
-                180,
-                0
-            ],
-            "scale": [
-                2,
-                2,
-                2
-            ],
-            "textureName": "Castle_Section_openPBR_shader1_BaseColor",
-            "modelName": "Castle_Section",
-            "objectName": "Castle_Section"
-        },
 
-        {
-            "position": [
-                -3.7,
-                1,
-                -30
-            ],
-            "rotationDegrees": [
-                0,
-                0,
-                0
-            ],
-            "scale": [
-                3,
-                3,
-                3
-            ],
-            "textureName": "Spike_lambert1_BaseColor",
-            "modelName": "Spike",
-            "objectName": "Spike"
-        }
-    ]
+    {
+      "position": [
+        15,
+        0,
+        -100
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        2,
+        2,
+        2
+      ],
+      "textureName": "Enviroment_text",
+      "modelName": "Enviroment_Final",
+      "objectName": "Enviroment_Final"
+    },
+
+
+    {
+      "position": [
+        3.7,
+        1,
+        -31.5
+      ],
+      "rotationDegrees": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        3,
+        3,
+        3
+      ],
+      "textureName": "Spike_lambert1_BaseColor",
+      "modelName": "Spike",
+      "objectName": "Spike"
+    }
+  ]
 }
