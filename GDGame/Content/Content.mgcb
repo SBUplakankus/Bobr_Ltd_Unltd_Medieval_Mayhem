@@ -486,6 +486,30 @@
 /processorParam:TextureFormat=Color
 /build:Assets/Textures/Castle_wals/Castle_Section_openPBR_shader1_BaseColor.png;Assets/Textures/Castle_Section_openPBR_shader1_BaseColor
 
+#begin Assets/Textures/Door_Text.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/Textures/Door_Text.png
+
+#begin Assets/Textures/Enterence_Base_Text.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/Textures/Enterence_Base_Text.png
+
 #begin Assets/Textures/Enviroment_text.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -497,6 +521,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Assets/Textures/Enviroment_text.png
+
+#begin Assets/Textures/Floor_Text.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/Textures/Floor_Text.png
 
 #begin Assets/Textures/Foliage/Ground/grass_midlevel.jpg
 /importer:TextureImporter
@@ -725,6 +761,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Assets/Textures/Spike_text/Spike_lambert1_BaseColor.png;Assets/Textures/Spike_lambert1_BaseColor
+
+#begin Assets/Textures/Stairs_Base_Text.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/Textures/Stairs_Base_Text.png
+
+#begin Assets/Textures/Steps_Text.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/Textures/Steps_Text.png
 
 #begin Assets/Textures/UI/audio_page.jpg
 /importer:TextureImporter

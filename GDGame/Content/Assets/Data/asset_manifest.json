@@ -87,7 +87,7 @@
       "name": "Long_Platform_lambert1_BaseColor",
       "contentPath": "assets/textures/Long_Platform_lambert1_BaseColor"
     },
-   
+
     {
       "name": "Enviroment_text",
       "contentPath": "assets/textures/Enviroment_text"
@@ -99,6 +99,26 @@
     {
       "name": "small_platform_text",
       "contentPath": "assets/textures/small_platform_text"
+    },
+    {
+      "name": "Door_Text",
+      "contentPath": "assets/textures/Door_Text"
+    },
+    {
+      "name": "Enterence_Base_Text",
+      "contentPath": "assets/textures/Enterence_Base_Text"
+    },
+    {
+      "name": "Floor_Text",
+      "contentPath": "assets/textures/Floor_Text"
+    },
+    {
+      "name": "Stairs_Base_Text",
+      "contentPath": "assets/textures/Stairs_Base_Text"
+    },
+    {
+      "name": "Steps_Text",
+      "contentPath": "assets/textures/Steps_Text"
     },
     {
       "name": "Spike_lambert1_BaseColor",

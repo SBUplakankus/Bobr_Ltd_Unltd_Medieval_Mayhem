@@ -349,9 +349,9 @@
     },
     {
       "position": [
-        15,
         0,
-        -100
+        0,
+        0
       ],
       "rotationDegrees": [
         0,
@@ -369,9 +369,9 @@
     },
     {
       "position": [
-        15,
+        20,
         0,
-        -100
+        -49
       ],
       "rotationDegrees": [
         0,
@@ -389,9 +389,9 @@
     },
     {
       "position": [
-        15,
+        20,
         0,
-        -100
+        -80
       ],
       "rotationDegrees": [
         0,
@@ -409,9 +409,9 @@
     },
     {
       "position": [
-        15,
-        0,
-        -100
+        -35,
+        30,
+        -130
       ],
       "rotationDegrees": [
         0,
@@ -429,13 +429,13 @@
     },
     {
       "position": [
-        15,
-        0,
-        -100
+        -35,
+        30,
+        -130
       ],
       "rotationDegrees": [
         0,
-        0,
+        90,
         0
       ],
       "scale": [
