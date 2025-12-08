@@ -29,6 +29,7 @@ namespace GDGame.Scripts.Systems
         #endregion
 
         #region Input Keys
+        private readonly Keys _skipKey = Keys.T;
         private readonly Keys _pauseKey = Keys.Q;
         private readonly Keys _fullscreenKey = Keys.F11;
         private readonly Keys _exitKey = Keys.E;
@@ -40,6 +41,7 @@ namespace GDGame.Scripts.Systems
         private readonly Keys _orbTestKey = Keys.O;
         private readonly Keys _damageTestKey = Keys.P;
         private static MovementKeys _movementKeys;
+
         #endregion
 
         #region Constructors
@@ -71,6 +73,12 @@ namespace GDGame.Scripts.Systems
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Create the Input Manager game object,
+        /// Create the Movement Keys struct to pass through to Player Movement,
+        /// Add the Game Object and Input System to the current Scene
+        /// </summary>
         public void Initialise()
         {
             _inputGO = new GameObject(AppData.INPUT_NAME);
@@ -90,6 +98,11 @@ namespace GDGame.Scripts.Systems
         #endregion
 
         #region Input Methods
+
+        /// <summary>
+        /// Check to see if the player has pressed the pause key then send out the event
+        /// </summary>
+        
         private void CheckForPause()
         {
             bool isPressed = _newKBState.IsKeyDown(_pauseKey) && !_oldKBState.IsKeyDown(_pauseKey);
@@ -98,6 +111,17 @@ namespace GDGame.Scripts.Systems
             _inputEventChannel.OnPauseToggle.Raise();    
         }
 
+        private void CheckForSkip()
+        {
+            bool isPressed = _newKBState.IsKeyDown(_skipKey) && !_oldKBState.IsKeyDown(_skipKey);
+            if (!isPressed) return;
+
+            _inputEventChannel.OnIntroSkip.Raise();
+        }
+
+        /// <summary>
+        /// Check to see if the player has pressed the full screen toggle key and send out the event
+        /// </summary>
         private void CheckForFullscreen()
         {
             bool isPressed = _newKBState.IsKeyDown(_fullscreenKey) && !_oldKBState.IsKeyDown(_fullscreenKey);
@@ -106,6 +130,9 @@ namespace GDGame.Scripts.Systems
             _inputEventChannel.OnFullscreenToggle.Raise();
         }
 
+        /// <summary>
+        /// Check to see if the application exit key has been pressed then call the exit event
+        /// </summary>
         private void CheckForExit()
         {
             bool isPressed = _newKBState.IsKeyDown(_exitKey) && !_oldKBState.IsKeyDown(_exitKey);
@@ -114,6 +141,9 @@ namespace GDGame.Scripts.Systems
             _inputEventChannel.OnApplicationExit.Raise();
         }
 
+        /// <summary>
+        /// Check to see if the language swap key has been pressed then call the language swap event
+        /// </summary>
         private void CheckForLanguageSwap()
         {
             bool isPressed = _newKBState.IsKeyDown(_languageSwitchKey) && !_oldKBState.IsKeyDown(_languageSwitchKey);
@@ -122,6 +152,9 @@ namespace GDGame.Scripts.Systems
             _inputEventChannel.OnLanguageSwap.Raise();
         }
 
+        /// <summary>
+        /// Check to see if the Orb Test Key has been pressed then send out the orb collected event
+        /// </summary>
         private void CheckForOrbTest()
         {
             bool isPressed = _newKBState.IsKeyDown(_orbTestKey) && !_oldKBState.IsKeyDown(_orbTestKey);
@@ -130,6 +163,9 @@ namespace GDGame.Scripts.Systems
             _playerEventChannel.OnOrbCollected.Raise();
         }
 
+        /// <summary>
+        /// Check to see if the Damage Test Key has been pressed then send out the player damage event
+        /// </summary>
         private void CheckForDamageTest()
         {
             bool isPressed = _newKBState.IsKeyDown(_damageTestKey) && !_oldKBState.IsKeyDown(_damageTestKey);
@@ -138,6 +174,9 @@ namespace GDGame.Scripts.Systems
             _playerEventChannel.OnPlayerDamaged.Raise(5);
         }
         
+        /// <summary>
+        /// Check for any player Inputs then call the related events
+        /// </summary>
         private void CheckForInputs()
         {
             CheckForFullscreen();
@@ -146,6 +185,7 @@ namespace GDGame.Scripts.Systems
             CheckForOrbTest();
             CheckForDamageTest();
             CheckForPause();
+            CheckForSkip();
         }
         #endregion
 

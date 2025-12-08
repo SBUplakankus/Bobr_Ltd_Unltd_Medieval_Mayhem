@@ -30,6 +30,7 @@ namespace GDGame.Scripts.UI
         private readonly Dictionary<string, Vector2> _hudPositions = new()
         {
             ["top_left"] = new Vector2(200, 100),
+            ["top_right"] = new Vector2(1500, 100),
             ["vert_increment"] = new Vector2(0, 50),
             ["hor_increment"] = new Vector2(285, 0),
             ["health"] = new Vector2(200, 230),
@@ -51,6 +52,13 @@ namespace GDGame.Scripts.UI
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Create a text object to add to the scene.
+        /// Takes in a key to fetch the translation for from the localisation controller.
+        /// </summary>
+        /// <param name="key">Text to display Key</param>
+        /// <param name="pos">Position on the screen</param>
         private void CreateText(string key, Vector2 pos)
         {
             var textGO = new GameObject($"Text Object: {key}");
@@ -63,11 +71,16 @@ namespace GDGame.Scripts.UI
                 PositionProvider = () => pos
             };
 
-            textGO.AddComponent(uiText);
+            textGO.AddComponent(uiText);  
             _textObjects.Add(uiText);
             SceneController.AddToCurrentScene(textGO);
         }
 
+        /// <summary>
+        /// Creates the Orb Stat counter in the top left.
+        /// Gets the number from the Player Stats script.
+        /// </summary>
+        /// <param name="pos">Position on Screen</param>
         private void CreateOrbStat(Vector2 pos)
         {
             var textGO = new GameObject($"Text Object: Orbs");
@@ -85,6 +98,11 @@ namespace GDGame.Scripts.UI
             SceneController.AddToCurrentScene(textGO);
         }
 
+        /// <summary>
+        /// Creates the current health stats in the top left of the screen.
+        /// Gets the number from the Player Stats script.
+        /// </summary>
+        /// <param name="pos">Position on the Screen</param>
         private void CreateHealthStat(Vector2 pos)
         {
             var textGO = new GameObject($"Text Object: Health");
@@ -102,6 +120,12 @@ namespace GDGame.Scripts.UI
             SceneController.AddToCurrentScene(textGO);
         }
 
+        /// <summary>
+        /// Get a Vector2 Position from the Positions Dictionary
+        /// </summary>
+        /// <param name="key">Position Key</param>
+        /// <returns>Keys Vector2 Position</returns>
+        /// <exception cref="Exception">Position not found</exception>
         private Vector2 GetPos(string key)
         {
             if (_hudPositions.TryGetValue(key, out var result))
@@ -110,14 +134,17 @@ namespace GDGame.Scripts.UI
                 throw new Exception($"{key}: not found in HUD Position Dictionary");
         }
 
+        /// <summary>
+        /// Creates the HUD Text in the top left of the screen
+        /// </summary>
         private void InitHUDText()
         {
             var startPos = GetPos("top_left");
             var vertIncrement = GetPos("vert_increment");
             var horIncrement = GetPos("hor_increment");
 
-            CreateText(AppData.LANG_TIME_KEY, startPos);
-            CreateText(AppData.LANG_HEALTH_KEY, startPos += vertIncrement);
+            CreateText(AppData.LANG_TIME_KEY, GetPos("top_right"));
+            CreateText(AppData.LANG_HEALTH_KEY, startPos);
             CreateHealthStat(startPos + horIncrement);
             CreateText(AppData.LANG_ORB_KEY, startPos += vertIncrement);
             CreateOrbStat(startPos + horIncrement);
@@ -126,7 +153,6 @@ namespace GDGame.Scripts.UI
         {
             InitHUDText();
         }
-
         private void Clear()
         {
             _playerStats = null;
