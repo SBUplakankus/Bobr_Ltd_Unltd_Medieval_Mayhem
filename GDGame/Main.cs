@@ -45,7 +45,8 @@ namespace GDGame
         private AudioController _audioController;
         private SceneController _sceneController;
         private UserInterfaceController _uiController;
-        private readonly TrapManager _trapManager;
+        //private readonly TrapManager _trapManager;
+        private TrapManager _trapManager;
         private TimeController _timeController;
         private CinematicCamController _cineCamController;
         private GameStateManager _gameStateManager;
@@ -232,6 +233,7 @@ namespace GDGame
             SceneController.GetCurrentScene.Add(uiRenderSystem);
         }
 
+        private int _trapIdCounter = 0;
         /// <summary>
         /// Load the objects from the multi model spawn JSON file
         /// </summary>
@@ -239,10 +241,22 @@ namespace GDGame
         {
             foreach (var m in JSONSerializationUtility.LoadData<ModelSpawnData>(Content, AppData.MULTI_MODEL_SPAWN_PATH))
             {
-                var modelGO = _modelGenerator.GenerateModel(
-                    m.Position, m.RotationDegrees, m.Scale, m.TextureName, m.ModelName, m.ObjectName);
+                _trapIdCounter++;
+                //TBD - If for name.contains
+                if (!string.IsNullOrEmpty(m.ObjectName) && m.ObjectName.Contains("Guilitinne_final"))
+                {
+                    _trapManager.AddTrap(
+                        _trapIdCounter, m.Position, m.RotationDegrees, m.Scale,
+                        m.TextureName, m.ModelName, m.ObjectName, rotSpeed: 3f);
+                }
 
-                SceneController.GetCurrentScene.Add(modelGO);
+                else
+                {
+                    var modelGO = _modelGenerator.GenerateModel(
+                        m.Position, m.RotationDegrees, m.Scale, m.TextureName, m.ModelName, m.ObjectName);
+
+                    SceneController.GetCurrentScene.Add(modelGO);
+                }
             }
         }
 
@@ -316,11 +330,12 @@ namespace GDGame
         /// Init the Trap Manager which controls the creation and updating of
         /// Traps and Obstacles in the scene
         /// </summary>
-        private static void InitTraps()
+        private void InitTraps()
         {
             //_trapManager = new TrapManager();
             var trapManagerGO = new GameObject("TrapManagerGO");
             trapManagerGO.AddComponent<TrapManager>();
+            _trapManager = trapManagerGO.GetComponent<TrapManager>();
             SceneController.AddToCurrentScene(trapManagerGO);
         }
 

@@ -1,4 +1,5 @@
 ﻿using GDEngine.Core.Components;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -17,8 +18,6 @@ namespace GDGame.Scripts.Traps
         public TrapManager() 
         {
             _trapList = new List<TrapBase>();
-            //_trapList.Add(new MovingTrap(1,5));
-            //_trapList.Add(new RotatingTrap(2,3));
         }
         #endregion
 
@@ -27,6 +26,13 @@ namespace GDGame.Scripts.Traps
         #endregion
 
         #region Game Methods
+        public void AddTrap(int id, Vector3 position, Vector3 rotation, Vector3 scale, string textureName, string modelName, string objectName, float rotSpeed)
+        {
+            RotatingTrap trap = new RotatingTrap(id, position, rotation, scale, textureName, modelName, objectName, rotSpeed);
+            _trapList.Add(trap);
+            trap.InitTrap();
+        }
+
         private void InitTraps()
         {
             if (_trapList.Count == 0) return;
@@ -50,7 +56,7 @@ namespace GDGame.Scripts.Traps
         protected override void Start()
         {
             _trapList.Add(new MovingTrap(1, 1f));
-            _trapList.Add(new RotatingTrap(2, 5f));
+            //_trapList.Add(new RotatingTrap(2, 5f));
 
             InitTraps();
         }

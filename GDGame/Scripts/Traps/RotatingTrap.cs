@@ -19,7 +19,7 @@ namespace GDGame.Scripts.Traps
         #endregion
 
         #region Constructors
-        public RotatingTrap(int id, float rotSpeed) : base(id)
+        public RotatingTrap(int id, Vector3 position, Vector3 rotation, Vector3 scale, string textureName, string modelName, string objectName, float rotSpeed) : base(id)
         {
             //_trapGO = ModelGenerator.Instance.GenerateCube(
             //    new Vector3(-3, 5, 0),
@@ -28,11 +28,19 @@ namespace GDGame.Scripts.Traps
             //    "ground_grass",
             //    AppData.TRAP_NAME + id);
 
+            //_trapGO = ModelGenerator.Instance.GenerateModel(
+            //    new Vector3(3.4f, 5.2f, 0.2f), Vector3.Zero, new Vector3(3,3,3),
+            //    "Guilitinne_openPBR_shader1_BaseColor",
+            //    "Guilitinne_final",
+            //    AppData.TRAP_NAME + id);
+
             _trapGO = ModelGenerator.Instance.GenerateModel(
-                new Vector3(3.4f, 5.2f, 0.2f), Vector3.Zero, new Vector3(3,3,3),
-                "Guilitinne_openPBR_shader1_BaseColor",
-                "Guilitinne_final",
-                AppData.TRAP_NAME + id);
+                position,
+                rotation,
+                scale,
+                textureName,
+                modelName,
+                objectName + id);
 
             _trapGO.AddComponent<BoxCollider>();
 
