@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics;
+using System.Drawing;
 using GDEngine.Core.Components;
 using GDEngine.Core.Events;
 using GDEngine.Core.Rendering.Base;
 using GDEngine.Core.Timing;
 using GDGame.Scripts.Systems;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct3D9;
 
@@ -26,6 +28,9 @@ namespace GDGame.Scripts.Player
         private Keys _forwardKey, _rightKey, _backKey, _leftKey;
         private KeyboardState _keyboardState;
         #endregion
+
+        private SoundEffect _footsteps;
+        private InstanceSoundEffect _footstepinstance;
 
         #region Accessors
         public RigidBody RB => _rb;
@@ -70,6 +75,13 @@ namespace GDGame.Scripts.Player
             };
         }
         
+        private void InitFootsteps()
+        {
+            _footsteps = ContentLoader.Load<SoundEffect>("Audio/footsteps");
+            _footstepinstance = _footsteps.CreateInstance();
+            _footstepinstance.IsLooped = true;
+        }
+
         /// <summary>
         /// Logic To Move the Player modified from PhysicsWASDController
         /// </summary>
@@ -140,6 +152,16 @@ namespace GDGame.Scripts.Player
             Move(moveDir, speed);
         }
         #endregion
+
+        private void HandleFootsteps(Vector3 moveDir)
+        {
+            bool isMoving = moveDir.LengthSquared() > 0f;
+
+            if(isMoving)
+            {
+                _footstepinstance.Play();
+            }
+        }
 
         #region Game Loop
         protected override void Update(float deltaTime)
